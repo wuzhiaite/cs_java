@@ -16,7 +16,7 @@ spring:
 
 baseconfig:
    sqlscriptpath: sql
-
+   initscriptname: init.sql
 
 
 

@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb;
 
-import com.wuzhiaite.javaweb.base.BaseMapper;
+import com.wuzhiaite.javaweb.base.dao.BaseMapper;
 import com.wuzhiaite.javaweb.base.properties.BaseProperties;
 import com.wuzhiaite.javaweb.base.utils.DateUtil;
 import com.wuzhiaite.javaweb.base.utils.ListUtil;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -39,9 +39,9 @@ class SpringBootJavawebBaseApplicationTests {
     private BaseMapper baseMapper;
 
     private ScriptRunner runner;
-    private Reader read = null;
 
     @Test
+//    @Transactional
     public void dataSourceTest() throws Exception {
         init();
         try{
@@ -54,20 +54,32 @@ class SpringBootJavawebBaseApplicationTests {
             Assert.notNull(files,"没找到初始化sql脚本文件");
             //获取已经执行脚本地址
             List<String> logList = this.getScriptLog();
-            Arrays.asList(files).forEach(file -> {
+            boolean flag = ListUtil.isNotNull(logList);
+            //如果为false，则进行记录表初始化
+            if(!flag){
+                String initFile = path + File.separator + baseProperties.getInitscriptname();
+                log.info("初始化表格文件地址："+initFile);
+                executeScript(new File(initFile));
+            }
+            for(File file : files){
                 if(file.getName().indexOf("sql") != -1){
                     log.info("遍历的文件名称为：" + file.getName());
-                    if(ListUtil.isNotNull(logList) && !logList.contains(file.getName())){
+                    //init.sql跳过
+                    if(file.getName().equals(baseProperties.getInitscriptname())){continue;}
+                    if(!flag || flag && !logList.contains(file.getName()) ){
                         try {
-                            read = new InputStreamReader(new FileInputStream(file));
-                            runner.runScript(read);
+                            executeScript(file);
+                            int count = persistentLog(file.getName());
+                            System.out.println(count);
+                            if(count > 0){
+                                log.info("sql脚本："+file.getName()+"，已经记录在表格中");
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                       int count = persistentLog(file.getName());
                     }
                 }
-            });
+            }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -75,20 +87,25 @@ class SpringBootJavawebBaseApplicationTests {
         }
     }
 
+
+    private void executeScript (File  file) throws FileNotFoundException {
+        Reader read = new InputStreamReader(new FileInputStream(file));
+        runner.runScript(read);
+    }
     private int persistentLog(String name) {
         String sql = new SQL() {{
             INSERT_INTO("INIT_LOGGER");
             INTO_COLUMNS("ID,INIT_SCRIPT_NAME,CREATE_TIME");
-            INTO_VALUES(UUID.randomUUID()+"",name, DateUtil.getCurrentDate());
+            INTO_VALUES("'"+UUID.randomUUID()+"'","'"+name+"'", "'"+DateUtil.getCurrentDate()+"'");
         }}.toString();
+        log.info("日志记录表中插入数据:"+sql);
        return baseMapper.insert(sql);
     }
 
     private void destory() {
         try{
-            runner.closeConnection();
-            read.close();
-        }catch (IOException e) {
+//            runner.closeConnection();
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -111,14 +128,13 @@ class SpringBootJavawebBaseApplicationTests {
             FROM("information_schema.tables");
             WHERE("table_name = 'INIT_LOGGER'");
         } }.toString();
-        int count = (int) baseMapper.get(sql).get(0).get("COUNT");
-        if(count == 0){
-            return null;
-        }
+        log.info("查看是否有初始化日志记录表SQL："+sql);
+        Long count = (Long) baseMapper.get(sql).get(0).get("COUNT");
+        log.info("数据库中初始化表数量："+count);
+        if(count == 0 ){ return null;}
         //查找已经初始化的数据
          sql = new SQL(){{
             SELECT("INIT_SCRIPT_NAME");
-            FROM("INIT_LOGGER");
             FROM("INIT_LOGGER");
         }}.toString();
         List<Map<String,Object>> logger = baseMapper.get(sql);

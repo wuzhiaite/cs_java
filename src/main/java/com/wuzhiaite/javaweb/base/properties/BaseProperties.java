@@ -11,6 +11,7 @@ public class BaseProperties {
 
     private String  sqlScriptPath;
     private String  baseFilepath;
+    private String  initscriptname;
 
 
 
