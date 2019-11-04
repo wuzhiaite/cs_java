@@ -1,0 +1,10 @@
+
+
+baseconfig:
+  sqlscriptpath: sql
+  initscriptname: init.sql
+
+
+logging:
+  file:
+    path: D:\log
