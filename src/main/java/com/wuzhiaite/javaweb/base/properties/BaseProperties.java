@@ -15,8 +15,7 @@ public class BaseProperties {
     private String  baseFilepath;//文件存储地址
     private String  initscriptname;//初始化sql脚本名称
     private List<String> filterUrl;//过滤地址
-
-
+    private String  databaseName;//数据库名称
 
 
 
