@@ -3,6 +3,8 @@
 baseconfig:
   sqlscriptpath: sql
   initscriptname: init.sql
+  filterurl:
+    - /*
 
 
 logging:
