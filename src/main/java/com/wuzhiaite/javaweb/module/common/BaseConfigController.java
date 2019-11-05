@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.module.controller;
+package com.wuzhiaite.javaweb.module.common;
 
 import org.springframework.stereotype.Controller;
 

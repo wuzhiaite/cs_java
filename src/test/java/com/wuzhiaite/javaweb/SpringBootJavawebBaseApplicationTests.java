@@ -47,20 +47,27 @@ class SpringBootJavawebBaseApplicationTests {
 
 
     @Test
+    public void tableDesign(){
+
+
+
+
+
+
+    }
+
+    @Test
     public void  getDataSourceName() throws SQLException {
         Connection conn = dataSource.getConnection();
         // 获取数据库名称的方法
         System.out.println(conn.getSchema());
-
-
-
     }
 
 
     @Test
     public void insertData(){
 
-        for(int i = 0 ;i <1000 ; i++){
+        for(int i = 0 ;i <100000 ; i++){
             Date date = RandomDataUtil.randomDate("2005-01", "2019-10");
             String month = DateUtil.formatDate(date, DateTypeEnum.YM);
             long aecode = RandomDataUtil.random(1, 9);
