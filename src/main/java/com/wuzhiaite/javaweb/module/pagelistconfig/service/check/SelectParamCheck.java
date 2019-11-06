@@ -18,4 +18,5 @@ public class SelectParamCheck implements ParamCheckInterface<SelectField>{
         if(selectField.getType() == null ) selectField.setType(SelectField.SelectEnum.DEFAULT);
         return true;
     }
+
 }

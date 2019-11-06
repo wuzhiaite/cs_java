@@ -25,6 +25,21 @@ public class SQLApplication {
     @Autowired
     private SearchMapper mapper;
 
+
+    @Test
+    public void paramTest(){
+
+
+        SearchFiled sf = new SearchFiled();
+
+        List<ConditionField> condition = sf.getCondition();
+
+
+
+    }
+
+
+
       @Test
       public void SQLTest(){
 
