@@ -1,9 +1,12 @@
 package com.wuzhiaite.javaweb;
 
 import com.wuzhiaite.javaweb.base.dao.BaseMapper;
+import com.wuzhiaite.javaweb.base.enums.DateTypeEnum;
 import com.wuzhiaite.javaweb.base.properties.BaseProperties;
 import com.wuzhiaite.javaweb.base.utils.DateUtil;
 import com.wuzhiaite.javaweb.base.utils.ListUtil;
+import com.wuzhiaite.javaweb.base.utils.RandomDataUtil;
+import com.wuzhiaite.javaweb.base.utils.SQLUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.SQL;
@@ -20,8 +23,10 @@ import javax.sql.DataSource;
 import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -39,6 +44,77 @@ class SpringBootJavawebBaseApplicationTests {
     private BaseMapper baseMapper;
 
     private ScriptRunner runner;
+
+
+    @Test
+    public void tableDesign(){
+
+
+
+
+
+
+    }
+
+    @Test
+    public void  getDataSourceName() throws SQLException {
+        Connection conn = dataSource.getConnection();
+        // 获取数据库名称的方法
+        System.out.println(conn.getSchema());
+    }
+
+
+    @Test
+    public void insertData(){
+
+        for(int i = 0 ;i <100000 ; i++){
+            Date date = RandomDataUtil.randomDate("2005-01", "2019-10");
+            String month = DateUtil.formatDate(date, DateTypeEnum.YM);
+            long aecode = RandomDataUtil.random(1, 9);
+            long account = RandomDataUtil.random(54000, 54099);
+            long money = RandomDataUtil.random(1, 10) * 100;
+
+            String sql = new SQL() {{
+                INSERT_INTO("REPORT_TEST");
+                VALUES("fd_month", SQLUtil.decorateStr(month));
+                VALUES("fd_aecode",SQLUtil.decorateStr(aecode+""));
+                VALUES("fd_account",SQLUtil.decorateStr(account+""));
+                VALUES("fd_money",SQLUtil.decorateStr(money+""));
+            }}.toString();
+            log.info(sql);
+            int insert = baseMapper.insert(sql);
+
+        }
+    }
+
+
+    private static Date randomDate(String beginDate,String endDate){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+            Date start = format.parse(beginDate);
+            Date end = format.parse(endDate);
+
+            if(start.getTime() >= end.getTime()){
+                return null;
+            }
+            long date = random(start.getTime(),end.getTime());
+            return new Date(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static long random(long begin,long end){
+        long rtn = begin + (long)(Math.random() * (end - begin));
+        if(rtn == begin || rtn == end){
+            return random(begin,end);
+        }
+        return rtn;
+    }
+
+
+
 
     @Test
 //    @Transactional

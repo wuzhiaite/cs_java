@@ -49,6 +49,7 @@ public class DataSourceInitConfig implements InitializingBean {
     @Transactional
     @Override
     public void afterPropertiesSet() throws Exception {
+        if(false){ return ; }
         init();
         try{
             String sqlScriptPath = baseProperties.getSqlScriptPath();
@@ -128,11 +129,12 @@ public class DataSourceInitConfig implements InitializingBean {
     }
 
     private List<String> getScriptLog() {
+
         //查看是否生成记录表
         String sql = new SQL(){{
             SELECT(" COUNT(1) COUNT ");
             FROM("information_schema.tables");
-            WHERE("table_name = 'INIT_LOGGER'");
+            WHERE("table_name = 'INIT_LOGGER' AND TABLE_SCHEMA='"+baseProperties.getDatabaseName()+"'");
         } }.toString();
         log.info("查看是否有初始化日志记录表SQL："+sql);
         Long count = (Long) baseMapper.get(sql).get(0).get("COUNT");

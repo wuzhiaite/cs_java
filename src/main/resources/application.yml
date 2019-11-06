@@ -4,19 +4,12 @@ server:
     context-path: /base
 
 
-
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/cmbi_user?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles:
+    active: dev
 
 
 
-baseconfig:
-   sqlscriptpath: sql
-   initscriptname: init.sql
 
 
 
