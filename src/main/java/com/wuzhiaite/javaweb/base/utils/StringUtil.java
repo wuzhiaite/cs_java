@@ -1,9 +1,11 @@
 package com.wuzhiaite.javaweb.base.utils;
 
+import com.wuzhiaite.javaweb.base.enums.DelimiterEnum;
+
 /**
  * String通用判断
  */
-public class StringUtils {
+public class StringUtil {
 
     /**
      * 判断空
@@ -33,4 +35,19 @@ public class StringUtils {
     public static String replace(String str, String s, String s1) {
        return  str.replace(s,s1);
     }
+
+    /**
+     * 数组转字符串
+     * @return
+     */
+    public static String convertArrayToString(String[] array, DelimiterEnum delimiter){
+        if(array.length == 0){return "";}
+        StringBuilder builder = new StringBuilder();
+        for(String s : array){
+            builder.append(s).append(",");
+        }
+        return builder.substring(0,builder.length()-2);
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.base.servlet;
 
-import com.wuzhiaite.javaweb.base.utils.StringUtils;
+import com.wuzhiaite.javaweb.base.utils.StringUtil;
 
 /**
  * sql过滤
@@ -18,14 +18,14 @@ public class SQLFilter {
      *            待验证的字符串
      */
     public static String sqlInject(String str){
-        if (StringUtils.isBlank(str)) {
+        if (StringUtil.isBlank(str)) {
             return null;
         }
         // 去掉'|"|;|\字符
-        str = StringUtils.replace(str, "'", "");
-        str = StringUtils.replace(str, "\"", "");
-        str = StringUtils.replace(str, ";", "");
-        str = StringUtils.replace(str, "\\", "");
+        str = StringUtil.replace(str, "'", "");
+        str = StringUtil.replace(str, "\"", "");
+        str = StringUtil.replace(str, ";", "");
+        str = StringUtil.replace(str, "\\", "");
 
         // 转换成小写
         str = str.toLowerCase();

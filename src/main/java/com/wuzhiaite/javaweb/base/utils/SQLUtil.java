@@ -11,7 +11,7 @@ public class SQLUtil {
      * @return
      */
     public static String decorateStr(String str){
-        return  StringUtils.isBlank(str) ? "''" : "'"+str.trim()+"'";
+        return  StringUtil.isBlank(str) ? "''" : "'"+str.trim()+"'";
     }
 
 

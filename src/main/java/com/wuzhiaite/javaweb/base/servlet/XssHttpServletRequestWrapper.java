@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.base.servlet;
 
-import com.wuzhiaite.javaweb.base.utils.StringUtils;
+import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String name) {
         String value = super.getParameter(xssEncode(name));
-        if (StringUtils.isNotBlank(value)) {
+        if (StringUtil.isNotBlank(value)) {
             value =xssEncode(value);
         }
 
@@ -71,7 +71,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getHeader(String name) {
         String value = super.getHeader(xssEncode(name));
-        if (StringUtils.isNotBlank(value)) {
+        if (StringUtil.isNotBlank(value)) {
             value = xssEncode(value);
         }
         //SQL注入检查
