@@ -13,41 +13,47 @@ import java.io.Serializable;
  */
 
 @ToString
+@Data
 public class CheckParam implements Param, Serializable {
 
     private SearchFiled searchFiled;
     private Column column;
-    /**私有化构造器*/
-    private CheckParam(){}
 
-    private CheckParam(Builder builder){
-        searchFiled = builder.searchFiled;
-        column = builder.column;
-    }
+
+    /**
+     * 暂时不需要
+     *
+     *
+     */
+
+    /**私有化构造器*/
+//    private CheckParam(){}
+//
+//    private CheckParam(Builder builder){
+//        searchFiled = builder.searchFiled;
+//        column = builder.column;
+//    }
 
     /**
      * 类建造器
      */
-    public static class Builder{
-
-        private  SearchFiled searchFiled;
-        private  Column column;
-
-        public  Builder searchFiled(SearchFiled searchFiled){
-            this.searchFiled = searchFiled;
-            return this;
-        }
-        public  Builder column(Column column){
-            this.column = column;
-            return this;
-        }
-        public  CheckParam build(){
-            return new CheckParam(this);
-        }
-
-
-
-
-    }
+//    public static class Builder{
+//
+//        private  SearchFiled searchFiled;
+//        private  Column column;
+//
+//        public  Builder searchFiled(SearchFiled searchFiled){
+//            this.searchFiled = searchFiled;
+//            return this;
+//        }
+//        public  Builder column(Column column){
+//            this.column = column;
+//            return this;
+//        }
+//        public  CheckParam build(){
+//            return new CheckParam(this);
+//        }
+//
+//    }
 
 }

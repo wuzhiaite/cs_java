@@ -51,8 +51,7 @@ public class SearchService {
     public List<Map<String,Object>> search(SearchFiled searchFiled){
 
         //创建param过滤对象
-        CheckParam param = new CheckParam.Builder().searchFiled(searchFiled)
-                                                    .column(new Column()).build();
+        CheckParam param = new CheckParam();
 
         checkChain.doCheck(param);
 
