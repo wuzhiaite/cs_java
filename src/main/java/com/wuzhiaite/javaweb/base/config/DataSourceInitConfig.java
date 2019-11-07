@@ -49,7 +49,7 @@ public class DataSourceInitConfig implements InitializingBean {
     @Transactional
     @Override
     public void afterPropertiesSet() throws Exception {
-        if(false){ return ; }
+        if(true){ return ; }
         init();
         try{
             String sqlScriptPath = baseProperties.getSqlScriptPath();

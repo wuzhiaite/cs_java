@@ -18,67 +18,39 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SearchProvider {
-
+    /**
+     * 拼接符
+     */
     private static final String AND = "AND";
 
     /**
      * 注意点：1.orderby 如果分页的话去掉
-     *
      * @param filed
      * @return
      */
     public String search(SearchFiled filed){
         try{
-            List<SelectField> select = filed.getSelect();
-            Assert.notNull(select,"需要查询的列不能为空！");
-            //select查询字段
-            StringBuilder selStr = new StringBuilder();
-            select.forEach(column->{
-                selStr.append(",");
-                column.appendCol(selStr);
-            });
-            String columns = selStr.toString().substring(1);
+            //查询列
+            String columns = getColumn(filed);
             String tableName = filed.getTablename();
             Assert.notNull(tableName,"表明不能为空");
-
             //where条件
-            List<ConditionField> conditions = filed.getCondition();
-            StringBuilder conStr = new StringBuilder();
-            conditions.forEach(condition -> {
-                conStr.append(AND+" \t ");
-                condition.appendConditon(conStr);
-            });
-            String where = conStr.toString().substring(3);
-
+            String where = getCondition(filed);
             //groupby条件
-            List<String> group = filed.getGroup();
-            String groupby = "";
-            if(!StringUtils.isEmpty(group)){
-                groupby = group.stream().collect(Collectors.joining(","));
-            }
-            String finalGroupby = groupby;
+            String finalGroupby = getGroupby(filed);
             //orderby条件
-            List<OrderField> orderList = filed.getOrder();
-            StringBuilder orderStr = new StringBuilder();
-            orderList.forEach(order -> {
-                orderStr.append(",");
-                order.appendOrder(orderStr);
-            });
-            String orderby = orderStr.toString().substring(1);
-
+            String orderby = getOrderby(filed);
             //拼接SQL
             String sql = new SQL(){{
-                SELECT(columns);
+                if (filed.getIsDistinct()) {
+                    SELECT_DISTINCT(columns);
+                } else {
+                    SELECT(columns);
+                }
                 FROM(tableName);
-                if(StringUtil.isNotBlank(where)){
-                    WHERE(where);
-                }
-                if(StringUtil.isNotBlank(finalGroupby)){
-                    GROUP_BY(finalGroupby);
-                }
-                if(StringUtil.isNotBlank(orderby)){
-                    ORDER_BY(orderby);
-                }
+                if(StringUtil.isNotBlank(where)){ WHERE(where);}
+                if(StringUtil.isNotBlank(finalGroupby)){GROUP_BY(finalGroupby);}
+                if(StringUtil.isNotBlank(orderby)){ORDER_BY(orderby);}
 
             }}.toString();
 
@@ -89,6 +61,67 @@ public class SearchProvider {
         }
 
         return null ;
+    }
+
+    /**
+     * 排序方式
+     * @param filed
+     * @return
+     */
+    private String getOrderby(SearchFiled filed) {
+        List<OrderField> orderList = filed.getOrder();
+        StringBuilder orderStr = new StringBuilder();
+        orderList.forEach(order -> {
+            orderStr.append(",");
+            order.appendOrder(orderStr);
+        });
+        return orderStr.toString().substring(1);
+    }
+
+    /**
+     * 分组方式
+     * @param filed
+     * @return
+     */
+    private String getGroupby(SearchFiled filed) {
+        List<String> group = filed.getGroup();
+        String groupby = "";
+        if(!StringUtils.isEmpty(group)){
+            groupby = group.stream().collect(Collectors.joining(","));
+        }
+        return groupby;
+    }
+
+    /**
+     * 判断条件拼接
+     * @param filed
+     * @return
+     */
+    private String getCondition(SearchFiled filed) {
+        List<ConditionField> conditions = filed.getCondition();
+        StringBuilder conStr = new StringBuilder();
+        conditions.forEach(condition -> {
+            conStr.append(AND+" \t ");
+            condition.appendConditon(conStr);
+        });
+        return conStr.toString().substring(3);
+    }
+
+    /**
+     * 查找列拼接
+     * @param filed
+     * @return
+     */
+    private String getColumn(SearchFiled filed) {
+        List<SelectField> select = filed.getSelect();
+        Assert.notNull(select,"需要查询的列不能为空！");
+        //select查询字段
+        StringBuilder selStr = new StringBuilder();
+        select.forEach(column->{
+            selStr.append(",");
+            column.appendCol(selStr);
+        });
+        return selStr.toString().substring(1);
     }
 
 

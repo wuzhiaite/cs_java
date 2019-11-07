@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.entity;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@ToString
 public class ConditionField implements Serializable {
 
     private String filed;

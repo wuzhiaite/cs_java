@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * 排序参数
  */
 @Data
+@ToString
 public class OrderField implements Serializable {
 
 
