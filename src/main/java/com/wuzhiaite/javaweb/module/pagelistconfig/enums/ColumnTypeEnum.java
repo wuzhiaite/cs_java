@@ -1,10 +1,11 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.enums;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.wuzhiaite.javaweb.base.enums.DateTypeEnum;
+
+import java.text.SimpleDateFormat;
 
 /**
- * 列类型
+ * 数据库列类型
  * @author lpf
  * @since 2019-11-08
  */
@@ -13,12 +14,15 @@ public enum ColumnTypeEnum {
     DATE("date"){
         @Override
         public String format(String value) {
-            return null;
+            sdf.applyPattern(DateTypeEnum.YMD.format());
+            String newValue = sdf.format(value);
+            newValue = "'"+newValue+"'";
+            return newValue;
         }
     },VARCHAR("varchar"){
         @Override
         public String format(String value) {
-            return null;
+            return "'"+value+"'";
         }
     },TIMESTAMP("timestamp") {
         @Override
@@ -28,25 +32,28 @@ public enum ColumnTypeEnum {
     },INT("int") {
         @Override
         public String format(String value) {
-            return null;
+            return defaultFormat(value);
         }
     },DECIMAL("decimal"){
         @Override
         public String format(String value) {
-            return null;
+            return defaultFormat(value);
         }
     };
 
 
     //字段类型
     private String type;
+    private static SimpleDateFormat sdf = new SimpleDateFormat();
+
+
     ColumnTypeEnum(String type){
         this.type = type ;
     }
     public String type(){return type;}
     public abstract  String format(String value);
     //查找类型的枚举
-    public static ColumnTypeEnum getColumnType(String type){
+    public static ColumnTypeEnum getEnumType(String type){
         for(ColumnTypeEnum typeEnum : ColumnTypeEnum.values()){
            return typeEnum;
         }

@@ -29,7 +29,7 @@ public class ConditionParamCheck implements CheckFilter<CheckParam> {
         CheckParam checkParam = param.get();
         List<ConditionField> conditions = checkParam.getCondition();
         List<Column> columns = checkParam.getColumn();
-        Map<String,String> mapper = mapperColumn(columns);
+        Map<String, ColumnTypeEnum> mapper = mapperColumn(columns);
         List<String> columnList = checkParam.getColumnList();
         conditions.forEach(condition -> {
             String filed = condition.getFiled();
@@ -37,16 +37,10 @@ public class ConditionParamCheck implements CheckFilter<CheckParam> {
             Assert.notNull(condition.getFiled(),"过滤条件筛选字段不能为空！");
             Assert.notNull(condition.getValue(),"过滤条件值不能为空！");
             Assert.notNull(condition.getCondition(),"过滤参数判断条件不能为空");
-
-
-            String type = mapper.get(filed);
-            List<String> value = condition.getValue();
-            format(value,type);
-
+            ColumnTypeEnum columnType = mapper.get(filed);
+            condition.setType(columnType);
         });
-        
-        
-    
+        checkParam.getSearchFiled().setCondition(conditions);
     }
 
     /**
@@ -56,7 +50,7 @@ public class ConditionParamCheck implements CheckFilter<CheckParam> {
      * @return
      */
     private List<String> format(List<String> values, String type) {
-        ColumnTypeEnum columnType = ColumnTypeEnum.getColumnType(type);
+        ColumnTypeEnum columnType = ColumnTypeEnum.getEnumType(type);
         Assert.notNull(columnType,"列的数据类型不能为空，请刷新重试！");
         List<String> list = new ArrayList<>();
         values.forEach(value -> {
@@ -71,21 +65,13 @@ public class ConditionParamCheck implements CheckFilter<CheckParam> {
      * @param columns
      * @return
      */
-    private Map<String, String> mapperColumn(List<Column> columns) {
-        Map<String,String> mapper = new HashMap<>();
+    private Map<String, ColumnTypeEnum> mapperColumn(List<Column> columns) {
+        Map<String,ColumnTypeEnum> mapper = new HashMap<>();
         columns.forEach(column -> {
-            mapper.put(column.getName(),column.getType());
+            mapper.put(column.getName(),ColumnTypeEnum.getEnumType(column.getType()));
         });
         return mapper;
     }
-
-
-
-
-
-
-
-
 
 
 

@@ -24,7 +24,7 @@ public class DefaultCheckChain implements CheckChain {
         if(pos < n){
             ParamCheckWapper wapper = wappers[pos++];
             CheckFilter paramCheck = wapper.getParamCheck();
-            Assert.notNull(paramCheck);
+            Assert.notNull(paramCheck,"链式类不能为空");
             paramCheck.checkParam(filed,this);
         }
     }
