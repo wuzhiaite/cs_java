@@ -1,8 +1,5 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.service.check;
 
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckChain;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckFilter;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.ParamCheckWapper;
 import org.springframework.util.Assert;
 

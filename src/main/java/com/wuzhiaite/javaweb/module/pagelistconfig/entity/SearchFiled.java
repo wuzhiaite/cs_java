@@ -1,5 +1,7 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,8 +12,10 @@ import java.util.List;
  */
 @Data
 @ToString
+@ApiModel(value="搜索字段",description = "搜索表信息所需要的字段")
 public class SearchFiled {
 
+    @ApiModelProperty(value="数值大小",name="名称")
     private List<SelectField> select;
     private String tablename;
     private List<ConditionField> condition;

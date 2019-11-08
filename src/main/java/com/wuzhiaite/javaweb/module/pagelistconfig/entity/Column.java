@@ -9,10 +9,8 @@ import java.io.Serializable;
 @ToString
 public class Column implements Serializable {
 
-
-
-
-
-
+    private String name;
+    private String comment;
+    private String type;
 
 }

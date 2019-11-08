@@ -12,5 +12,7 @@ spring:
 
 
 
-
+mybatis:
+  mapper-locations:
+    - com/wuzhiaite/javaweb/module/**/*Mapper.xml
 

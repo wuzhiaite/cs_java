@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity;
 
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Column;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
 import lombok.Data;
 import lombok.ToString;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 public class CheckParam implements Param, Serializable {
 
     private SearchFiled searchFiled;
-    private Column column;
+    private Table table;
 
 
     /**
