@@ -20,7 +20,7 @@ public class DefaultCheckChain implements CheckChain {
 
     //进行链式检查
     @Override
-    public void doCheck(Param filed) {
+    public void doCheck(Param filed) throws Exception {
         if(pos < n){
             ParamCheckWapper wapper = wappers[pos++];
             CheckFilter paramCheck = wapper.getParamCheck();

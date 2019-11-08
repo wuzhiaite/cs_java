@@ -1,13 +1,13 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity;
 
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Column;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.*;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
 import lombok.Data;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 需要校验的参数
@@ -15,10 +15,44 @@ import java.io.Serializable;
 
 @ToString
 @Data
-public class CheckParam implements Param, Serializable {
+public class CheckParam implements Serializable, Param<CheckParam> {
 
     private SearchFiled searchFiled;
     private Table table;
+
+    /** 获取当前对象 */
+    @Override
+    public CheckParam get() {
+        return this;
+    }
+    /**获取列明数据*/
+    public List<String> getColumnList(){
+       return table.getColumnList();
+    }
+    /**获取查询字段*/
+    public List<SelectField> getSelect(){
+        return searchFiled.getSelect();
+    }
+    /**获取搜索条件*/
+    public List<ConditionField> getCondition(){
+        return searchFiled.getCondition();
+    }
+    /**获取分组字段*/
+    public List<String>  getGroup(){
+        return searchFiled.getGroup();
+    }
+    /**获取排序字段信息*/
+    public List<OrderField> getOrder(){
+        return searchFiled.getOrder();
+    }
+    /**表对应列数据*/
+    public List<Column> getColumn(){
+        return table.getColumns();
+    }
+
+}
+
+
 
 
     /**
@@ -57,4 +91,5 @@ public class CheckParam implements Param, Serializable {
 //
 //    }
 
-}
+
+

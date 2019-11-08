@@ -32,7 +32,7 @@ public class SQLApplication {
 
 
     @Test
-    public void paramTest(){
+    public void paramTest() throws Exception {
 
         SearchFiled sf = getFiled();
         CheckParam cp = new CheckParam();

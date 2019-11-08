@@ -87,7 +87,7 @@ public class ConditionField implements Serializable {
             StringBuilder appendConditon(StringBuilder str, ConditionField condition) {
                 String filed = condition.getFiled();
                 ConditionEnum con = condition.getCondition();
-                List<String> value = condition.getValue();
+                List<String> value = (List<String>) condition.getValue();
                 Assert.notNull(value,filed+"参数不能为空！");
                 str.append(filed).append("  ").append(con).append(" '%").append(value.get(0)).append("%' ");
                 return str;
@@ -99,9 +99,9 @@ public class ConditionField implements Serializable {
                 String filed = condition.getFiled();
                 String con = condition.getCondition().symble();
                 List<String> value = condition.getValue();
-                String valueStr = value.stream().collect(Collectors.joining("' , '"));
-                return str.append(filed).append(" \t ").append(con).append("\t  ('")
-                        .append(valueStr).append("')  \n");
+                String valueStr = value.stream().collect(Collectors.joining(" , "));
+                return str.append(filed).append(" \t ").append(con).append("\t  ( ")
+                        .append(valueStr).append(" )  \n");
             }
         };
 
@@ -116,7 +116,7 @@ public class ConditionField implements Serializable {
         StringBuilder defaultCondition(StringBuilder str,ConditionField condition){
             String filed = condition.getFiled();
             String con = condition.getCondition().symble();
-            List<String> value = condition.getValue();
+            List<String> value =  condition.getValue();
             Assert.notNull(value,filed+"的值不能为空！");
             return str.append(filed).append(" \t ").append(con).append(" \t '").append(value.get(0)).append("'  ");
         }

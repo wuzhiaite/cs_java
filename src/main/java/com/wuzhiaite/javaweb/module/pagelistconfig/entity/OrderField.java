@@ -20,7 +20,7 @@ public class OrderField implements Serializable {
         return orderEnum.appendOrder(str,this);
     }
 
-    public enum OrderEnum{
+    public enum OrderEnum {
         ASC,DESC;
 
         public StringBuilder appendOrder(StringBuilder str, OrderField orderField) {
