@@ -7,6 +7,7 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * 方法查询
  */
 @Slf4j
+@Component
 public class SearchProvider {
     /**
      * 拼接符
@@ -68,7 +70,7 @@ public class SearchProvider {
      * @param filed
      * @return
      */
-    private String getOrderby(SearchFiled filed) {
+    public String getOrderby(SearchFiled filed) {
         List<OrderField> orderList = filed.getOrder();
         StringBuilder orderStr = new StringBuilder();
         orderList.forEach(order -> {
