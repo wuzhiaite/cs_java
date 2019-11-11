@@ -1,16 +1,18 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.mapper;
 
+import com.wuzhiaite.javaweb.base.dao.BaseMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Column;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface SearchMapper {
+public interface SearchMapper extends BaseMapper {
     /**
      * 查找表数据
      * @param filed
@@ -24,6 +26,7 @@ public interface SearchMapper {
      * @param table
      * @return
      */
+    @SelectProvider(value=SearchProvider.class,method="getColumnInfo")
      List<Column> getColumnInfo(Table table);
 
     /**
@@ -31,5 +34,6 @@ public interface SearchMapper {
      * @param databaseName
      * @return
      */
+    @SelectProvider(value=SearchProvider.class,method="getTableList")
      List<Table> getTableList(String databaseName);
 }

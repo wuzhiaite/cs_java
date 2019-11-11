@@ -1,10 +1,7 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.mapper;
 
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.ConditionField;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
@@ -126,8 +123,27 @@ public class SearchProvider {
         return selStr.toString().substring(1);
     }
 
+    /**
+     * 查找所有表信息
+     */
+    public String getTableList(String databaseName)
+    {
+        String sql = new SQL() {{
+            SELECT("TABLE_NAME AS \"NAME\", TABLE_COMMENT AS \"REMARK\" ");
+            FROM(" INFORMATION_SCHEMA.`TABLES` ");
+            WHERE("  TABLE_SCHEMA = '" + databaseName + "'");
+        }}.toString();
 
+        return sql;
+    }
 
+    /**
+     * 查找表中所有列
+     */
+    public List<Column> getColumnInfo(Table table){
+
+       return null;
+    }
 
 
 }
