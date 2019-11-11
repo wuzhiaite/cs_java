@@ -17,21 +17,21 @@ public class CollectionTest {
 
     @Test
     public void listTest(){
-        List<Book> bookList = new ArrayList<Book>();
-        Book b1 = new Book("红楼梦", "曹雪芹");
-        Book b2 = new Book("西游记", "吴承恩");
-        Book b3 = new Book("啦啦啦", "嘻嘻嘻");
-        bookList.add(b1);
-        bookList.add(b2);
-        bookList.add(b3);
-        System.out.println("before:"+bookList);
-        bookList.forEach(book -> {
-            String name = book.getName();
-            if("啦啦啦".equals(name)){
-                book.setAuthor("拉你个大头鬼");
-            }
-        });
-        System.out.println("after:"+bookList);
+//        List<Book> bookList = new ArrayList<Book>();
+//        Book b1 = new Book("红楼梦", "曹雪芹");
+//        Book b2 = new Book("西游记", "吴承恩");
+//        Book b3 = new Book("啦啦啦", "嘻嘻嘻");
+//        bookList.add(b1);
+//        bookList.add(b2);
+//        bookList.add(b3);
+//        System.out.println("before:"+bookList);
+//        bookList.forEach(book -> {
+//            String name = book.getName();
+//            if("啦啦啦".equals(name)){
+//                book.setAuthor("拉你个大头鬼");
+//            }
+//        });
+//        System.out.println("after:"+bookList);
     }
 
 

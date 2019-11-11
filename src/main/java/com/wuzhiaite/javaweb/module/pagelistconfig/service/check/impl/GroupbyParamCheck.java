@@ -7,6 +7,7 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckFilter;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.CheckParam;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,6 +23,16 @@ public class GroupbyParamCheck implements CheckFilter<CheckParam> {
         List<String> group = checkParam.getGroup();
         List<SelectField> selects =  checkParam.getSelect();
         List<String> columnList = checkParam.getColumnList();
+        //1.将select的字段不在groupby的字段进行移除
+        ListIterator<SelectField> iterator = selects.listIterator();
+        for(;iterator.hasNext();){
+            SelectField next = iterator.next();
+            if((next.getType().equals(SelectField.SelectEnum.DEFAULT) || next == null )
+                    && !group.contains(next.getFiled())){
+                    iterator.remove();
+            }
+        }
+        //2.查询字段重新增加排序
         AtomicInteger index = new AtomicInteger();
         group.forEach( g -> {
             if(!columnList.contains(g)) throw new RuntimeException("分组列中"+g+"不能存在，请确定是否存在问题！");

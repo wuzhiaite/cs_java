@@ -29,6 +29,15 @@ public class SQLApplication {
     @Autowired
     private SearchMapper mapper;
 
+    public void test(){
+
+
+
+
+
+
+
+    }
 
 
     @Test

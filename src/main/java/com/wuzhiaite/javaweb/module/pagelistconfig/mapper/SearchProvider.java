@@ -140,9 +140,13 @@ public class SearchProvider {
     /**
      * 查找表中所有列
      */
-    public List<Column> getColumnInfo(Table table){
-
-       return null;
+    public String getColumnInfo(Table table){
+        String sql = new SQL() {{
+            SELECT(" COLUMN_NAME AS '', COLUMN_TYPE AS 'TYPE', COLUMN_COMMENT AS 'REMARK'  ");
+            FROM("INFORMATION_SCHEMA.`COLUMNS`");
+            WHERE("TABLE_SCHEMA='"+table.getSchema()+"' AND TABLE_NAME='"+table.getSchema()+"'");
+        }}.toString();
+        return sql;
     }
 
 

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.*;
 import java.util.List;
 
 /**
@@ -34,6 +35,17 @@ public class SearchFiled {
         return this.isDistinct;
     }
 
+    public Object deepClone() throws IOException, OptionalDataException,
+            ClassNotFoundException {
+        // 将对象写到流里
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        ObjectOutputStream oo = new ObjectOutputStream(bo);
+        oo.writeObject(this);
+        // 从流里读出来
+        ByteArrayInputStream bi = new ByteArrayInputStream(bo.toByteArray());
+        ObjectInputStream oi = new ObjectInputStream(bi);
+        return (oi.readObject());
+    }
 
 
 }

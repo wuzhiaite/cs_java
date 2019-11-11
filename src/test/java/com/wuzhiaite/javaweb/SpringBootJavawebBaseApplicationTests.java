@@ -7,6 +7,8 @@ import com.wuzhiaite.javaweb.base.utils.DateUtil;
 import com.wuzhiaite.javaweb.base.utils.ListUtil;
 import com.wuzhiaite.javaweb.base.utils.RandomDataUtil;
 import com.wuzhiaite.javaweb.base.utils.SQLUtil;
+import com.wuzhiaite.javaweb.test.BaseInfo;
+import com.wuzhiaite.javaweb.test.Book;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.SQL;
@@ -45,11 +47,32 @@ class SpringBootJavawebBaseApplicationTests {
 
     private ScriptRunner runner;
 
-
+    /**
+     *  对象克隆
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws CloneNotSupportedException
+     */
     @Test
-    public void tableDesign(){
+    public void tableDesign() throws IOException, ClassNotFoundException, CloneNotSupportedException {
 
+        Book b1 = new Book("红楼梦","曹雪芹",new BaseInfo("1"));
 
+        Book b2 = (Book) b1.deepClone();
+        b2.setName("生命中不能承受之轻");
+        b2.setAuthor("米兰.昆德拉");
+        b2.setBaseInfo(new BaseInfo("2"));
+//        new Book("生命中不能承受之轻","米兰昆德拉");
+        System.out.println(b1);
+        System.out.println(b2);
+
+        Book b3 = (Book) b1.clone();
+        b3.setName("挪威的森林");
+        b3.setAuthor("村上春树");
+        b3.setBaseInfo(new BaseInfo("3"));
+
+        System.out.println(b1);
+        System.out.println(b3);
 
     }
 

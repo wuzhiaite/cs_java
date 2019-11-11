@@ -5,6 +5,7 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.ParamCheckWapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.ConditionParamCheck;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.GroupbyParamCheck;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.OrderbyParamCheck;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.SelectParamCheck;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,13 @@ public class SearchConfigService {
         ParamCheckWapper selectParamCheck = new ParamCheckWapper(new SelectParamCheck(),"SelectParamCheck");
         ParamCheckWapper groupParamCheck = new ParamCheckWapper(new GroupbyParamCheck(), "groupParamCheck");
         ParamCheckWapper conditionParamCheck = new ParamCheckWapper(new ConditionParamCheck(), "conditionParamCheck");
+        ParamCheckWapper orderbyParamCheck = new ParamCheckWapper(new OrderbyParamCheck(), "orderbyParamCheck");
+
         //参数链表增加过滤类
         checkChain.addCheck(selectParamCheck);
         checkChain.addCheck(groupParamCheck);
         checkChain.addCheck(conditionParamCheck);
+        checkChain.addCheck(orderbyParamCheck);
     }
 
     /**

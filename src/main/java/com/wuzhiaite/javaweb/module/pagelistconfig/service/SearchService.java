@@ -6,15 +6,14 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchProvider;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.DefaultCheckChain;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.CheckParam;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.ParamCheckWapper;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -87,24 +86,37 @@ public class SearchService {
         param.setTable(table);
         service.doCheck(param);
     }
-
+    //查询方式分为三种：1.对列进行单独统计的，没有groupby相关的；
+    //2.有分组的进行，相关查询拆分；
     /**
      * 数据搜索查找并进行数据处理
      * @param searchFiled
      * @return
      */
-    private List<Map<String, Object>> getResultObj(SearchFiled searchFiled) {
-        /**
-         * 前端列表展示的要点：
-         * 1.列的合并参数，合并行，合并列（rownum,value）
-         * 2.逐行数据写入；
-         * 存在的问题，逻辑编辑，在后端完成，前端只需要做数据回写就可以；
-         * 不能数据处理的
-         * 解决思路：
-         * 1.多次数据库查询，再进行排列；
-         * 2.拼接SQL；数据进行调整；
-         * 3.原始SQL查询后，后台应用进行数据处理；
+    private List<Map<String, Object>> getResultObj(SearchFiled searchFiled) throws  Exception{
+        //对于不需要分组的数据
+        List<String> group = searchFiled.getGroup();
+        if(StringUtils.isEmpty(group)){
+            return mapper.search(searchFiled);
+        }
+
+        //对于要分组的数据
+        /**1.第一步骤：
+         *      查询数据：查询
+         *
+         *
+         *
+         *
          */
+
+
+
+
+
+
+
+
+
 
 
 
@@ -118,3 +130,31 @@ public class SearchService {
 
 
 }
+
+/**
+ * 前端列表展示的要点：
+ * 1.列的合并参数，合并行，合并列（rownum,value）
+ * 2.逐行数据写入；
+ * 存在的问题，逻辑编辑，在后端完成，前端只需要做数据回写就可以；
+ * 不能数据处理的
+ * 解决思路：
+ * 1.多次数据库查询，再进行排列；
+ * 2.拼接SQL；数据进行调整；
+ * 3.原始SQL查询后，后台应用进行数据处理；
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
