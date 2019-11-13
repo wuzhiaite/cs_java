@@ -1,6 +1,6 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service.check;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check;
 
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.ParamCheckWapper;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.ParamCheckWapper;
 import org.springframework.util.Assert;
 
 /**

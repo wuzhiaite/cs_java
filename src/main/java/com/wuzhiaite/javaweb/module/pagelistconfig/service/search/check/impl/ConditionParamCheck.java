@@ -1,14 +1,12 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl;
 
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Column;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.ConditionField;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.module.pagelistconfig.enums.ColumnTypeEnum;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckChain;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckFilter;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.CheckParam;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.CheckChain;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.CheckFilter;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.Param;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.CheckParam;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;

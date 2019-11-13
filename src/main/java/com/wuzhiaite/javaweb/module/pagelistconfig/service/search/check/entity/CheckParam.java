@@ -1,9 +1,8 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity;
 
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.*;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.Param;
 import lombok.Data;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;

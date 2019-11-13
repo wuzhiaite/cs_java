@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search;
 
 import com.github.pagehelper.PageHelper;
 import com.wuzhiaite.javaweb.base.properties.BaseProperties;
@@ -6,14 +6,13 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchProvider;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.CheckParam;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.CheckParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +39,24 @@ public class SearchService {
     /**校验service*/
     @Autowired
     private SearchConfigService service;
+    /**
+     * 进行参数校验
+     * @param searchFiled
+     * @throws Exception
+     */
+    private void checkParam(SearchFiled searchFiled) throws Exception {
+        //获取表中列信息
+        String tablename = searchFiled.getTablename();
+        Table table = new Table();
+        table.setName(tablename);
+        table.setSchema(baseProperties.getDatabaseName());
+        singleTableService.getColumnInfo(table);
+        //创建param过滤对象,并进行过滤
+        CheckParam param = new CheckParam();
+        param.setSearchFiled(searchFiled);
+        param.setTable(table);
+        service.doCheck(param);
+    }
 
 
     /**
@@ -68,24 +85,8 @@ public class SearchService {
         return null;
     }
 
-    /**
-     * 进行参数校验
-     * @param searchFiled
-     * @throws Exception
-     */
-    private void checkParam(SearchFiled searchFiled) throws Exception {
-        //获取表中列信息
-        String tablename = searchFiled.getTablename();
-        Table table = new Table();
-        table.setName(tablename);
-        table.setSchema(baseProperties.getDatabaseName());
-        singleTableService.getColumnInfo(table);
-        //创建param过滤对象,并进行过滤
-        CheckParam param = new CheckParam();
-        param.setSearchFiled(searchFiled);
-        param.setTable(table);
-        service.doCheck(param);
-    }
+
+
     //查询方式分为三种：1.对列进行单独统计的，没有groupby相关的；
     //2.有分组的进行，相关查询拆分；
     /**
@@ -101,13 +102,7 @@ public class SearchService {
         }
 
         //对于要分组的数据
-        /**1.第一步骤：
-         *      查询数据：查询
-         *      合并的行数，
-         *
-         *
-         *
-         */
+        //1.拼接SQL，查找每个
 
 
 

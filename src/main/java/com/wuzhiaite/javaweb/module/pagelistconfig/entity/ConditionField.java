@@ -107,8 +107,6 @@ public class ConditionField implements Serializable {
                 List<String> value = (List<String>) condition.getValue();
                 Assert.notNull(value,filed+"参数不能为空！");
                 String valueStr = value.get(0);
-
-
                 str.append(filed).append(" \t ").append(con).append(" '%").append(value.get(0)).append("%' ");
                 return str;
             }

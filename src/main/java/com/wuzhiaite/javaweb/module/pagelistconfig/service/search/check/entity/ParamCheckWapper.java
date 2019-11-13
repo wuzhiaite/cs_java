@@ -1,6 +1,6 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity;
 
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.CheckFilter;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.CheckFilter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

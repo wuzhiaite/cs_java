@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search;
 
 import com.wuzhiaite.javaweb.base.properties.BaseProperties;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Column;

@@ -90,7 +90,7 @@ class SpringBootJavawebBaseApplicationTests {
         for(int i = 0 ;i <100000 ; i++){
             Date date = RandomDataUtil.randomDate("2005-01", "2019-10");
             String month = DateUtil.formatDate(date, DateTypeEnum.YM);
-            long aecode = RandomDataUtil.random(1, 9);
+            long aecode = RandomDataUtil.random(1, 9) * 100;
             long account = RandomDataUtil.random(54000, 54099);
             long money = RandomDataUtil.random(1, 10) * 100;
 

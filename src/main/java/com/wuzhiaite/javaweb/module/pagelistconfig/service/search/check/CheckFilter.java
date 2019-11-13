@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service.check;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check;
 
 import org.springframework.stereotype.Service;
 

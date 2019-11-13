@@ -1,12 +1,12 @@
-package com.wuzhiaite.javaweb.module.pagelistconfig.service;
+package com.wuzhiaite.javaweb.module.pagelistconfig.service.search;
 
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.DefaultCheckChain;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.Param;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.entity.ParamCheckWapper;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.ConditionParamCheck;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.GroupbyParamCheck;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.OrderbyParamCheck;
-import com.wuzhiaite.javaweb.module.pagelistconfig.service.check.impl.SelectParamCheck;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.DefaultCheckChain;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.Param;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.ParamCheckWapper;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl.ConditionParamCheck;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl.GroupbyParamCheck;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl.OrderbyParamCheck;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl.SelectParamCheck;
 import org.springframework.stereotype.Service;
 
 /**
