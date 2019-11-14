@@ -5,9 +5,7 @@ import com.wuzhiaite.javaweb.base.utils.StringUtil;
 /**
  * sql过滤
  *
- * @author xlf
- * @email xlfbe696@gmail.com
- * @date 2017年4月19日 上午10:41:25
+ * @author lpf
  */
 public class SQLFilter {
 
