@@ -5,6 +5,7 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchMapper;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.PageListConfigService;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.CheckParam;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.DefaultCheckChain;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.ParamCheckWapper;
@@ -28,16 +29,10 @@ public class SQLApplication {
 
     @Autowired
     private SearchMapper mapper;
-
-    public void test(){
-
-
+    @Autowired
+    private PageListConfigService service;
 
 
-
-
-
-    }
 
 
     @Test
