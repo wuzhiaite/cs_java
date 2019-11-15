@@ -15,9 +15,9 @@ public interface SQLOperation {
     public List<String> getJoinScript(List<String> list,String sql, int startIndex);
 
 
+    public Map<String,String> splitAliasFiled(String filed);
+
+
     public Map<String,String> splitFiled(String filed);
-
-
-
 
 }

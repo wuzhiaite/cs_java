@@ -61,6 +61,11 @@ public class SQLOperationImpl implements SQLOperation {
         return getJoinListScript(list,sql,0);
     }
 
+    @Override
+    public Map<String, String> splitAliasFiled(String filed) {
+        return null;
+    }
+
     /**
      * 切割join片段,不需要在这里判断是否有关键字
      * 第一步：找到第一个join和on之间的片段
