@@ -119,7 +119,8 @@ public class PageListConfigService {
 
         System.out.println(info);
         String temptSQL = sql.substring(startIndex,sql.length()-1);
-        sqlOper.getJoinScript(temptSQL,0);
+        List<String> joinList = new ArrayList<String>();
+        sqlOper.getJoinScript(joinList,temptSQL,0);
 
 
 

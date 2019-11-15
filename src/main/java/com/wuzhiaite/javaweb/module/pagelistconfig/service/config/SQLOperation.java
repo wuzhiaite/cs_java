@@ -12,6 +12,12 @@ public interface SQLOperation {
     public Map<String,Object> getSelectFiledScript(String sql, int startIndex);
 
 
-    public List<String> getJoinScript(String sql, int startIndex);
+    public List<String> getJoinScript(List<String> list,String sql, int startIndex);
+
+
+    public Map<String,String> splitFiled(String filed);
+
+
+
 
 }
