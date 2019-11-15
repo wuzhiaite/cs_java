@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.service.config;
 
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.module.pagelistconfig.enums.IgnoreSQLJoinEnum;
 import com.wuzhiaite.javaweb.module.pagelistconfig.enums.SQLJoinEnum;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.entity.SelectFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.impl.SQLOperationImpl;
@@ -24,8 +25,77 @@ import java.util.Map;
 @Slf4j
 public class PageListConfigService {
 
-    @Autowired
-    private SQLOperation sqlOper;
+//    @Autowired
+    private SQLOperation sqlOper = new SQLOperationImpl();
+
+    public void getTableInfo(String sql){
+        //1.过滤掉无关紧要的字符；
+        for(IgnoreSQLJoinEnum value :IgnoreSQLJoinEnum.values()){
+           sql = sql.replace(value.name(),"");
+        }
+        sql = sql.trim();
+        //获取所有的表及对应的字段
+        List<Map<String,Object>> list = new ArrayList<>();
+        getTableFiled(sql,list);
+
+    }
+
+    /**
+     * 值存取结构
+     * 获取表格字段信息
+     * @param sql
+     * @param list
+     */
+    private List<Map<String, Object>> getTableFiled(String sql, List<Map<String, Object>> list) {
+        Map<String, Object> selectFiledsMap = sqlOper.getSelectFiledScript(sql, 0);
+        String selectScript = MapUtil.getString(selectFiledsMap, "script");
+        String[] selectFileds = selectScript.split(",");
+        for(String selectFiled : selectFileds){
+             //先获取别名
+            Map<String, String> selectAlias = sqlOper.splitAliasFiled(selectFiled);
+            String selectFiledValue = MapUtil.getString(selectAlias, "value");
+            if(selectFiledValue.contains(SQLJoinEnum.SELECT.name())){//可能性比较小，先忽略
+                //这里对表进行处理
+                List<Map<String,Object>> childFiled = new ArrayList<>();
+                 this.getTableFiled(selectFiled,childFiled);
+            }else{
+                Map<String, String> stringStringMap = sqlOper.splitFiled(selectFiledValue);
+
+
+            }
+
+        }
+
+        //获取主表
+
+
+        //
+
+
+
+
+        return list;
+    }
+
+
+    /**
+     * 现在主要的是数据结构的问题：
+     *  核心点：表及表字段；
+     *  主查询，字段名称
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
 
     /**
@@ -34,8 +104,6 @@ public class PageListConfigService {
      *            2.将表中列的别名和中文备注对应起来；
      *            3.用于搜索框条件配置，根据配置字段进行数据查询；
      *            4.用于高级查询，字段进行查询
-     *
-     *
      * @param sql
      * @return
      */

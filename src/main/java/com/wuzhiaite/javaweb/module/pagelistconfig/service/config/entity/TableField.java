@@ -3,6 +3,7 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.service.config.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,11 +13,17 @@ import java.util.List;
  */
 @Data
 @ToString
-public class TableField {
+public class TableField implements Serializable {
 
     private List<SelectFiled> selects;//表要查询的列
     private String tablename;//表名称
     private String alias;//别名
+
+    public boolean aliasEqual(TableField field){
+        return field.getAlias().equals(this.alias) ? true : false;
+    }
+
+
 
 
 }

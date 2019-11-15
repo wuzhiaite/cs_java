@@ -37,7 +37,9 @@ public class SQLOperationImpl implements SQLOperation {
             return  this.getSelectFiledScript(sql,index+SQLJoinEnum.FROM.length());
         }
         index = index + startIndex;
-        String script = sql.substring(SQLJoinEnum.SELECT.length(), index).trim();
+        //调整，找到第一个SELECT的位置，进行切割，防止单个属性中有括号等特殊字符
+        int firstIndex = sql.indexOf(SQLJoinEnum.SELECT.name());
+        String script = sql.substring(firstIndex + SQLJoinEnum.SELECT.length(), index).trim();
         HashMap<String, Object> map = new HashMap<>();
         map.put("index",index);
         map.put("script",script);
@@ -59,11 +61,6 @@ public class SQLOperationImpl implements SQLOperation {
             sql = sql.substring(index + SQLJoinEnum.JOIN.length()).trim();
         }
         return getJoinListScript(list,sql,0);
-    }
-
-    @Override
-    public Map<String, String> splitAliasFiled(String filed) {
-        return null;
     }
 
     /**
@@ -100,7 +97,7 @@ public class SQLOperationImpl implements SQLOperation {
      * @return Map<String, String>
      */
     @Override
-    public Map<String, String> splitFiled(String filed) {
+    public Map<String, String> splitAliasFiled(String filed) {
         HashMap<String, String> map = new HashMap<>();
         int index = filed.lastIndexOf(SQLJoinEnum.AS.name());
         String value = "";
@@ -117,30 +114,40 @@ public class SQLOperationImpl implements SQLOperation {
         return map;
     }
 
+    /**
+     * select 字段中表别名和表名称
+     * @param filed
+     * @return
+     */
+    @Override
+    public Map<String, String> splitFiled(String filed) {
+        String name = "";
+        String tableAlias = "";
+        int index = 0;
+        filed = filed.trim();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if(!filed.contains(".")){
+            name = filed;
+        } else if(filed.split(".").length > 1){
+            index = filed.indexOf(".");
+            tableAlias = filed.substring(0, index);
+            name = filed.substring(index+1,filed.length());
+        }else{
+            index= filed.indexOf(".");
+            String preStr = filed.substring(0, index).trim();
+            String subStr = filed.substring(index + 1, filed.length()).trim();
+            int blank = preStr.lastIndexOf(" ");
+            preStr = preStr.substring(blank,preStr.length()-1);
+            blank = subStr.indexOf(" ");
+            subStr = subStr.substring(0,blank);
+            tableAlias = preStr ;
+            name = subStr ;
+        }
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("colName",name);
+        map.put("tableAlias",tableAlias);
+        return map;
+    }
 
 
 
@@ -155,17 +162,34 @@ public class SQLOperationImpl implements SQLOperation {
         String sql = "JOIN (SELECT distinct SL.BH\n" +
                 "\t\t\t\t\t\t,SL.B_DWMC,SL.YWZT,BZDY.BZMC,RWQX \n" +
                 "\t\t\t\t\t\tFROM T_WORKFLOW_GZLCSL SL\n" +
-                "\t\t\t\t\t\tLEFT JOIN (SELECT LCSLBH,BZDYBH FROM T_WORKFLOW_DQBZ WHERE SFZB != 'READER' GROUP BY LCSLBH,BZDYBH) DQBZ ON DQBZ.LCSLBH = SL.BH\n" +
+                "\t\t\t\t\t\tLEFT JOIN (SELECT LCSLBH,BZDYBH FROM T_WORKFLOW_DQBZ WHERE SFZB != 'READER' GROUP BY LCSLBH,BZDYBH)  DQBZ ON DQBZ.LCSLBH = SL.BH\n" +
                 "\t\t\t\t\t\tLEFT JOIN T_WORKFLOW_LCBZDY BZDY ON BZDY.BZBH = DQBZ.BZDYBH\n" +
                 "\t\t\t\t\t\tJOIN (SELECT LCSLBH FROM V_WORKFLOW_BZXX V_BZXX \n" +
                 "\t\t\t\t\t\tWHERE  ###clr### GROUP BY LCSLBH) LSBZ ON LSBZ.LCSLBH = SL.BH ) LCXX ON  LCXX.BH = JBXX.BWBH  \n" +
                 "\t\t\t\tLEFT JOIN T_PLATFORM_XZQHDM XZQH ON  XZQH.XZQHDM = JBXX.XZQHDM \n" +
                 "\t\t\t\tLEFT JOIN T_PLATFORM_HYLX HYLX ON HYLX.HYLXDM = JBXX.HYDM ";
-        List<String> list = new ArrayList<String>();
-        list = oper.getJoinScript(list, sql, 0);
-        System.out.println(list);
+//        List<String> list = new ArrayList<String>();
+//        list = oper.getJoinScript(list, sql, 0);
+//        System.out.println(list);
 
+        sql = "CASE WHEN LCXX.YWZT ='Finished' THEN '已结束' WHEN LCXX.YWZT ='Underway' THEN '正在办理' END AS YWZT";
+//        Map<String, String> alias = oper.splitAliasFiled(sql);
+//        System.out.println(alias);
+//        Map<String, String> map = oper.splitFiled(sql);
+//        System.out.println(map);
 
+        sql = "(SELECT distinct SL.BH\n" +
+                "\t\t\t\t\t\t,SL.B_DWMC,SL.YWZT,BZDY.BZMC,RWQX \n" +
+                "\t\t\t\t\t\tFROM T_WORKFLOW_GZLCSL SL\n" +
+                "\t\t\t\t\t\tLEFT JOIN (SELECT LCSLBH,BZDYBH FROM T_WORKFLOW_DQBZ WHERE SFZB != 'READER' GROUP BY LCSLBH,BZDYBH) DQBZ ON DQBZ.LCSLBH = SL.BH\n" +
+                "\t\t\t\t\t\tLEFT JOIN T_WORKFLOW_LCBZDY BZDY ON BZDY.BZBH = DQBZ.BZDYBH\n" +
+                "\t\t\t\t\t\tJOIN (SELECT LCSLBH FROM V_WORKFLOW_BZXX V_BZXX \n" +
+                "\t\t\t\t\t\tWHERE  ###clr### GROUP BY LCSLBH) LSBZ ON LSBZ.LCSLBH = SL.BH )  AS LCXX";
+
+//        Map<String, String> m = oper.splitAliasFiled(sql);
+//        System.out.println(m);
+//        Map<String, Object> mm = oper.getSelectFiledScript(sql, 0);
+//        System.out.println(mm);
     }
 
 
