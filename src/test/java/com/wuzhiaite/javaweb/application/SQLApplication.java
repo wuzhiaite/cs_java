@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.application;
 
+import com.wuzhiaite.javaweb.base.dao.BaseMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.ConditionField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,21 @@ public class SQLApplication {
     private SearchMapper mapper;
     @Autowired
     private PageListConfigService service;
+    @Autowired
+    private BaseMapper baseMapper;
+
+    @Test
+    @Transactional
+    public void addTable(){
+//        String sql = "CREATE TABLE USER (ID VARCHAR(100));";
+        String sql = "ALTER TABLE USER CHANGE USERID U_ID VARCHAR(255) COMMENT '用户ID' ;";
+        int count = baseMapper.update(sql);
+        System.out.println(count);
+//        int a = 1/0;
+
+
+    }
+
 
 
 
