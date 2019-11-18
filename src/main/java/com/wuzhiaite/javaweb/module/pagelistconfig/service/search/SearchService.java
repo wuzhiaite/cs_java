@@ -2,17 +2,22 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.service.search;
 
 import com.github.pagehelper.PageHelper;
 import com.wuzhiaite.javaweb.base.properties.BaseProperties;
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchProvider;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.CheckParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +28,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
+@Slf4j
 public class SearchService {
     /**查询mapper */
     @Autowired
@@ -39,6 +45,10 @@ public class SearchService {
     /**校验service*/
     @Autowired
     private SearchConfigService service;
+    private static final String  LEVE = "LEVEL";
+
+
+
     /**
      * 进行参数校验
      * @param searchFiled
@@ -97,31 +107,76 @@ public class SearchService {
     private List<Map<String, Object>> getResultObj(SearchFiled searchFiled) throws  Exception{
         //对于不需要分组的数据
         List<String> group = searchFiled.getGroup();
-        if(StringUtils.isEmpty(group)){
+        int size = 0;
+        if(StringUtils.isEmpty(group) && (size = group.size())>1){
             return mapper.search(searchFiled);
         }
 
         //对于要分组的数据
         //1.拼接SQL，查找每个
+        SearchFiled sf = (SearchFiled) searchFiled.deepClone();//克隆一份
+        this.addLevel(sf,1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return null;
+        String sql = provider.search(searchFiled);
+        List<Map<String, Object>> searchList = mapper.get(sql);
+        Map<Integer,List<Map<String,Object>>> map = new HashMap<>();
+        map.put(1,searchList);
+        List<String> sfGroup = sf.getGroup();
+        //对参数进行处理
+        for(int i = 1 ;size > 1; i++){
+            size = size -1;
+            String groupStr = sfGroup.get(size);
+            sf.removeGroup(groupStr);
+            this.addLevel(sf,i+1);
+            sql = provider.search(sf);
+            searchList = mapper.get(sql);
+            map.put(i,searchList);
+        }
+        log.info(sql.toString());
+        List<Map<String,Object>> result = new ArrayList<>();
+        formatData(map,result);
+        return result;
     }
+    /**对数据进行格式化**/
+    private void formatData(Map<Integer, List<Map<String, Object>>> map, List<Map<String, Object>> result) {
+
+
+
+
+
+
+
+
+    }
+
+    /**
+     * 增加等级及查询字段
+     * @param sf
+     * @param i
+     */
+    private void addLevel(SearchFiled sf, int i) {
+        //select参数和orderby参数新增
+        SelectField field = new SelectField();
+        field.setFiled(i+"");
+        field.setType(SelectField.SelectEnum.DEFAULT);
+        field.setAlias(LEVE);
+        List<SelectField> selects = sf.getSelect();
+        selects.add(field);
+
+        sf.setSelect(selects);
+
+    }
+
+
+    public static void main(String[] args) {
+
+
+
+
+
+
+    }
+
 
 
 }
@@ -137,8 +192,6 @@ public class SearchService {
  * 2.拼接SQL；数据进行调整；
  * 3.原始SQL查询后，后台应用进行数据处理；
  */
-
-
 
 
 

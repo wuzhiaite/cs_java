@@ -47,5 +47,7 @@ public class SearchFiled {
         return (oi.readObject());
     }
 
-
+    /**删除groupby字段**/
+    public void removeGroup(String groupStr) {
+    }
 }
