@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.impl;
 
+import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.CheckChain;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.Param;
@@ -22,6 +23,7 @@ public class GroupbyParamCheck implements CheckFilter<CheckParam> {
         CheckParam checkParam = param.get();
         List<String> group = checkParam.getGroup();
         List<SelectField> selects =  checkParam.getSelect();
+        List<OrderField> order = checkParam.getOrder();
         List<String> columnList = checkParam.getColumnList();
         //1.将select的字段不在groupby的字段进行移除
         ListIterator<SelectField> iterator = selects.listIterator();
@@ -46,7 +48,15 @@ public class GroupbyParamCheck implements CheckFilter<CheckParam> {
                 index.incrementAndGet();
             }
         });
-
+        //将orderby中非groupby列进行删除
+        ListIterator<OrderField> orderIterator = order.listIterator();
+        for(;orderIterator.hasNext();){
+            OrderField orderField = orderIterator.next();
+            String field = orderField.getField();
+            if(group.contains(field)){
+                orderIterator.remove();
+            }
+        }
 
     }
     /**获取属性名查询参数*/

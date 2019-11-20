@@ -61,7 +61,6 @@ public class PageListConfigService {
             }else{
                 Map<String, String> stringStringMap = sqlOper.splitFiled(selectFiledValue);
 
-
             }
 
         }
@@ -76,28 +75,6 @@ public class PageListConfigService {
 
         return list;
     }
-
-
-    /**
-     * 现在主要的是数据结构的问题：
-     *  核心点：表及表字段；
-     *  主查询，字段名称
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-
-
     /**
      * 要对sql进行拆分，找出sql中的要查找的表格，以及表格中的字段
      * 主要功能点：1.找到要查找的表，通过表找到要查找列的备注信息

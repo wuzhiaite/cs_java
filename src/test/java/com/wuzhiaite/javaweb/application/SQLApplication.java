@@ -5,8 +5,10 @@ import com.wuzhiaite.javaweb.module.pagelistconfig.entity.ConditionField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.OrderField;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.module.pagelistconfig.entity.SelectField;
+import com.wuzhiaite.javaweb.module.pagelistconfig.enums.ColumnTypeEnum;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.SearchMapper;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.PageListConfigService;
+import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.SearchService;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.CheckParam;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.DefaultCheckChain;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.search.check.entity.ParamCheckWapper;
@@ -35,6 +37,17 @@ public class SQLApplication {
     private PageListConfigService service;
     @Autowired
     private BaseMapper baseMapper;
+    @Autowired
+    private SearchService searchService;
+
+
+    @Test
+     public void doSearchService() throws Exception {
+
+        SearchFiled sf = getFiled();
+        List<Map<String, Object>> search = searchService.search(sf);
+
+    }
 
     @Test
     @Transactional
@@ -47,9 +60,6 @@ public class SQLApplication {
 
 
     }
-
-
-
 
 
     @Test
@@ -109,6 +119,7 @@ public class SQLApplication {
         ConditionField c1 = new ConditionField();
         c1.setFiled("fd_month");
         c1.setCondition(ConditionField.ConditionEnum.EQUAR);
+        c1.setType(ColumnTypeEnum.VARCHAR);
         List<String> value = new ArrayList<String>();
         value.add("2019-06");
         c1.setValue(value);
@@ -128,7 +139,7 @@ public class SQLApplication {
         searchFiled.setSelect(selectField);
         searchFiled.setTablename("REPORT_TEST");
         searchFiled.setCondition(conditionFields);
-//          searchFiled.setGroup(groupby);
+//        searchFiled.setGroup(groupby);
         searchFiled.setOrder(o);
         return searchFiled ;
     }

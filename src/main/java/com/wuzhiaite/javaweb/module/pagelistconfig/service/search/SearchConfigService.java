@@ -30,9 +30,10 @@ public class SearchConfigService {
 
         //参数链表增加过滤类
         checkChain.addCheck(selectParamCheck);
+        checkChain.addCheck(orderbyParamCheck);
         checkChain.addCheck(groupParamCheck);
         checkChain.addCheck(conditionParamCheck);
-        checkChain.addCheck(orderbyParamCheck);
+
     }
 
     /**
