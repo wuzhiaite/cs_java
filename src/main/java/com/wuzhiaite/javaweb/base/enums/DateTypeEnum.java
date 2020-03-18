@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.base.enums;
 
 public enum DateTypeEnum {
-
+    YM("yyyy-MM"),
     YMD("yyyy-MM-dd"),
     YMDHMS("yyy-MM-dd HH:mm:ss"),
     HMS("HH:mm:ss");

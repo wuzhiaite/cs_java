@@ -36,7 +36,7 @@ public final class ListUtil{
      * @return
      */
     public static <clazz> List<clazz>   getValueList(List<Map<String, Object>> params , String key,Class clazz){
-        Assert.isNull(key,"key值不能为空");
+        Assert.notNull(key,"key值不能为空");
         List<clazz> list = new ArrayList<>();
         params.forEach(param -> {
             list.add((clazz) param.get(key));

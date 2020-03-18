@@ -5,8 +5,8 @@ package com.wuzhiaite.javaweb.base.enums;
  */
 public enum StatusEnum {
 
-    SUCCESS(0,"操作成功"),
-    FAIL(-1,"操作失败");
+    SUCCESS(1 ,"操作成功"),
+    FAIL(-1 ,"操作失败");
     private Integer code;
     private String message;
     private StatusEnum(Integer code,String message){

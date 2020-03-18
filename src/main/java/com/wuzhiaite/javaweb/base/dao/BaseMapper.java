@@ -20,4 +20,7 @@ public interface BaseMapper {
     @Delete("${sql}")
     public int delete(@Param("sql")String sql);
 
+
+
+
 }

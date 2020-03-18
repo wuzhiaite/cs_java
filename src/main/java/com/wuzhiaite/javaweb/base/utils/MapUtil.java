@@ -35,7 +35,7 @@ public final class MapUtil {
      * @return
      */
     public static String getString(Map<String,? super String> params ,String key){
-        Assert.isNull(key,"key值不能为空");
+        Assert.notNull(key,"key值不能为空");
         if(MapUtil.isNull(params)){ return "";}
         return (String)params.get(key);
     }
@@ -49,7 +49,11 @@ public final class MapUtil {
         return params == null ? true : false ;
     }
 
-
+    public static Integer getInteger(Map<String,? super String> params ,String key){
+        Assert.notNull(key,"key值不能为空");
+        if(MapUtil.isNull(params)){ return null;}
+        return (Integer)params.get(key);
+    }
 
 
 

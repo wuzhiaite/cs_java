@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuzhiaite.javaweb.module.pagelistconfig.mapper.ConfigOperMapper">
+
+    <!-- 字段映射-->
+    <resultMap id="confMap" type="com.wuzhiaite.javaweb.module.pagelistconfig.entity.PageConf">
+        <id column="ID" property="id" />
+        <result column="SQL_FORM" property="sqlForm" />
+        <result column="COLUMN_FORM" property="columnForm" />
+        <result column="PAGE_DESIGN_FORM" property="pageDesignForm" />
+        <result column="PAGE_PARAM" property="pageParam" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+<!--获取配置列表-->
+    <select id="getPageList" parameterType="map" resultType="map">
+        SELECT
+            ID,
+            SEARCH_SQL,
+            SHOW_COLUMNS,
+            CONFIG_NAME,
+            SEARCH_FILEDS,
+            CONDITION_FILEDS
+        FROM  PAGE_LIST_CONFIG_DETAILS
+        <where>
+            <if test=" CONFIG_NAME != null and CONFIG_NAME != '' ">
+                <bind name="CONFIG_NAME" value=" '%'+search + '%' "/>
+                CONFIG_NAME LIKE #{CONFIG_NAME}
+            </if>
+        </where>
+
+
+    </select>
+
+<!--    获取配置 -->
+    <select id="getConf" resultMap="confMap">
+        SELECT
+            ID,
+            SQL_FORM,
+            COLUMN_FORM,
+            PAGE_DESIGN_FORM,
+            PAGE_PARAM,
+            CREATE_TIME,
+            UPDATE_TIME
+        FROM  PAGE_LIST_CONFIG_FORM
+        <where>
+            <if test=" id != '' and id != null ">
+                ID = #{id}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

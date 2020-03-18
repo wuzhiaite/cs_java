@@ -1,6 +1,7 @@
 server:
   port: 8001
-
+  servlet:
+    context-path: /
 
 mybatis:
   type-aliases-package: com.wuzhiaite.javaweb.base.entity # entity别名类所在包
@@ -10,7 +11,7 @@ spring:
     name: microserver-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3307/cmib_report?serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3307/cmbi_report?serverTimezone=GMT%2B8
     password: root
     username: root
     dbcp2:
@@ -18,3 +19,19 @@ spring:
       initial-size: 5                     # 初始化连接数
       max-total: 5                        # 最大连接数
       max-wait-millis: 150                # 等待连接获取的最大超时时间
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    cache: true
+
+baseconfig:
+  sqlscriptpath: sql
+  initscriptname: init.sql
+  databaseName: cmbi_report
+  filterurl:
+    - /*
+
+logging:
+  file:
+    path: D:\log
