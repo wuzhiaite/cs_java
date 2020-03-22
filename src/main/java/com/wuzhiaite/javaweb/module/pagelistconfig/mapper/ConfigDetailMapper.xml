@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuzhiaite.javaweb.module.pagelistconfig.mapper.ConfigDetailMapper">
+
+    <!-- 字段映射-->
+    <resultMap id="detailMap" type="com.wuzhiaite.javaweb.module.pagelistconfig.entity.PageDetail">
+        <id column="ID" property="id" />
+        <result column="SEARCH_SQL" property="searchSql" />
+        <result column="SHOW_COLUMNS" property="showColumns" />
+        <result column="CONFIG_NAME" property="configName" />
+        <result column="SEARCH_FILEDS" property="searchFileds" />
+        <result column="CONDITION_FILEDS" property="conditionFileds" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <select id="get" parameterType="map"
+            resultType="map">
+        SELECT
+        ID,
+        SEARCH_SQL,
+        SHOW_COLUMNS,
+        CONFIG_NAME,
+        SEARCH_FILEDS,
+        CONDITION_FILEDS
+        FROM  PAGE_LIST_CONFIG_DETAILS
+        <where>
+            <if test=" ID != null and ID != '' ">
+               ID = #{ID}
+            </if>
+        </where>
+    </select>
+
+    <!--获取配置列表-->
+    <select id="findListByPage" parameterType="map"
+            resultType="map">
+        SELECT
+            DETAILS.ID,
+            DETAILS.SEARCH_SQL,
+            DETAILS.SHOW_COLUMNS,
+            DETAILS.CONFIG_NAME,
+            DETAILS.SEARCH_FILEDS,
+            DETAILS.CONDITION_FILEDS,
+            FORM.PAGE_PARAM,
+            FORM.COLUMN_FORM
+        FROM  PAGE_LIST_CONFIG_DETAILS DETAILS
+        JOIN PAGE_LIST_CONFIG_FORM FORM ON DETAILS.ID = FORM.ID
+        <where>
+            <if test=" CONFIG_NAME != null and CONFIG_NAME != '' ">
+                <bind name="CONFIG_NAME" value=" '%'+search + '%' "/>
+                CONFIG_NAME LIKE #{CONFIG_NAME}
+            </if>
+        </where>
+    </select>
+    <!--插入数据-->
+    <insert id="insert" parameterType="map">
+        INSERT INTO PAGE_LIST_CONFIG_DETAILS
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            UUID,
+            <if test='ID!=null'>ID,</if>
+            <if test='SEARCH_SQL!=null'>SEARCH_SQL,</if>
+            <if test='SHOW_COLUMNS!=null'>SHOW_COLUMNS,</if>
+            <if test='CONFIG_NAME!=null'>CONFIG_NAME,</if>
+            <if test='SEARCH_FILEDS!=null'>SEARCH_FILEDS,</if>
+            <if test='CONDITION_FILEDS!=null'>CONDITION_FILEDS,</if>
+            CREATE_TIME,
+            UPDATE_TIME
+        </trim>
+        <trim prefix=" VALUES(" suffixOverrides="," suffix=")">
+            UUID(),
+            <if test='ID!=null'>#{ID},</if>
+            <if test='SEARCH_SQL!=null'>#{SEARCH_SQL},</if>
+            <if test='SHOW_COLUMNS!=null'>#{SHOW_COLUMNS},</if>
+            <if test='CONFIG_NAME!=null'>#{CONFIG_NAME},</if>
+            <if test='SEARCH_FILEDS!=null'>#{SEARCH_FILEDS},</if>
+            <if test='CONDITION_FILEDS!=null'>#{CONDITION_FILEDS},</if>
+            NOW(),
+            NOW()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        UPDATE PAGE_LIST_CONFIG_DETAILS
+        <set>
+            <if test='ID!=null'>ID = #{ID},</if>
+            <if test='SHOW_COLUMNS!=null'>SHOW_COLUMNS = #{SHOW_COLUMNS},</if>
+            <if test='SEARCH_SQL!=null'>SEARCH_SQL = #{SEARCH_SQL},</if>
+            <if test='CONFIG_NAME!=null'>CONFIG_NAME = #{CONFIG_NAME},</if>
+            <if test='SEARCH_FILEDS!=null'>SEARCH_FILEDS = #{SEARCH_FILEDS},</if>
+            <if test='CONDITION_FILEDS!=null'>CONDITION_FILEDS = #{CONDITION_FILEDS},</if>
+            UPDATE_TIME = NOW(),
+        </set>
+        <where>
+            ID = #{ID}
+        </where>
+    </update>
+
+
+
+
+
+
+
+</mapper>

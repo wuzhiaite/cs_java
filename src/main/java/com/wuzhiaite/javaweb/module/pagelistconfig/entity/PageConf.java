@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.module.pagelistconfig.entity;
 
+import com.wuzhiaite.javaweb.module.common.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,15 +12,13 @@ import java.util.Date;
  * @since 20200317
  */
 @Data
-public class PageConf implements Serializable {
+public class PageConf extends BaseEntity implements Serializable {
 
     private String id ;
     private String sqlForm ;
     private String columnForm ;
     private String pageDesignForm ;
     private String pageParam ;
-    private Date createTime ;
-    private Date updateTime ;
 
 
 }

@@ -106,7 +106,7 @@ public class DataSourceInitConfig implements InitializingBean {
             INTO_VALUES("'"+ UUID.randomUUID()+"'","'"+name+"'", "'"+ DateUtil.getCurrentDate()+"'");
         }}.toString();
         log.info("日志记录表中插入数据:"+sql);
-        return baseMapper.insert(sql);
+        return baseMapper.insertBySQL(sql);
     }
 
     private void destory() {
@@ -137,7 +137,7 @@ public class DataSourceInitConfig implements InitializingBean {
             WHERE("table_name = 'INIT_LOGGER' AND TABLE_SCHEMA='"+baseProperties.getDatabaseName()+"'");
         } }.toString();
         log.info("查看是否有初始化日志记录表SQL："+sql);
-        Long count = (Long) baseMapper.get(sql).get(0).get("COUNT");
+        Long count = (Long) baseMapper.getBySQL(sql).get(0).get("COUNT");
         log.info("数据库中初始化表数量："+count);
         if(count == 0 ){ return null;}
         //查找已经初始化的数据
@@ -145,7 +145,7 @@ public class DataSourceInitConfig implements InitializingBean {
             SELECT("INIT_SCRIPT_NAME");
             FROM("INIT_LOGGER");
         }}.toString();
-        List<Map<String,Object>> logger = baseMapper.get(sql);
+        List<Map<String,Object>> logger = baseMapper.getBySQL(sql);
 
         return ListUtil.isNotNull(logger) ? ListUtil.getValueList(logger,"INIT_SCRIPT_NAME",String.class) : null;
     }

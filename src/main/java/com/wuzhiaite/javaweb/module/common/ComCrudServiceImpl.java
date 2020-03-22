@@ -1,39 +1,77 @@
 package com.wuzhiaite.javaweb.module.common;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
+import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.Map;
+
+/**
+ * 通用service类
+ * @param <Mapper>
+ * @param <T>
+ */
 @Transactional
-public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T> implements IComCrudService<T> {
+public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
 
     @Autowired
     private Mapper mapper ;
+
     private T entity;
 
-
-    @Override
+    /**
+     *
+     * @param entity
+     * @return
+     * @throws RuntimeException
+     */
     public T get(T entity) throws RuntimeException {
-        return null;
+        return mapper.get(entity);
     }
 
-    @Override
     public PageInfo<T> findListByPage(Integer pageNum, Integer pageSize, T entity, String orderStr) throws RuntimeException {
-        return null;
+        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.orderBy(orderStr);
+        return new PageInfo<T>(mapper.findListByPage(entity));
     }
 
-    @Override
+    public PageInfo<T> findListByPage(Map<String,Object> entity,String orderStr) throws RuntimeException {
+        Integer pageNum = MapUtil.getInteger(entity, "pageNum");
+        Integer pageSize = MapUtil.getInteger(entity, "pageSize");
+        pageNum = pageNum != null ? pageNum : 1 ;
+        pageSize = pageSize != null ? pageSize : 10 ;
+        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.orderBy(orderStr);
+        return new PageInfo<T>(mapper.findListByPage(entity));
+    }
+
+
     public int insert(T entity) throws RuntimeException {
-        return 0;
+        return mapper.insert(entity);
     }
 
-    @Override
     public int update(T entity) throws RuntimeException {
+        return mapper.update(entity);
+    }
+
+    public int saveOrUpdate(T entity, String pk) throws RuntimeException {
+        if (StringUtil.isNotEmpty(pk)) {
+            T t = mapper.get(entity);
+            if (t != null) {
+                return mapper.update(entity);
+            }
+            return mapper.insert(entity);
+        }
         return 0;
     }
 
-    @Override
-    public int saveOrUpdate(T entity) throws RuntimeException {
-        return 0;
+
+    public int delete(String pk) throws RuntimeException {
+        return mapper.delete(pk);
     }
 }

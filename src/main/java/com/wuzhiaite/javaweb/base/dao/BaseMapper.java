@@ -9,16 +9,16 @@ import java.util.Map;
 public interface BaseMapper {
 
     @Select("${sql}")
-    public List<Map<String,Object>>  get(@Param("sql")String sql);
+    public List<Map<String,Object>>  getBySQL(@Param("sql")String sql);
 
     @Insert("${sql}")
-    public int  insert(@Param("sql")String sql);
+    public int  insertBySQL(@Param("sql")String sql);
 
     @Update("${sql}")
-    public int update(@Param("sql")String sql);
+    public int updateBySQL(@Param("sql")String sql);
 
     @Delete("${sql}")
-    public int delete(@Param("sql")String sql);
+    public int deleteBySQL(@Param("sql")String sql);
 
 
 

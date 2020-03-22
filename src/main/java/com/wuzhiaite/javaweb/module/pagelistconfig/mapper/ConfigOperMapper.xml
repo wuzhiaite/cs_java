@@ -15,28 +15,10 @@
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
 
-<!--获取配置列表-->
-    <select id="getPageList" parameterType="map" resultType="map">
-        SELECT
-            ID,
-            SEARCH_SQL,
-            SHOW_COLUMNS,
-            CONFIG_NAME,
-            SEARCH_FILEDS,
-            CONDITION_FILEDS
-        FROM  PAGE_LIST_CONFIG_DETAILS
-        <where>
-            <if test=" CONFIG_NAME != null and CONFIG_NAME != '' ">
-                <bind name="CONFIG_NAME" value=" '%'+search + '%' "/>
-                CONFIG_NAME LIKE #{CONFIG_NAME}
-            </if>
-        </where>
-
-
-    </select>
 
 <!--    获取配置 -->
-    <select id="getConf" resultMap="confMap">
+    <select id="get" parameterType="map"
+            resultType="map">
         SELECT
             ID,
             SQL_FORM,
@@ -47,11 +29,51 @@
             UPDATE_TIME
         FROM  PAGE_LIST_CONFIG_FORM
         <where>
-            <if test=" id != '' and id != null ">
-                ID = #{id}
+            <if test=" ID != '' and ID != null ">
+                ID = #{ID}
             </if>
         </where>
     </select>
+
+    <insert id="insert" parameterType="map" >
+        INSERT INTO PAGE_LIST_CONFIG_FORM
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            UUID,
+            <if test='ID!=null'>ID,</if>
+            <if test='SQL_FORM!=null'>SQL_FORM,</if>
+            <if test='COLUMN_FORM!=null'>COLUMN_FORM,</if>
+            <if test='PAGE_DESIGN_FORM!=null'>PAGE_DESIGN_FORM,</if>
+            <if test='PAGE_PARAM!=null'>PAGE_PARAM,</if>
+            CREATE_TIME,
+            UPDATE_TIME
+        </trim>
+        <trim prefix=" VALUES(" suffixOverrides="," suffix=")">
+            UUID(),
+            <if test='ID!=null'>#{ID},</if>
+            <if test='SQL_FORM!=null'>#{SQL_FORM},</if>
+            <if test='COLUMN_FORM!=null'>#{COLUMN_FORM},</if>
+            <if test='PAGE_DESIGN_FORM!=null'>#{PAGE_DESIGN_FORM},</if>
+            <if test='PAGE_PARAM!=null'>#{PAGE_PARAM},</if>
+           NOW(),
+           NOW()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        UPDATE PAGE_LIST_CONFIG_FORM
+        <set>
+            <if test='ID!=null'>ID = #{ID},</if>
+            <if test='SQL_FORM!=null'>SQL_FORM = #{SQL_FORM},</if>
+            <if test='COLUMN_FORM!=null'>COLUMN_FORM = #{COLUMN_FORM},</if>
+            <if test='PAGE_DESIGN_FORM!=null'>PAGE_DESIGN_FORM = #{PAGE_DESIGN_FORM},</if>
+            <if test='PAGE_PARAM!=null'>PAGE_PARAM = #{PAGE_PARAM},</if>
+            CREATE_TIME = NOW(),
+            UPDATE_TIME = NOW()
+        </set>
+        <where>
+            ID = #{ID}
+        </where>
+    </update>
 
 
 

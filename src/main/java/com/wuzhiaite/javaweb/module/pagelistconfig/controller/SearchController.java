@@ -20,6 +20,7 @@ import java.util.Map;
  *
  */
 @RestController
+@RequestMapping("/api")
 public class SearchController {
     /** 搜索层service*/
     @Autowired

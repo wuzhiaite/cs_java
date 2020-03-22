@@ -5,7 +5,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.io.InputStream;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -22,8 +25,8 @@ public class JwtTokenUtil {
     /**有效期24小时 */
     private static final long EXPIRE_TIME = 60 * 60 * 24000;
 
-    /**用户名称*/
-    private static final String USERNAME = Claims.SUBJECT;
+    private static final String BASE64SECRET = "abcdefgh";
+
 
     static { // 将证书文件里边的私钥公钥拿出来
         try {
@@ -33,25 +36,30 @@ public class JwtTokenUtil {
             // jwt 为 命令生成整数文件时的别名
             privateKey = (PrivateKey) keyStore.getKey("jwt", "123456".toCharArray());
             publicKey = keyStore.getCertificate("jwt").getPublicKey();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static String generateToken(String subject) {
+        //使用HmacSHA256签名算法生成一个HS256的签名秘钥Key
+        Key signKey = new SecretKeySpec(DatatypeConverter.parseBase64Binary(BASE64SECRET),SignatureAlgorithm.HS256.getJcaName());
+
         Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         return Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.RS256, privateKey)
+                .signWith(SignatureAlgorithm.HS256, signKey)
                 .compact();
     }
 
     public static String parseToken(String token) {
         String subject = null;
+        Key signKey = new SecretKeySpec(DatatypeConverter.parseBase64Binary(BASE64SECRET),SignatureAlgorithm.HS256.getJcaName());
         try {
             Claims claims = Jwts.parser()
-                    .setSigningKey(privateKey)
+                    .setSigningKey(signKey)
                     .parseClaimsJws(token).getBody();
             subject = claims.getSubject();
         } catch (Exception e) {
