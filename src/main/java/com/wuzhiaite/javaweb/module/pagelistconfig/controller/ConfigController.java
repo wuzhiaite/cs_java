@@ -4,12 +4,14 @@ import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
-import com.wuzhiaite.javaweb.module.common.ComCrudController;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.ConfigDetailService;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.ConfigOperService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/pagelist")
 @Log4j2
-public class ConfigController extends ComCrudController {
+public class ConfigController {
     /**
      *
      */
@@ -33,7 +35,11 @@ public class ConfigController extends ComCrudController {
      */
     @Autowired
     private ConfigDetailService detailService ;
-
+    /**
+     *
+     */
+    @Autowired
+    private RedisTemplate redisTemplate ;
     /**
      * 查询台账列表数据
      * @param params
@@ -79,6 +85,7 @@ public class ConfigController extends ComCrudController {
      * @Param
      */
     @PostMapping("/pageconfig/{id}")
+    @CachePut(key="#id",value="config")
     public ResultObj pageconfig(@PathVariable("id") String id){
         Map<String,Object> conf = new HashMap<String,Object>();
         try {

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @MapperScan("com.wuzhiaite.javaweb")
 @EnableTransactionManagement
-@EnableCaching
+@EnableCaching //允许缓存
 public class SpringBootJavawebBaseApplication {
 
     public static void main(String[] args) {

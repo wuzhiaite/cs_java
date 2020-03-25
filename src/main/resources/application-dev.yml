@@ -19,6 +19,19 @@ spring:
       initial-size: 5                     # 初始化连接数
       max-total: 5                        # 最大连接数
       max-wait-millis: 150                # 等待连接获取的最大超时时间
+  redis:
+    host: 192.168.210.128
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+      shutdown-timeout: 0
+
 
 logging:
   file:

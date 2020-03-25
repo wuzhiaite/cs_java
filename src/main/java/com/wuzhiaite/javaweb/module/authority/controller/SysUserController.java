@@ -5,10 +5,8 @@ import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.module.authority.service.SysUserService;
-import com.wuzhiaite.javaweb.module.common.ComCrudController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,7 +25,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class SysUserController extends ComCrudController {
+public class SysUserController {
 
     @Autowired
     private SysUserService userService;
