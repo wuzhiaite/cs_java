@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.service.config;
 
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.module.common.ComCrudServiceImpl;
@@ -25,19 +26,34 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
         List<Map<String,Object>> conditions = (List<Map<String, Object>>) JSONObject.parse(conditionFileds);
         Set<String> queries = params.keySet();
-        StringBuilder conditionSQL = new StringBuilder();
+        StringBuilder conditionSQL = new StringBuilder(" 1=1  ");
         for(Map<String,Object> condition : conditions){
             String prop = MapUtil.getString(condition, "prop");
             String type = MapUtil.getString(condition, "type");
             if(queries.contains(prop)){
                 for(QueryEnum value : QueryEnum.values()){
                     if( type .equals(value.type()) ){
-                        value.appendStr(conditionSQL,params.get(prop));
+                        conditionSQL.append(" AND  ");
+                        value.appendStr(conditionSQL,prop,params.get(prop));
                     }
                 }
             }
         }
 
+        if(queries.contains("search")){
+            String search = MapUtil.getString(params, "search");
+            String fileds = MapUtil.getString(obj, "SEARCH_FILEDS");
+            conditionSQL.append(" AND  (");
+            JSONArray arr = JSONObject.parseArray(fileds);
+            int len = arr.size() ;
+            for(int i = 0 ; i < len  ; i++){
+                conditionSQL.append(arr.get(i))
+                        .append("  LIKE ")
+                        .append(" '%").append(search).append("%' ");
+                conditionSQL.append(i < (len -1) ? " OR " : " ");
+            }
+
+        }
 
         return null ;
     }
