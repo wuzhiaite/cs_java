@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.Cacheable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,24 +91,51 @@ public class ConfigController {
             conf.put("ID",id);
             conf = configOperService.get(conf);
         } catch (RuntimeException e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         }
         return ResultObj.successObj(conf) ;
     }
 
-
+    /**
+     * 通用列表查询
+     * @param id
+     * @param params
+     * @return
+     */
     @PostMapping("/commonpage/{id}")
     public ResultObj commonpage(@PathVariable("id") String id,
-                                @RequestBody(required=false)  Map<String,Object> params){
+                                @RequestBody Map<String,Object> params){
         params.put("ID",id);
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        PageInfo<Map<String,Object>> list = null ;
         try {
             list = detailService.pageList(params);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj(list) ;
     }
+
+    /**
+     * 删除数据
+     * @param id
+     * @return
+     */
+    @PostMapping("/deletepage/{id}")
+    public ResultObj deletepage(@PathVariable("id") String id){
+        int count = 0;
+        try {
+            count = detailService.delete(id);
+            count += configOperService.delete(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(count) ;
+    }
+
+
 
 
 }

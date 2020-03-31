@@ -4,11 +4,16 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.service.config;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import com.wuzhiaite.javaweb.module.common.ComCrudServiceImpl;
-import com.wuzhiaite.javaweb.module.pagelistconfig.entity.PageDetail;
 import com.wuzhiaite.javaweb.module.pagelistconfig.enums.QueryEnum;
 import com.wuzhiaite.javaweb.module.pagelistconfig.mapper.ConfigDetailMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.SQL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,13 +21,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @description 配置细节处理类
+ * @author lpf
+ */
 @Service
+@Slf4j
 public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, Map<String,Object>> {
 
+    /**
+     *
+     */
+    @Autowired
+    private ConfigDetailMapper mapper ;
 
-    public  List<Map<String, Object>> pageList(Map<String,Object> params) {
+    /**
+     * 通用列表查询
+     * @param params
+     * @return
+     */
+    public  PageInfo<Map<String, Object>> pageList(Map<String,Object> params) {
         Map<String, Object> obj = this.get(params);
-        String sql = MapUtil.getString(obj, "SEARCH_SQL");
+        String searchSql = MapUtil.getString(obj, "SEARCH_SQL");
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
         List<Map<String,Object>> conditions = (List<Map<String, Object>>) JSONObject.parse(conditionFileds);
         Set<String> queries = params.keySet();
@@ -39,8 +59,9 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
                 }
             }
         }
-
-        if(queries.contains("search")){
+        //模糊查询部分
+        if(queries.contains("search")
+                && StringUtil.isNotBlank((String) params.get("search"))){
             String search = MapUtil.getString(params, "search");
             String fileds = MapUtil.getString(obj, "SEARCH_FILEDS");
             conditionSQL.append(" AND  (");
@@ -52,9 +73,24 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
                         .append(" '%").append(search).append("%' ");
                 conditionSQL.append(i < (len -1) ? " OR " : " ");
             }
-
         }
 
-        return null ;
+        String sql = new SQL() {{
+            SELECT("*");
+            FROM("( "+searchSql+" ) AS TB ");
+            WHERE(conditionSQL.toString());
+        }}.toString();
+        log.info(sql);
+        Integer pageNum = MapUtil.getInteger(params, "pageNum");
+        Integer pageSize = MapUtil.getInteger(params, "pageSize");
+        pageNum = pageNum != null ? pageNum : 1 ;
+        pageSize = pageSize != null ? pageSize : 10 ;
+        PageHelper.startPage(pageNum, pageSize);
+        String orders = MapUtil.getString(params,"orders");
+        if (!StringUtil.isBlank(orders)) {
+            PageHelper.orderBy(orders);
+        }
+        List<Map<String, Object>> list = mapper.getBySQL(sql);
+        return new PageInfo<Map<String,Object>>(list) ;
     }
 }

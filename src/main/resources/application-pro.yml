@@ -29,4 +29,6 @@ spring:
         min-idle: 0
     lettuce:
       shutdown-timeout: 0
-
+logging:
+  file:
+    path: /usr/local/java/log/

@@ -97,8 +97,13 @@
         </where>
     </update>
 
-
-
+    <!--  删除数据  -->
+    <delete id="delete">
+        DELETE FROM PAGE_LIST_CONFIG_DETAILS
+        <where>
+            ID = #{ID}
+        </where>
+    </delete>
 
 
 
