@@ -3,6 +3,7 @@ package com.wuzhiaite.javaweb.module.pagelistconfig.controller;
 import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.ConfigDetailService;
 import com.wuzhiaite.javaweb.module.pagelistconfig.service.config.ConfigOperService;
@@ -38,7 +39,7 @@ public class ConfigController {
      *
      */
     @Autowired
-    private RedisTemplate redisTemplate ;
+    private RedisUtil redisUtil ;
     /**
      * 查询台账列表数据
      * @param params
@@ -69,6 +70,11 @@ public class ConfigController {
     public ResultObj modifyOrAddPageConf(@RequestBody Map<String,Object> params){
         int count = 0;
         try {
+            String id = MapUtil.getString(params, "ID");
+            Map<String,Object> result = (Map<String, Object>) redisUtil.hget("pagelist", id);
+            if(result != null){
+                redisUtil.hdel("pagelist",id);
+            }
             count = configOperService.insertOrUpdate(params);
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -90,6 +96,7 @@ public class ConfigController {
         try {
             conf.put("ID",id);
             conf = configOperService.get(conf);
+            redisUtil.hset("pagelist",id,conf);
         } catch (RuntimeException e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -128,6 +135,7 @@ public class ConfigController {
         try {
             count = detailService.delete(id);
             count += configOperService.delete(id);
+            redisUtil.hdel("pagelist",id);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
