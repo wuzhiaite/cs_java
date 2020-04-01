@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @MapperScan("com.wuzhiaite.javaweb")
+@MapperScan("com.baomidou.mybatisplus.samples.quickstart.mapper")
 @EnableTransactionManagement
 @EnableCaching //允许缓存
 public class SpringBootJavawebBaseApplication {
