@@ -31,8 +31,14 @@ spring:
         min-idle: 0
     lettuce:
       shutdown-timeout: 0
+  rabbitmq:
+    host: 192.168.210.128
+    password: guest
+    username: guest
 
 
 logging:
   file:
     path: D:\log
+
+

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.concurrent.locks.*;
 
 /**
  * 通用service类
@@ -22,6 +23,10 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
 
     private T entity;
 
+    Lock lock = new ReentrantLock();
+    Condition condition = lock.newCondition();
+
+
     /**
      *
      * @param entity
@@ -32,12 +37,28 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
         return mapper.get(entity);
     }
 
+    /**
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param entity
+     * @param orderStr
+     * @return
+     * @throws RuntimeException
+     */
     public PageInfo<T> findListByPage(Integer pageNum, Integer pageSize, T entity, String orderStr) throws RuntimeException {
         PageHelper.startPage(pageNum, pageSize);
         PageHelper.orderBy(orderStr);
         return new PageInfo<T>(mapper.findListByPage(entity));
     }
 
+    /**
+     *
+     * @param entity
+     * @param orderStr
+     * @return
+     * @throws RuntimeException
+     */
     public PageInfo<T> findListByPage(Map<String,Object> entity,String orderStr) throws RuntimeException {
         Integer pageNum = MapUtil.getInteger(entity, "pageNum");
         Integer pageSize = MapUtil.getInteger(entity, "pageSize");
@@ -48,15 +69,33 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
         return new PageInfo<T>(mapper.findListByPage(entity));
     }
 
-
+    /**
+     *
+     * @param entity
+     * @return
+     * @throws RuntimeException
+     */
     public int insert(T entity) throws RuntimeException {
         return mapper.insert(entity);
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     * @throws RuntimeException
+     */
     public int update(T entity) throws RuntimeException {
         return mapper.update(entity);
     }
 
+    /**
+     *
+     * @param entity
+     * @param pk
+     * @return
+     * @throws RuntimeException
+     */
     public int saveOrUpdate(T entity, String pk) throws RuntimeException {
         if (StringUtil.isNotEmpty(pk)) {
             T t = mapper.get(entity);
@@ -67,8 +106,12 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
         }
         return 0;
     }
-
-
+    /**
+     *
+     * @param pk
+     * @return
+     * @throws RuntimeException
+     */
     public int delete(String pk) throws RuntimeException {
         return mapper.delete(pk);
     }
