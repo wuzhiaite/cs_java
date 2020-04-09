@@ -31,6 +31,7 @@ spring:
         min-idle: 0
     lettuce:
       shutdown-timeout: 0
+    timeout: 5000
   rabbitmq:
     host: 192.168.210.128
     password: guest

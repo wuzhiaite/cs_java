@@ -71,10 +71,9 @@ public class ConfigController {
         int count = 0;
         try {
             String id = MapUtil.getString(params, "ID");
-            Map<String,Object> result = (Map<String, Object>) redisUtil.hget("pagelist", id);
-            if(result != null){
+            if( redisUtil.hget("pagelist", id) != null){
                 redisUtil.hdel("pagelist",id);
-            }
+            };
             count = configOperService.insertOrUpdate(params);
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -94,9 +93,13 @@ public class ConfigController {
     public ResultObj pageconfig(@PathVariable("id") String id){
         Map<String,Object> conf = new HashMap<String,Object>();
         try {
-            conf.put("ID",id);
-            conf = configOperService.get(conf);
-            redisUtil.hset("pagelist",id,conf);
+            if( redisUtil.hget("pagelist", id) != null ){
+                conf = (Map<String, Object>) redisUtil.hget("pagelist", id);
+            }else{
+                conf.put("ID",id);
+                conf = configOperService.get(conf);
+                redisUtil.hset("pagelist",id,conf);
+            }
         } catch (RuntimeException e) {
             log.error(e.getMessage());
             e.printStackTrace();
