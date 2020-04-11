@@ -4,6 +4,8 @@ import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.base.utils.RedisUtil;
+import com.wuzhiaite.javaweb.module.authority.entity.User;
 import com.wuzhiaite.javaweb.module.authority.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.util.Map;
 /**
  * @description 用户注册，登录退出处理类
  * @author lpf
+ * @since 2020-04-11
  */
 @RestController
 @Slf4j
@@ -32,6 +35,9 @@ public class SysUserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private RedisUtil redisUtil;
     /**
      * 登录
      * @param
@@ -54,10 +60,16 @@ public class SysUserController {
             //获取token信息
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
+            User user = null;
+            if(redisUtil.hget("userinfo",username) != null){
+                user = (User) redisUtil.hget("userinfo",username);
+            }else{
+                user = userService.getUserInfo(username) ;
+            }
             map.put("token",str);
             map.put("username",principal.getUsername());
             map.put("authorities",principal.getAuthorities());
-            map.put("user",userService.getUserInfo(username));
+            map.put("user",user );
             log.info(String.valueOf(map));
         } catch (AuthenticationException e) {
             log.info(e.getMessage());
