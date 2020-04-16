@@ -41,8 +41,12 @@ spring:
     username: guest
 
 
+
+
 logging:
   file:
     path: D:\log
 
-
+mybatis:
+  configuration:
+    cache-enabled: true

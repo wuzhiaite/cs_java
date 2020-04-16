@@ -18,7 +18,7 @@ public interface SearchMapper extends BaseMapper {
      * @param filed
      * @return
      */
-    @SelectProvider(value=SearchProvider.class,method="search")
+    @SelectProvider(type=SearchProvider.class,method="search")
      List<Map<String,Object>> search(SearchFiled filed);
 
     /**
@@ -26,7 +26,7 @@ public interface SearchMapper extends BaseMapper {
      * @param table
      * @return
      */
-    @SelectProvider(value=SearchProvider.class,method="getColumnInfo")
+    @SelectProvider(type=SearchProvider.class,method="getColumnInfo")
      List<Column> getColumnInfo(Table table);
 
     /**
@@ -34,6 +34,6 @@ public interface SearchMapper extends BaseMapper {
      * @param databaseName
      * @return
      */
-    @SelectProvider(value=SearchProvider.class,method="getTableList")
+    @SelectProvider(type=SearchProvider.class,method="getTableList")
      List<Table> getTableList(String databaseName);
 }
