@@ -31,8 +31,8 @@ public class SpringBootJavawebBaseApplicationTests {
 
    @Test
    public void databaseTest(){
-       service.baseTest01();
-//       service.bastTest02();
+//       service.baseTest01();
+       service.bastTest02();
 //       service.baseTest03();
    }
 

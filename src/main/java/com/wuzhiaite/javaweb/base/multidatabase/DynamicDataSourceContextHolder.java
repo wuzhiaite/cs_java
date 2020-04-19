@@ -14,7 +14,6 @@ public class DynamicDataSourceContextHolder {
 
 
     public static synchronized void setDataSourceKey(String key){
-
         contextHolder.set(key);
     }
 

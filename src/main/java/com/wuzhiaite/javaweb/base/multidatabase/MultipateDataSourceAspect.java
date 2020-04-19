@@ -16,11 +16,11 @@ import java.sql.SQLException;
 /**
  * @author lpf
  */
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class MultipateDataSourceAspect {
 
-    @Pointcut("@within(com.wuzhiaite.javaweb.base.multidatabase.DataSource)")
+    @Pointcut("@annotation(com.wuzhiaite.javaweb.base.multidatabase.DataSource)")
     public void pointcut(){}
 
     @Before("pointcut()")
@@ -35,6 +35,7 @@ public class MultipateDataSourceAspect {
             dataSource = clazz.getAnnotation(DataSource.class);
             name = dataSource.name();
         }
+        DynamicDataSourceContextHolder.removeDataSource();
         System.out.println("=================="+name+"==============");
         DynamicDataSourceContextHolder.setDataSourceKey(name);
     }

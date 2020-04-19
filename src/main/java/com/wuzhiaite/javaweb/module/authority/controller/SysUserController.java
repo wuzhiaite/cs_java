@@ -7,6 +7,7 @@ import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.module.authority.entity.User;
 import com.wuzhiaite.javaweb.module.authority.service.SysUserService;
+import com.wuzhiaite.javaweb.module.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class SysUserController {
+public class SysUserController extends BaseController {
 
     @Autowired
     private SysUserService userService;
@@ -50,6 +52,7 @@ public class SysUserController {
         //用户验证
         try {
             String username = MapUtil.getString(params, "username");
+
             String password = MapUtil.getString(params, "password");
             UsernamePasswordAuthenticationToken token
                     = new UsernamePasswordAuthenticationToken(username, password);
@@ -60,18 +63,14 @@ public class SysUserController {
             //获取token信息
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
-            User user = null;
-            if(redisUtil.hget("userinfo",username) != null){
-                user = (User) redisUtil.hget("userinfo",username);
-            }else{
-                user = userService.getUserInfo(username) ;
-            }
+            User user = userService.getUserInfo(username) ;
+
             map.put("token",str);
             map.put("username",principal.getUsername());
             map.put("authorities",principal.getAuthorities());
             map.put("user",user );
             log.info(String.valueOf(map));
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             log.info(e.getMessage());
             return  ResultObj.failObj(e.getMessage());
         }
@@ -85,7 +84,23 @@ public class SysUserController {
         return ResultObj.successObj("this is user base info");
     }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("/menus/list")
+    public ResultObj getMenus(){
+        try {
 
+
+
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return  ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(null);
+    }
 
 
 

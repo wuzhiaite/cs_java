@@ -79,5 +79,8 @@ public class SecurityUserDetails implements UserDetails, Serializable {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode(password);
         System.out.println(encode);
+        String p = "$2a$10$uX97Rn6R.I.gwEiAS4bseOlWVS77aAbmcRd5p0TXqhXi5TRYtpe1e";
+        boolean matches = encoder.matches("123", p);
+        System.out.println(matches);
     }
 }

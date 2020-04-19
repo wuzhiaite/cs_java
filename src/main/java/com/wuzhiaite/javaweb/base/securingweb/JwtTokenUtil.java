@@ -69,9 +69,8 @@ public class JwtTokenUtil {
 
 
     public static void main(String[] args) throws InterruptedException {
-        String root = generateToken("root");
+        String root = generateToken("123");
         log.info(root);
-        Thread.sleep(5000);
         String s = parseToken(root);
         log.info(s);
     }

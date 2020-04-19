@@ -15,7 +15,6 @@ spring:
       url: jdbc:mysql://localhost:3307/cmbi_report?serverTimezone=GMT%2B8
       password: root
       username: root
-
     slave:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3307/cmbi_boss?serverTimezone=GMT%2B8
@@ -39,6 +38,10 @@ spring:
     host: 192.168.210.128
     password: guest
     username: guest
+
+
+
+
 
 
 

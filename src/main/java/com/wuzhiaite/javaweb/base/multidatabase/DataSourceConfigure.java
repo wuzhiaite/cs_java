@@ -14,9 +14,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-//@ConfigurationProperties(prefix="spring")
-//@Configuration
-//@Data
+@ConfigurationProperties(prefix="spring")
+@Configuration
+@Data
 public class DataSourceConfigure {
 
 
