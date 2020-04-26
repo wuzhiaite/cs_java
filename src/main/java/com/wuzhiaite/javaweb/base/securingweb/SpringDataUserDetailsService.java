@@ -1,9 +1,8 @@
 package com.wuzhiaite.javaweb.base.securingweb;
 
-import com.wuzhiaite.javaweb.base.utils.RedisUtil;
-import com.wuzhiaite.javaweb.module.authority.entity.Role;
-import com.wuzhiaite.javaweb.module.authority.entity.User;
-import com.wuzhiaite.javaweb.module.authority.service.SysUserService;
+import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.User;
+import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

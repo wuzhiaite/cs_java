@@ -15,7 +15,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private static Map<Object, Object> dataSourceMap = new HashMap<>();
 
-    private static DynamicDataSource instance ;
+    private volatile static DynamicDataSource instance ;
     private static Object lock = new Object() ;
 
     private DynamicDataSource(){}

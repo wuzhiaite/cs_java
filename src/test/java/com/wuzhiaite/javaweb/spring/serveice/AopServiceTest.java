@@ -3,7 +3,7 @@ package com.wuzhiaite.javaweb.spring.serveice;
 
 
 import com.wuzhiaite.javaweb.base.multidatabase.DataSource;
-import com.wuzhiaite.javaweb.module.common.ComCrudServiceImpl;
+import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import com.wuzhiaite.javaweb.spring.mapper.AopMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @DataSource
-@Transactional
+@Transactional(readOnly = false)
 public class AopServiceTest extends ComCrudServiceImpl<AopMapper, Map<String,Object>> {
 
     @Autowired

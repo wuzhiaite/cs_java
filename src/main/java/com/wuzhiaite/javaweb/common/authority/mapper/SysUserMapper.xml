@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="roleMap" type="com.wuzhiaite.javaweb.common.authority.entity.Role">
+        <id column="ID" property="id" />
+        <result column="ROLE_LABEL" property="roleLabel" />
+        <result column="ROLE_VALUE" property="roleValue" />
+        <result column="ISVALIDATE" property="isVlidate" />
+    </resultMap>
+    <!-- 字段映射-->
+    <resultMap id="userMap" type="com.wuzhiaite.javaweb.common.authority.entity.User">
+        <id column="ID" property="id" />
+        <result column="USER_ID" property="userId" />
+        <result column="USERNAME" property="username" />
+        <result column="PASSWORD" property="password" />
+        <result column="TELEPHONE" property="telephone" />
+        <result column="PROFILE_PHOTO" property="profilePhoto" />
+        <result column="ISVALIDATE" property="isValidate" />
+    </resultMap>
+
+    <!--    查找用户信息 -->
+    <select id="getUser" parameterType="string" resultMap="userMap">
+        SELECT ID ,
+            USER_ID ,
+            USERNAME ,
+            PASSWORD ,
+            TELEPHONE ,
+            PROFILE_PHOTO ,
+            ISVALIDATE
+            FROM  USER_INFO WHERE USER_ID = #{username}
+    </select>
+
+    <!--查找权限信息-->
+    <select id="getRoles" parameterType="string" resultMap="roleMap">
+        SELECT
+            ROLE.ID ,
+            ROLE.ROLE_LABEL,
+            ROLE.ROLE_VALUE,
+            ROLE.ISVALIDATE
+        FROM USER_INFO INFO
+        LEFT JOIN USRE_ROLE_INFO RI ON INFO.ID = RI.USER_ID
+        LEFT JOIN USER_ROLE ROLE ON ROLE.ID = RI.ROLE_ID
+        WHERE INFO.USER_ID = #{username}
+
+    </select>
+
+
+
+
+
+
+
+</mapper>

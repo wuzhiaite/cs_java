@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb;
 
 
+import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
 import com.wuzhiaite.javaweb.spring.serveice.AopServiceTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -12,6 +13,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,6 +40,14 @@ public class SpringBootJavawebBaseApplicationTests {
 //       service.baseTest03();
    }
 
+   @Test
+   public void generatorTest(){
+       Map<String,Object> params = new HashMap<String,Object>();
+       params.put("author","lpf");
+       params.put("module","menus");
+       params.put("tablenames","menus");
+       CodeGeneratorUtil.generatorCode(params);
+   }
 
 
 

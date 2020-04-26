@@ -10,5 +10,6 @@ spring:
     suffix: .html
     mode: HTML5
     cache: true
+
   profiles:
     active: dev

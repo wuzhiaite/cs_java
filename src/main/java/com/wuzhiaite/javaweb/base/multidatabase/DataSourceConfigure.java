@@ -19,7 +19,7 @@ import java.util.Map;
 @Data
 public class DataSourceConfigure {
 
-
+    public static final String DEFAULT_DATASOURCE = "master";
     Map<String, Map<String,String>> dbsource = new HashMap<String, Map<String,String>>();
 
 
@@ -27,11 +27,10 @@ public class DataSourceConfigure {
     public DynamicDataSource  dynamicDataSource(){
         DynamicDataSource dynamicDataSource = DynamicDataSource.getInstance();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        DataSourceBuilder builder = DataSourceBuilder.create() ;
         for( String key : dbsource.keySet() ){
             Map<String, String> map = dbsource.get(key);
             DataSource source
-                         = builder
+                         =  DataSourceBuilder.create()
                             .driverClassName(MapUtil.getString(map,"driver-class-name"))
                             .url(MapUtil.getString(map,"url"))
                             .username(MapUtil.getString(map,"username"))
@@ -40,7 +39,7 @@ public class DataSourceConfigure {
             targetDataSources.put(key,source);
         }
         dynamicDataSource.setTargetDataSources(targetDataSources);
-        dynamicDataSource.setDefaultTargetDataSource(targetDataSources.get("master"));
+        dynamicDataSource.setDefaultTargetDataSource(targetDataSources.get(DEFAULT_DATASOURCE));
         return dynamicDataSource ;
     }
 
