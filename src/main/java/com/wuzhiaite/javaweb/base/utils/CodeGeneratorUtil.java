@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.base.utils;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -7,13 +8,13 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.wuzhiaite.javaweb.base.multidatabase.DataSourceConfigure;
-import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSource;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSourceContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,14 +60,13 @@ public class CodeGeneratorUtil {
     private static StrategyConfig strategy = new StrategyConfig();
     private static InjectionConfig cfg ;
     /**
-     *
+     * 自动注入数据源配置信息
      * @param dataSourceConfigure
      */
     @Autowired(required = true)
     public void setDataSourceConfigure( DataSourceConfigure dataSourceConfigure){
         CodeGeneratorUtil.configure = dataSourceConfigure;
     }
-
     static {
         generator = new AutoGenerator();
         generator.setTemplateEngine(new FreemarkerTemplateEngine());
@@ -78,13 +78,12 @@ public class CodeGeneratorUtil {
         gc.setOutputDir(OUTPUT_DIR);
         gc.setOpen(false);
         gc.setSwagger2(true);
-        //包配置
-        pc.setParent(PACKAGE_URL);
+
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setController("templates/selfcontrolle.java");
-        templateConfig.setXml(null);
-
+//        templateConfig.setController("/templates/controlle.java");
+//        templateConfig.setService("/templates/service.java");
+//        templateConfig.setServiceImpl(null);
         // 策略配置
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
@@ -94,8 +93,6 @@ public class CodeGeneratorUtil {
         strategy.setSuperEntityColumns("id","update_time","create_time","update_user","create_user");
         strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix(pc.getModuleName() + "_");
-
-
     }
     /**
      * 列信息
@@ -113,6 +110,10 @@ public class CodeGeneratorUtil {
         String author = MapUtil.getString(params, "author");
         gc.setAuthor(author);
         generator.setGlobalConfig(gc);
+        //包配置
+        String pagckName = MapUtil.getString(params, "packageName");
+        String url = StringUtils.isEmpty(pagckName) ? PACKAGE_URL : PACKAGE_URL+StringPool.DOT+pagckName ;
+        pc.setParent(url);
         //模块名
         String module = MapUtil.getString(params, "module");
         pc.setModuleName(module);
@@ -134,6 +135,19 @@ public class CodeGeneratorUtil {
                 this.setMap(tempMap);
             }
         };
+//        String templatePath = "/templates/service.java.ftl";
+//        List<FileOutConfig> focList = new ArrayList<>();
+//        // 自定义配置会被优先输出
+//        focList.add(new FileOutConfig(templatePath) {
+//                @Override
+//                public String outputFile(TableInfo tableInfo) {
+//                    String packageUrl = PACKAGE_URL.replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
+//                    String path = gc.getOutputDir() +'/'+ packageUrl+'/'+ pc.getModuleName()+'/'
+//                                 + "/" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
+//                    return path ;
+//                }
+//        });
+//        cfg.setFileOutConfigList(focList);
         generator.setCfg(cfg);
     }
 

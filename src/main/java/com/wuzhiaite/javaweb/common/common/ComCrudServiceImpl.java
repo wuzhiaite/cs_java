@@ -22,11 +22,6 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
     protected Mapper mapper ;
 
     private T entity;
-
-    Lock lock = new ReentrantLock();
-    Condition condition = lock.newCondition();
-
-
     /**
      *
      * @param entity

@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.common.codegenerator.controller;
 
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.common.codegenerator.service.CodeGeneratorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +13,12 @@ import java.util.Map;
  * @description 代码生成器
  * @author lpf
  */
-@RestController("/api/codegenerator/")
+@RestController
+@RequestMapping("/api/codegenerator/")
+@Slf4j
 public class CodeGeneratorController {
     /**
-     *
+     * 生成service
      */
     @Autowired
     private CodeGeneratorService generatorService;
@@ -26,14 +29,14 @@ public class CodeGeneratorController {
      */
     @PostMapping("/getTableList")
     public ResultObj getTableList(){
-        List<Map<String, Object>> search = null;
+        List<Map<String, Object>> tableList = null;
         try {
-            generatorService.get(null);
+            tableList = generatorService.getTableList();
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(search);
+        return ResultObj.successObj(tableList);
     }
     /**
      * 获取所有列信息
@@ -58,14 +61,13 @@ public class CodeGeneratorController {
      */
     @PostMapping("/generatorCode")
     public ResultObj generatorCode(@RequestBody  Map<String,Object>  params){
-        List<Map<String, Object>> search = null;
         try {
-            generatorService.get(null);
+            generatorService.generatorCode(params);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(search);
+        return ResultObj.successObj("生成成功");
     }
 
 

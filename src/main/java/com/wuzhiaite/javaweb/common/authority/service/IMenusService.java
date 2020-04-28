@@ -1,6 +1,6 @@
-package com.wuzhiaite.javaweb.module.menus.service;
+package com.wuzhiaite.javaweb.common.authority.service;
 
-import com.wuzhiaite.javaweb.module.menus.entity.Menus;
+import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author lpf
- * @since 2020-04-25
+ * @since 2020-04-28
  */
 public interface IMenusService extends IService<Menus> {
 

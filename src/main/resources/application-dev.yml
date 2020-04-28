@@ -38,10 +38,10 @@ spring:
     host: 192.168.210.128
     password: guest
     username: guest
-
-
-
-
+  servlet:
+    multipart:
+      max-file-size: 2000MB #最大
+      max-request-size: 2000MB
 
 
 
@@ -53,3 +53,6 @@ logging:
 mybatis:
   configuration:
     cache-enabled: true
+
+
+uploadFilePath: D:\\uploadFile\\

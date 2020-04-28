@@ -88,7 +88,7 @@ public class CodeGenerator {
 //                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
 //            }
 //        });
-        String path = parent + StringPool.DOT + pc.getModuleName();
+//        String path = parent + StringPool.DOT + pc.getModuleName();
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
