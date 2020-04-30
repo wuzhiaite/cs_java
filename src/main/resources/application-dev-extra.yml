@@ -1,11 +1,28 @@
+# log config
+logging:
+  config: classpath:logback.xml
 
+xxl:
+  job:
+    admin:
+      ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+      addresses: http://127.0.0.1:8080/xxl-job-admin
 
+    ### xxl-job, access token
+    accessToken:
 
-
-
-
-rabbitmq-config:
-  queue:
+    executor:
+      ### xxl-job executor appname
+      appname: cs-job-executor-sample
+      ### xxl-job executor registry-address: default use address to registry , otherwise use ip:port if address is null
+      address:
+      ### xxl-job executor server-info
+      ip:
+      port: 9876
+      ### xxl-job executor log-path
+      logpath: /data/applogs/xxl-job/jobhandler
+      ### xxl-job executor log-retention-days
+      logretentiondays: 30
 
 
 

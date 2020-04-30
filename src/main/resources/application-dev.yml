@@ -42,6 +42,9 @@ spring:
     multipart:
       max-file-size: 2000MB #最大
       max-request-size: 2000MB
+  profiles:
+    include:
+      - dev-extra
 
 
 
