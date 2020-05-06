@@ -15,6 +15,9 @@ import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * @author lpf
+ */
 @Slf4j
 public class JwtTokenUtil {
     // 寻找证书文件

@@ -3,8 +3,9 @@ server:
   servlet:
     context-path: /
 
-
 spring:
+  profiles:
+    include: pro-extra #加入额外的文件
   application:
     name: microserver-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
   datasource:
@@ -33,6 +34,7 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+
 
 
 

@@ -3,10 +3,10 @@ server:
   servlet:
     context-path: /
 
-
-
-
 spring:
+  profiles:
+    include:
+      - dev-extra
   application:
     name: microserver-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
   dbsource:
@@ -39,12 +39,14 @@ spring:
     password: guest
     username: guest
   servlet:
-    multipart:
+    multipart: #上传配置
       max-file-size: 2000MB #最大
       max-request-size: 2000MB
-  profiles:
-    include:
-      - dev-extra
+  mail: #邮箱
+    host: smtp.qq.com
+    port: 25
+    username: li656494298@foxmail.com
+    password: wmtyfdyfqplmbeda
 
 
 
@@ -59,3 +61,15 @@ mybatis:
 
 
 uploadFilePath: D:\\uploadFile\\
+
+
+
+
+
+
+
+
+
+
+
+
