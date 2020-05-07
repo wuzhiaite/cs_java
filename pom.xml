@@ -225,6 +225,20 @@
             <artifactId>xxl-job-core</artifactId>
             <version>2.2.0</version>
         </dependency>
+        <!--  EasyExcel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <!-- 通用Mapper -->
+<!--        <dependency>-->
+<!--            <groupId>tk.mybatis</groupId>-->
+<!--            <artifactId>mapper</artifactId>-->
+<!--            <version>3.3.9</version>-->
+<!--        </dependency>-->
+
+
         <!--    activiti    -->
 <!--        <dependency>-->
 <!--            <groupId>org.activiti</groupId>-->

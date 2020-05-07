@@ -1,6 +1,8 @@
 package com.wuzhiaite.javaweb.common.common;
 
 import com.wuzhiaite.javaweb.base.dao.BaseMapper;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,10 @@ public interface IComMapper<T> extends BaseMapper {
     int update(T entity);
 
     int delete(String pk);
+
+    @InsertProvider(value=InsertListProvider.class,method = "insertList")
+    <T> int saveBatch(List<T> list);
+
 
 
 }

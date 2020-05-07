@@ -7,6 +7,7 @@ import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.*;
 
@@ -109,5 +110,9 @@ public class ComCrudServiceImpl<Mapper extends IComMapper<T>,T>  {
      */
     public int delete(String pk) throws RuntimeException {
         return mapper.delete(pk);
+    }
+
+    public <T> int saveBatch(List<T> list, Integer batchCount) {
+        return mapper.saveBatch(list);
     }
 }
