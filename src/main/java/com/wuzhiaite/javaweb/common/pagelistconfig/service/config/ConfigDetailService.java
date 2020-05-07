@@ -14,10 +14,8 @@ import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.ConfigDetailMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.springframework.util.StringUtils;
+import java.util.*;
 
 /**
  * @description 配置细节处理类
@@ -33,6 +31,26 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
      * @return
      */
     public  PageInfo<Map<String, Object>> pageList(Map<String,Object> params) {
+        String sql = getQuerySql(params);
+        Integer pageNum = MapUtil.getInteger(params, "pageNum");
+        Integer pageSize = MapUtil.getInteger(params, "pageSize");
+        pageNum = pageNum != null ? pageNum : 1 ;
+        pageSize = pageSize != null ? pageSize : 10 ;
+        PageHelper.startPage(pageNum, pageSize);
+        String orders = MapUtil.getString(params,"orders");
+        if (!StringUtil.isBlank(orders)) {
+            PageHelper.orderBy(orders);
+        }
+        List<Map<String, Object>> list = mapper.getBySQL(sql);
+        return new PageInfo<Map<String,Object>>(list) ;
+    }
+
+    /**
+     * sql进行拼接
+     * @param params
+     * @return
+     */
+    private String getQuerySql(Map<String,Object> params){
         Map<String, Object> obj = this.get(params);
         String searchSql = MapUtil.getString(obj, "SEARCH_SQL");
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
@@ -73,16 +91,53 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
             WHERE(conditionSQL.toString());
         }}.toString();
         log.info(sql);
-        Integer pageNum = MapUtil.getInteger(params, "pageNum");
-        Integer pageSize = MapUtil.getInteger(params, "pageSize");
-        pageNum = pageNum != null ? pageNum : 1 ;
-        pageSize = pageSize != null ? pageSize : 10 ;
-        PageHelper.startPage(pageNum, pageSize);
-        String orders = MapUtil.getString(params,"orders");
-        if (!StringUtil.isBlank(orders)) {
-            PageHelper.orderBy(orders);
+        return sql  ;
+    }
+
+    /**
+     * 查询所有
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> getList(Map<String, Object> params) {
+        String sql = getQuerySql(params);
+        return mapper.getBySQL(sql);
+    }
+
+    /**
+     * 通用的查找excel导出格式的数据
+     * @param params
+     * @return
+     */
+    public Map<String, Object> getExcelFormatData(Map<String, Object> params) {
+        List<Map<String, Object>> list = getList(params);
+        if(StringUtils.isEmpty(list) || list.size() < 1 ) {return null; };
+        Map<String, Object> tempMap = list.get(0);
+        Set<String> keysTemp = tempMap.keySet();
+        List<List<String>> head = new ArrayList<>();
+        for(String key : keysTemp){
+            List<String> temp = new ArrayList<>();
+            temp.add(key);
+            head.add(temp);
         }
-        List<Map<String, Object>> list = mapper.getBySQL(sql);
-        return new PageInfo<Map<String,Object>>(list) ;
+        //展示列数据
+        List<List<Object>> dataList = new ArrayList<List<Object>>();
+        for (int i = 0; i < list.size(); i++) {
+            List<Object> data = new ArrayList<Object>();
+            Map<String, Object> temp = list.get(i);
+            for(String key : keysTemp){
+                Object value = temp.get(key);
+                value = ! StringUtils.isEmpty(value) ? value : "";
+                data.add(value);
+            }
+            dataList.add(data);
+        }
+        Map<String, Object> obj = this.get(params);
+        Map<String,Object> map = new HashMap<>();
+        map.put("head",head);
+        map.put("dataList",dataList);
+        map.put("fileName","");
+        map.put("sheetName","");
+        return map;
     }
 }

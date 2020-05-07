@@ -5,6 +5,7 @@ import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
+import com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.write.DownloadEntity;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigDetailService;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigOperService;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +40,8 @@ public class ConfigController {
      */
     @Autowired
     private RedisUtil redisUtil ;
+
+
     /**
      * 查询台账列表数据
      * @param params
@@ -143,7 +148,29 @@ public class ConfigController {
         return ResultObj.successObj(count) ;
     }
 
-
+    /**
+     * 通用文件下载方法
+     * @param response
+     * @param id
+     */
+    @PostMapping("/downloadFile/{id}")
+    public void downloadFile(HttpServletResponse response,
+                             @PathVariable String id,
+                             @RequestBody Map<String,Object> params){
+        try {
+            params.put("ID",id);
+            Map<String,Object> data = detailService.getExcelFormatData(params);
+            DownloadEntity.builder()
+                    .head((List<List<String>>) data.get("head"))
+                    .sheetName((String) data.get("sheetName"))
+                    .fileName((String) data.get("fileName"))
+                    .list((List<Object>) data.get("dataList"))
+                    .build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 
 }
