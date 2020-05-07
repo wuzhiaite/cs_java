@@ -15,12 +15,14 @@
 keytool -genkey -alias jwt -keyalg  RSA -keysize 1024 -validity 365 -keystore jwt.jks
 ````
 
+### 安全框架 使用springsecurity
 
 
-### 定时任务
+### 定时任务 XXL的
 《分布式任务调度平台XXL-JOB》
 
-
+### excel 处理使用阿里的 EasyExcel
+https://www.yuque.com/easyexcel/doc/fill
 
 
 
