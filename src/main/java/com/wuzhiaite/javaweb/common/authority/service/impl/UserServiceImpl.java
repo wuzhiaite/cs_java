@@ -57,12 +57,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, Menus> implements I
     private void getMenuFather(Menus menu, List<Menus> menus) {
         for(Menus m : menus){
             if(menu.getFatherId().equals(m.getId())){
-                List<Menus> childrens = m.getChildrens();
+                List<Menus> childrens = m.getChildren();
                 if(StringUtils.isEmpty(childrens)){
                     childrens = new ArrayList();
                 }
                 childrens.add(menu);
-                m.setChildrens(childrens);
+                m.setChildren(childrens);
                 break;
             }else{
                 continue ;

@@ -12,7 +12,7 @@ spring:
   dbsource:
     master:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3307/cmbi_report?serverTimezone=GMT%2B8
+      url: jdbc:mysql://localhost:3307/cs_db?serverTimezone=GMT%2B8
       password: root
       username: root
     slave:
@@ -55,14 +55,15 @@ logging:
   file:
     path: D:\log
 
+
+
 mybatis:
   configuration:
     cache-enabled: true
 
+  mapper-locations: /mapper/*.xml
 
 uploadFilePath: D:\\uploadFile\\
-
-
 
 
 

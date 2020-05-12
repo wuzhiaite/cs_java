@@ -49,6 +49,6 @@ public class Menus implements Serializable {
 
     private String iskeepalive;
     @TableField(exist = false)
-    private List<Menus> childrens;
+    private List<Menus> children;
 
 }

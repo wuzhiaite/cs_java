@@ -38,11 +38,12 @@ public class SelfAuthenticationProvider  implements AuthenticationProvider {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         UserDetails userInfo = userDetailsService.loadUserByUsername(userName);
         if (!encoder.matches(password, userInfo.getPassword())) {
-            Integer loginNums = (Integer) redisUtil.hget("loginNums", userName);
+            double loginNums = (double) redisUtil.hget("loginNums", userName);
             if(!StringUtils.isEmpty(loginNums) && loginNums >= 3){
                 throw new RuntimeException("已经错误登录了3次，请1分钟之后再重试！");
             }else{
-                loginNums = StringUtils.isEmpty(loginNums) ? 1 : loginNums + 1 ;
+//                loginNums = StringUtils.isEmpty(loginNums) ? 1 : loginNums + 1 ;
+                loginNums = redisUtil.hincr("loginNums",userName,1);
                 if(loginNums == 3){
                     redisUtil.hset("loginNums",userName,loginNums,1*60);
                 }else{

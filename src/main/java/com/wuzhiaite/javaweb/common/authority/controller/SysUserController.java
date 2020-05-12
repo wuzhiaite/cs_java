@@ -69,7 +69,7 @@ public class SysUserController extends BaseController {
             map.put("user",user );
             log.info(String.valueOf(map));
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
             return  ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj(map ,"登录成功");
