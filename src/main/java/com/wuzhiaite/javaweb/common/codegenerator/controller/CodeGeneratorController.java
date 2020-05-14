@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.common.codegenerator.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.common.codegenerator.service.CodeGeneratorService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +29,15 @@ public class CodeGeneratorController {
      * @return
      */
     @PostMapping("/getTableList")
-    public ResultObj getTableList(){
-        List<Map<String, Object>> tableList = null;
+    public ResultObj getTableList(@RequestBody Map<String,Object> params){
+        PageInfo<Map<String,Object>> resObj = null;
         try {
-            tableList = generatorService.getTableList();
+            resObj = generatorService.getTableList(params);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(tableList);
+        return ResultObj.successObj(resObj);
     }
     /**
      * 获取所有列信息

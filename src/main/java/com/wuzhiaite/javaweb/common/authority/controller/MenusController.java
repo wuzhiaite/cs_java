@@ -89,7 +89,7 @@ public class MenusController {
         * @return
         */
         @PostMapping("/addOrUpdatePage")
-        public ResultObj addOrUpdatePage( Menus entity){
+        public ResultObj addOrUpdatePage(@RequestBody Menus entity){
             boolean flag = false;
             try {
                 flag = service.saveOrUpdate(entity);

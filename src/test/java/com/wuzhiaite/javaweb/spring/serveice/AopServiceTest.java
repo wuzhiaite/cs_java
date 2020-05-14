@@ -2,7 +2,7 @@ package com.wuzhiaite.javaweb.spring.serveice;
 
 
 
-import com.wuzhiaite.javaweb.base.multidatabase.DataSource;
+import com.wuzhiaite.javaweb.base.multidatabase.DynamciDb;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import com.wuzhiaite.javaweb.spring.mapper.AopMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@DataSource
+@DynamciDb
 @Transactional(readOnly = false)
 public class AopServiceTest extends ComCrudServiceImpl<AopMapper, Map<String,Object>> {
 
@@ -38,14 +38,14 @@ public class AopServiceTest extends ComCrudServiceImpl<AopMapper, Map<String,Obj
     }
 
 //    @DataSource(name="master")
-    @DataSource(name="slave")
+    @DynamciDb(name="slave")
     public void baseTest01(){
         String sql = "SELECT * FROM page_list_config_form ";
         List<Map<String, Object>> list = aopMapper.getBySQL(sql);
         log.info("master:"+String.valueOf(list));
     }
 
-    @DataSource(name="slave")
+    @DynamciDb(name="slave")
     public void bastTest02(){
 //        DynamicDataSourceContextHolder.setDataSourceKey("slave");
         String sql = "SELECT * FROM boss_role";

@@ -13,9 +13,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author lpf
  * @since 2020-04-28
@@ -35,19 +32,23 @@ public class Menus implements Serializable {
 
     private String name;
 
+    @TableField(value="name")
+    private String label;
+
     @TableField("iconCls")
     private String iconCls;
 
     @TableField("realPath")
     private String realPath;
 
-    private String hidden;
+    private Boolean hidden;
 
     private String fatherId;
 
-    private String isvalidate;
+    private Boolean isvalidate;
 
-    private String iskeepalive;
+    private Boolean iskeepalive;
+
     @TableField(exist = false)
     private List<Menus> children;
 

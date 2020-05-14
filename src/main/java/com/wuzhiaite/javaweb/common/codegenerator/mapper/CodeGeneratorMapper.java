@@ -3,7 +3,6 @@ package com.wuzhiaite.javaweb.common.codegenerator.mapper;
 import com.wuzhiaite.javaweb.common.common.IComMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -16,18 +15,18 @@ import java.util.Map;
 public interface CodeGeneratorMapper extends IComMapper<Map<String,Object>> {
     /**
      * 查找表中所有的字段
-     * @param tableName
+     * @param tableName tableName
+     * @param tableName tableName
      * @return
      */
-    @Select("show full fields from #{tableName}")
-    List<Map<String, Object>> getColumnInfo(@Param("tableName") String tableName);
+    List<Map<String, Object>> getColumnInfo(@Param("database") String database,
+                                            @Param("tableName") String tableName);
 
     /**
      * 查找所有的表
      * @return
+     * @param params
      */
-    @Select("show table status")
-    List<Map<String, Object>> getTableList();
-
+    List<Map<String, Object>> getTableList(Map<String, Object> params);
 
 }

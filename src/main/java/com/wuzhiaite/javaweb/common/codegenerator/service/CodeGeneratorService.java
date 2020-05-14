@@ -1,10 +1,20 @@
 package com.wuzhiaite.javaweb.common.codegenerator.service;
 
+import com.github.pagehelper.PageInfo;
+import com.wuzhiaite.javaweb.base.multidatabase.DataSourceConfigure;
+import com.wuzhiaite.javaweb.base.multidatabase.DynamciDb;
+import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSource;
+import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSourceContextHolder;
 import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
 import com.wuzhiaite.javaweb.common.codegenerator.mapper.CodeGeneratorMapper;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +25,31 @@ import java.util.Map;
 @Service
 public class CodeGeneratorService extends ComCrudServiceImpl<CodeGeneratorMapper, Map<String,Object>> {
 
+    @Autowired
+    private DataSource datasource ;
     /**
      * 表中所有信息
      * @param tableName
      * @return
      */
-    public List<Map<String, Object>> getColumnInfo(String tableName) {
-        return mapper.getColumnInfo(tableName);
+    public List<Map<String, Object>> getColumnInfo(String tableName) throws SQLException {
+        String dataname = "";
+        String schema = datasource.getConnection().getSchema();
+        return mapper.getColumnInfo(tableName,dataname);
     }
 
     /**
      * 所有table
      * @return
+     * @param params
      */
-    public List<Map<String,Object>> getTableList() {
-        return mapper.getTableList();
+    @DynamciDb(name = DataSourceConfigure.DEFAULT_DATASOURCE)
+    public PageInfo<Map<String,Object>> getTableList(Map<String, Object> params) throws SQLException {
+        Connection connection = datasource.getConnection();
+        DatabaseMetaData metaData = connection.getMetaData();
+
+
+        return new PageInfo<Map<String,Object>>(mapper.getTableList(params));
     }
 
     /**
