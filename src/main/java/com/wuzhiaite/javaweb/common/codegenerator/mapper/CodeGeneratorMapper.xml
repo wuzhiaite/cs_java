@@ -14,17 +14,17 @@
             DATA_LENGTH,
             INDEX_LENGTH,
             TABLE_COMMENT,
-            CREATE_TIME,
-            UPDATE_TIME
+            DATE_FORMAT(CREATE_TIME,'%Y-%c-%d ') CREATE_TIME,
+            DATE_FORMAT(UPDATE_TIME,'%Y-%c-%d ') UPDATE_TIME
         FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = #{database}
-        <if test="TABLE_NAME != null and TABLE_NAME != '' ">
-            <bind  name="tableName" value=" '%' + tableName + '%' " />
-            TABLE_NAME LIKE #{tableName}
+        <if test="search != null and search != '' ">
+            <bind  name="tableName" value=" '%' + search + '%' " />
+            AND TABLE_NAME LIKE #{tableName}
         </if>
     </select>
 
 <!--    查找所有列-->
-    <select id="getColumnInfo" resultType="java.util.Map">
+    <select id="getColumnInfo" resultType="java.util.Map" parameterType="map">
         SELECT
             TABLE_NAME,
             COLUMN_NAME,

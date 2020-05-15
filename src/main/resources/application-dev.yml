@@ -22,7 +22,8 @@ spring:
       username: root
 
   redis:
-    host: 192.168.210.128
+#    host: 192.168.210.128
+    host: 47.113.120.21
     port: 6379
     password: 123456
     jedis:
@@ -34,10 +35,10 @@ spring:
     lettuce:
       shutdown-timeout: 0
     timeout: 5000
-  rabbitmq:
-    host: 192.168.210.128
-    password: guest
-    username: guest
+#  rabbitmq:
+#    host: 192.168.210.128
+#    password: guest
+#    username: guest
   servlet:
     multipart: #上传配置
       max-file-size: 2000MB #最大

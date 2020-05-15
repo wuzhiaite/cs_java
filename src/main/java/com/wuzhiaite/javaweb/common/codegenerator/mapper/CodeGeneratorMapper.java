@@ -13,14 +13,6 @@ import java.util.Map;
  */
 @Mapper
 public interface CodeGeneratorMapper extends IComMapper<Map<String,Object>> {
-    /**
-     * 查找表中所有的字段
-     * @param tableName tableName
-     * @param tableName tableName
-     * @return
-     */
-    List<Map<String, Object>> getColumnInfo(@Param("database") String database,
-                                            @Param("tableName") String tableName);
 
     /**
      * 查找所有的表
@@ -29,4 +21,10 @@ public interface CodeGeneratorMapper extends IComMapper<Map<String,Object>> {
      */
     List<Map<String, Object>> getTableList(Map<String, Object> params);
 
+    /**
+     *
+     * @param param
+     * @return
+     */
+    List<Map<String, Object>> getColumnInfo(Map<String, Object> param);
 }

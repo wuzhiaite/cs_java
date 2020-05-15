@@ -6,8 +6,10 @@ import com.wuzhiaite.javaweb.base.multidatabase.DynamciDb;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSource;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSourceContextHolder;
 import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
+import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.common.codegenerator.mapper.CodeGeneratorMapper;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import com.zaxxer.hikari.pool.HikariProxyConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +27,16 @@ import java.util.Map;
 @Service
 public class CodeGeneratorService extends ComCrudServiceImpl<CodeGeneratorMapper, Map<String,Object>> {
 
-    @Autowired
-    private DataSource datasource ;
+
     /**
      * 表中所有信息
-     * @param tableName
+     * @param param
      * @return
      */
-    public List<Map<String, Object>> getColumnInfo(String tableName) throws SQLException {
-        String dataname = "";
-        String schema = datasource.getConnection().getSchema();
-        return mapper.getColumnInfo(tableName,dataname);
+    public List<Map<String, Object>> getColumnInfo(Map<String, Object> param) throws SQLException {
+        Map<String, Object> database = mapper.findOneBySQL("select database()");
+        param.put("database",MapUtil.getString(database,"database()"));
+        return mapper.getColumnInfo( param );
     }
 
     /**
@@ -45,10 +46,8 @@ public class CodeGeneratorService extends ComCrudServiceImpl<CodeGeneratorMapper
      */
     @DynamciDb(name = DataSourceConfigure.DEFAULT_DATASOURCE)
     public PageInfo<Map<String,Object>> getTableList(Map<String, Object> params) throws SQLException {
-        Connection connection = datasource.getConnection();
-        DatabaseMetaData metaData = connection.getMetaData();
-
-
+        Map<String, Object> database = mapper.findOneBySQL("select database()");
+        params.put("database",MapUtil.getString(database,"database()"));
         return new PageInfo<Map<String,Object>>(mapper.getTableList(params));
     }
 

@@ -1,55 +1,33 @@
-package ${package.Controller};
+package com.wuzhiaite.javaweb.module.demo.demo.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-<#if restControllerStyle>
-import org.springframework.web.bind.annotation.RestController;
-<#else>
-import org.springframework.stereotype.Controller;
-</#if>
-<#if superControllerClassPackage??>
-import ${superControllerClassPackage};
-</#if>
+import com.wuzhiaite.javaweb.module.demo.demo.service.ICmsAccountCommisionInterestService;
+import com.wuzhiaite.javaweb.module.demo.demo.entity.CmsAccountCommisionInterest;
 
 /**
 * <p>
-* ${table.comment!}
+* 
 * </p>
-* @author ${author}
-* @since ${date}
+* @author lpf
+* @since 2020-05-14
 */
-<#if restControllerStyle>
 @RestController
-<#else>
-@Controller
-</#if>
-@RequestMapping("/api<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("/api/demo/cms-account-commision-interest")
 @Slf4j
-<#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
-<#else>
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
-<#else>
-public class ${table.controllerName} {
-</#if>
+public class CmsAccountCommisionInterestController {
 
     /**
     * 业务处理类
     */
     @Autowired
-    private ${table.serviceName} service;
+    private ICmsAccountCommisionInterestService service;
 
     /**
     * 查找列表数据
@@ -57,10 +35,10 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/getPageList")
-    public ResultObj getPageList(Page page, ${entity} entity){
-        Page<${entity}> pageList = null;
+    public ResultObj getPageList(Page page, CmsAccountCommisionInterest entity){
+        Page<CmsAccountCommisionInterest> pageList = null;
         try {
-            pageList = service.page(page,new QueryWrapper<${entity}>(entity));
+            pageList = service.page(page,new QueryWrapper<CmsAccountCommisionInterest>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -74,10 +52,10 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/getList")
-    public ResultObj getList(@RequestBody(required = false) ${entity} entity){
-        List<${entity}> list = null;
+    public ResultObj getList(@RequestBody(required = false) CmsAccountCommisionInterest entity){
+        List<CmsAccountCommisionInterest> list = null;
         try {
-            list = service.list(new QueryWrapper<${entity}>(entity));
+            list = service.list(new QueryWrapper<CmsAccountCommisionInterest>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -94,7 +72,7 @@ public class ${table.controllerName} {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      ${entity} result = null;
+      CmsAccountCommisionInterest result = null;
         try {
             result = service.getById(id);
         } catch (Exception e) {
@@ -110,7 +88,7 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage( ${entity} entity){
+    public ResultObj addOrUpdatePage( CmsAccountCommisionInterest entity){
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
@@ -139,4 +117,3 @@ public class ${table.controllerName} {
     }
 
  }
-</#if>

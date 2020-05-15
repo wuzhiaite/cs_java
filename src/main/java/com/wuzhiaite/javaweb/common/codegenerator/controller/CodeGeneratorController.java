@@ -34,7 +34,7 @@ public class CodeGeneratorController {
         try {
             resObj = generatorService.getTableList(params);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj(resObj);
@@ -44,12 +44,12 @@ public class CodeGeneratorController {
      * @return
      */
     @PostMapping("/getColumnsInfo")
-    public ResultObj getColumnsInfo(@PathVariable String tableName){
+    public ResultObj getColumnsInfo(@RequestBody Map<String,Object> params){
         List<Map<String, Object>> columnInfo = null;
         try {
-            columnInfo = generatorService.getColumnInfo(tableName);
+            columnInfo = generatorService.getColumnInfo(params);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj(columnInfo);
@@ -65,7 +65,7 @@ public class CodeGeneratorController {
         try {
             generatorService.generatorCode(params);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj("生成成功");

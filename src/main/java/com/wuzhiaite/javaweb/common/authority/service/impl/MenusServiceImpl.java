@@ -33,7 +33,7 @@ public class MenusServiceImpl extends ServiceImpl<MenusMapper, Menus> implements
         List<Menus> temp = new ArrayList<>();
         for(Menus menu : menus ){
             String fatherId = menu.getFatherId();
-            if(!StringUtils.isEmpty(fatherId)){
+            if(!fatherId.equals("root")){
                 getMenuFather(menu,menus);
             }else{
                 continue ;
@@ -41,7 +41,7 @@ public class MenusServiceImpl extends ServiceImpl<MenusMapper, Menus> implements
         }
         for(Menus m : menus){
             String fatherId = m.getFatherId();
-            if(StringUtils.isEmpty(fatherId)){
+            if(fatherId.equals("root")){
                 temp.add(m);
             }
         }
