@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -25,7 +26,7 @@ import lombok.experimental.Accessors;
 public class Menus implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @TableId
     private String id;
 
     private String path;
@@ -51,5 +52,7 @@ public class Menus implements Serializable {
 
     @TableField(exist = false)
     private List<Menus> children;
+    @TableField("orderBy")
+    private String orderBy ;
 
 }

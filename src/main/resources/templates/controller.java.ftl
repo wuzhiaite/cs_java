@@ -120,7 +120,22 @@ public class ${table.controllerName} {
         }
         return ResultObj.successObj(flag);
     }
-
+    /**
+    * 批量保存或修改数据
+    * @param list
+    * @return
+    */
+    @PostMapping("/batchAddOrUpdate")
+    public ResultObj batchAddOrUpdate(@RequestBody List<${entity}> list){
+        boolean flag = false;
+        try {
+            flag = service.saveOrUpdateBatch(list);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+             return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(flag);
+    }
     /**
     * 通过ID移除
     * @param id

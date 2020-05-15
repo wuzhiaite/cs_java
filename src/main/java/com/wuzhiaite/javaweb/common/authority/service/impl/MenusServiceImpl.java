@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
@@ -29,7 +30,7 @@ public class MenusServiceImpl extends ServiceImpl<MenusMapper, Menus> implements
      */
     @Override
     public List<Menus> list(Wrapper<Menus> queryWrapper) {
-        List<Menus> menus = baseMapper.selectList(queryWrapper);
+        List<Menus> menus = query().orderByAsc("orderBy").list();;
         List<Menus> temp = new ArrayList<>();
         for(Menus menu : menus ){
             String fatherId = menu.getFatherId();
