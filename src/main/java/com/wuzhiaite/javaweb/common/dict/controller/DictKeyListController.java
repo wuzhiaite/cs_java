@@ -1,33 +1,37 @@
-package com.wuzhiaite.javaweb.module.demo.demo.controller;
+package com.wuzhiaite.javaweb.common.dict.controller;
 
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
-import com.wuzhiaite.javaweb.module.demo.demo.service.ICmsAccountCommisionInterestService;
-import com.wuzhiaite.javaweb.module.demo.demo.entity.CmsAccountCommisionInterest;
+import com.wuzhiaite.javaweb.common.dict.service.IDictKeyListService;
+import com.wuzhiaite.javaweb.common.dict.entity.DictKeyList;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
 * <p>
 * 
 * </p>
 * @author lpf
-* @since 2020-05-14
+* @since 2020-05-16
 */
 @RestController
-@RequestMapping("/api/demo/cms-account-commision-interest")
+@RequestMapping("/api/dict")
 @Slf4j
-public class CmsAccountCommisionInterestController {
+public class DictKeyListController {
 
     /**
     * 业务处理类
     */
     @Autowired
-    private ICmsAccountCommisionInterestService service;
+    private IDictKeyListService service;
 
     /**
     * 查找列表数据
@@ -35,10 +39,10 @@ public class CmsAccountCommisionInterestController {
     * @return
     */
     @PostMapping("/getPageList")
-    public ResultObj getPageList(Page page, CmsAccountCommisionInterest entity){
-        Page<CmsAccountCommisionInterest> pageList = null;
+    public ResultObj getPageList(Page page, DictKeyList entity){
+        Page<DictKeyList> pageList = null;
         try {
-            pageList = service.page(page,new QueryWrapper<CmsAccountCommisionInterest>(entity));
+            pageList = service.page(page,new QueryWrapper<DictKeyList>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -52,10 +56,10 @@ public class CmsAccountCommisionInterestController {
     * @return
     */
     @PostMapping("/getList")
-    public ResultObj getList(@RequestBody(required = false) CmsAccountCommisionInterest entity){
-        List<CmsAccountCommisionInterest> list = null;
+    public ResultObj getList(@RequestBody(required = false) DictKeyList entity){
+        List<DictKeyList> list = null;
         try {
-            list = service.list(new QueryWrapper<CmsAccountCommisionInterest>(entity));
+            list = service.list(new QueryWrapper<DictKeyList>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -72,7 +76,7 @@ public class CmsAccountCommisionInterestController {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      CmsAccountCommisionInterest result = null;
+      DictKeyList result = null;
         try {
             result = service.getById(id);
         } catch (Exception e) {
@@ -88,7 +92,7 @@ public class CmsAccountCommisionInterestController {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage( CmsAccountCommisionInterest entity){
+    public ResultObj addOrUpdatePage( DictKeyList entity){
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
@@ -98,7 +102,22 @@ public class CmsAccountCommisionInterestController {
         }
         return ResultObj.successObj(flag);
     }
-
+    /**
+    * 批量保存或修改数据
+    * @param list
+    * @return
+    */
+    @PostMapping("/batchAddOrUpdate")
+    public ResultObj batchAddOrUpdate(@RequestBody List<DictKeyList> list){
+        boolean flag = false;
+        try {
+            flag = service.saveOrUpdateBatch(list);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+             return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(flag);
+    }
     /**
     * 通过ID移除
     * @param id
