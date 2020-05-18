@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
+import java.util.Map;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 <#if restControllerStyle>
@@ -57,10 +58,17 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/getPageList")
-    public ResultObj getPageList(Page page, ${entity} entity){
+    public ResultObj getPageList(@RequestBody Map<String,Object> param){
         Page<${entity}> pageList = null;
         try {
-            pageList = service.page(page,new QueryWrapper<${entity}>(entity));
+            ${entity} entity = StringUtils.isEmpty(param.get("entity"))
+                                ? new DictKeyList()
+                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),DictKeyList.class);
+            Page page = StringUtils.isEmpty(param.get("page"))
+                                ? new Page().setSize(10).setCurrent(1)
+                                : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
+            QueryWrapper<${entity}> wrapper = new QueryWrapper<>(entity);
+            pageList = service.page(page,wrapper);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());

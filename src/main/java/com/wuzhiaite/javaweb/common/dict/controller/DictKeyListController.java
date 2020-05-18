@@ -1,6 +1,10 @@
 package com.wuzhiaite.javaweb.common.dict.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.wuzhiaite.javaweb.common.dict.entity.DictKeyValueMapping;
+import com.wuzhiaite.javaweb.common.dict.service.IDictKeyValueMappingService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
+import java.util.Map;
+
 import com.wuzhiaite.javaweb.common.dict.service.IDictKeyListService;
 import com.wuzhiaite.javaweb.common.dict.entity.DictKeyList;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,18 +37,43 @@ public class DictKeyListController {
     * 业务处理类
     */
     @Autowired
-    private IDictKeyListService service;
-
+    private IDictKeyListService service ;
+    /**
+     *
+     */
+    @Autowired
+    private IDictKeyValueMappingService mappingService ;
     /**
     * 查找列表数据
-    * @param page entity
+    * @param  param
     * @return
     */
     @PostMapping("/getPageList")
-    public ResultObj getPageList(Page page, DictKeyList entity){
+    public ResultObj getPageList(@RequestBody Map<String,Object> param){
         Page<DictKeyList> pageList = null;
         try {
-            pageList = service.page(page,new QueryWrapper<DictKeyList>(entity));
+            DictKeyList entity = StringUtils.isEmpty(param.get("entity"))
+                                    ? new DictKeyList()
+                                    : JSON.parseObject(JSON.toJSONString(param.get("entity")),DictKeyList.class);
+            Page page = StringUtils.isEmpty(param.get("page"))
+                                    ? new Page().setSize(10).setCurrent(1)
+                                    : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
+            QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>(entity);
+            wrapper.orderByDesc("dict_name");
+            String search = entity.getSearch();
+            if(!StringUtils.isEmpty(search)){
+                wrapper.like("dict_name",search).or()
+                        .like("dict_name_text",search);
+            }
+            pageList = service.page(page,wrapper);
+
+            List<DictKeyList> records = pageList.getRecords();
+            for(DictKeyList r : records){
+                String id = r.getId();
+                DictKeyValueMapping dict = new DictKeyValueMapping().setDictId(id);
+                List<DictKeyValueMapping> list = mappingService.list(new QueryWrapper<>(dict));
+                r.setDictMapping(list);
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -96,6 +127,8 @@ public class DictKeyListController {
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
+            List<DictKeyValueMapping> dictMapping = entity.getDictMapping();
+            flag = flag && mappingService.saveOrUpdateBatch(dictMapping);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());

@@ -2,6 +2,9 @@ package com.wuzhiaite.javaweb.common.dict.entity;
 
     import java.time.LocalDate;
     import java.io.Serializable;
+    import java.util.List;
+
+    import com.baomidou.mybatisplus.annotation.TableField;
     import io.swagger.annotations.ApiModel;
     import lombok.Data;
     import lombok.EqualsAndHashCode;
@@ -25,11 +28,16 @@ public class DictKeyList implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id ;
+
     private String dictNameText;
 
     private String dictName;
 
     private String bz ;
-
+    @TableField(exist = false)
+    private List<DictKeyValueMapping>  dictMapping ;
+    @TableField(exist = false)
+    private String search ;
 
 }
