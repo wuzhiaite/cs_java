@@ -29,9 +29,9 @@ public class DictKeyValueMapping implements Serializable {
 
     private String dictId;
 
-    private String key;
+    private String dictKey;
 
-    private String value;
+    private String dictValue;
 
     private String bz;
 

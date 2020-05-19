@@ -123,7 +123,7 @@ public class DictKeyListController {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage( DictKeyList entity){
+    public ResultObj addOrUpdatePage(@RequestBody DictKeyList entity){
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
@@ -133,6 +133,7 @@ public class DictKeyListController {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
+
         return ResultObj.successObj(flag);
     }
     /**
@@ -161,6 +162,23 @@ public class DictKeyListController {
         boolean flag = false ;
         try {
             flag = service.removeById(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(flag);
+    }
+
+    /**
+     * 通过ID批量移除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/removeByIds")
+    public ResultObj removeByIds(@RequestBody List<String> ids){
+        boolean flag = false ;
+        try {
+            flag = service.removeByIds(ids);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());

@@ -118,7 +118,7 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage( ${entity} entity){
+    public ResultObj addOrUpdatePage(@RequestBody  ${entity} entity){
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
