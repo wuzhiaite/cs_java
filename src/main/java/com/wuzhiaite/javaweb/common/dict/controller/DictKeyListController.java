@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +120,27 @@ public class DictKeyListController {
     }
 
     /**
+     * 通过ID获取
+     * @param dict
+     * @return
+     */
+    @PostMapping("/getPageById/{dict}")
+    public ResultObj getPageByDict(@PathVariable String dict){
+        List<DictKeyValueMapping> result = null;
+        try {
+            QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>();
+            wrapper.eq("dict_name",dict);
+            DictKeyList list = service.getOne(wrapper);
+            wrapper.eq("dict_id",list.getId());
+            QueryWrapper<DictKeyValueMapping> mapperDict = new QueryWrapper<>();
+            result = mappingService.list(mapperDict);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(result);
+    }
+    /**
     * 保存或修改数据
     * @param entity
     * @return
@@ -128,7 +151,10 @@ public class DictKeyListController {
         try {
             flag = service.saveOrUpdate(entity);
             List<DictKeyValueMapping> dictMapping = entity.getDictMapping();
-            flag = flag && mappingService.saveOrUpdateBatch(dictMapping);
+            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+            wrapper.eq("dict_id",entity.getId());
+            flag = removeMapping(flag,wrapper);
+            flag = flag & mappingService.saveOrUpdateBatch(dictMapping);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -162,11 +188,17 @@ public class DictKeyListController {
         boolean flag = false ;
         try {
             flag = service.removeById(id);
+            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+            wrapper.select("id").eq("dict_id",id);
+            flag = removeMapping(flag,wrapper);
+            if(!flag){
+                throw new RuntimeException("删除失败");
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(flag);
+        return ResultObj.successObj("");
     }
 
     /**
@@ -179,11 +211,36 @@ public class DictKeyListController {
         boolean flag = false ;
         try {
             flag = service.removeByIds(ids);
+            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+            wrapper.select("id").in("dict_id",ids);
+            flag = removeMapping(flag,wrapper);
+            if(!flag){
+                throw new RuntimeException("删除失败");
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(flag);
+        return ResultObj.successObj("");
     }
+
+    /**
+     *
+     * @param flag
+     * @param wrapper
+     * @return
+     */
+    private boolean removeMapping(boolean flag,QueryWrapper<DictKeyValueMapping> wrapper ){
+        List<DictKeyValueMapping> list = mappingService.list(wrapper);
+        List<String> tempList = new ArrayList();
+        for(DictKeyValueMapping mapping : list){
+            tempList.add(mapping.getId());
+        }
+        flag = flag & mappingService.removeByIds(tempList);
+        return flag ;
+    }
+
+
+
 
  }

@@ -90,7 +90,7 @@ public class CodeGeneratorUtil {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id","update_time","create_time","update_user","create_user");
+        strategy.setSuperEntityColumns("update_time","create_time","update_user","create_user");
         strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix(pc.getModuleName() + "_");
     }
@@ -135,19 +135,6 @@ public class CodeGeneratorUtil {
                 this.setMap(tempMap);
             }
         };
-//        String templatePath = "/templates/service.java.ftl";
-//        List<FileOutConfig> focList = new ArrayList<>();
-//        // 自定义配置会被优先输出
-//        focList.add(new FileOutConfig(templatePath) {
-//                @Override
-//                public String outputFile(TableInfo tableInfo) {
-//                    String packageUrl = PACKAGE_URL.replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
-//                    String path = gc.getOutputDir() +'/'+ packageUrl+'/'+ pc.getModuleName()+'/'
-//                                 + "/" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
-//                    return path ;
-//                }
-//        });
-//        cfg.setFileOutConfigList(focList);
         generator.setCfg(cfg);
     }
 

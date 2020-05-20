@@ -5,6 +5,7 @@ package com.wuzhiaite.javaweb.common.dict.entity;
     import java.util.List;
 
     import com.baomidou.mybatisplus.annotation.TableField;
+    import com.wuzhiaite.javaweb.base.entity.BaseEntity;
     import io.swagger.annotations.ApiModel;
     import lombok.Data;
     import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ package com.wuzhiaite.javaweb.common.dict.entity;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="DictKeyList对象", description="")
-public class DictKeyList implements Serializable {
+public class DictKeyList extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

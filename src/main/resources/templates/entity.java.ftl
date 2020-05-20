@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.ToString;
+import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 </#if>
 
 /**
@@ -43,7 +44,7 @@ public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}><
 <#elseif activeRecord>
 public class ${entity} extends Model<${entity}> {
 <#else>
-public class ${entity} implements Serializable {
+public class ${entity} extends BaseEntity implements Serializable {
 </#if>
 
 <#if entitySerialVersionUID>
