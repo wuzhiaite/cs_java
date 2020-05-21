@@ -13,8 +13,11 @@ import com.wuzhiaite.javaweb.common.pagelistconfig.enums.QueryEnum;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.ConfigDetailMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -24,6 +27,9 @@ import java.util.*;
 @Service
 @Slf4j
 public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, Map<String,Object>> {
+    @Autowired
+    private ConfigOperService service;
+
 
     /**
      * 通用列表查询
@@ -116,6 +122,7 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
      */
     public Map<String, Object> getExcelFormatData(Map<String, Object> params) {
         List<Map<String, Object>> list = getList(params);
+
         if(StringUtils.isEmpty(list) || list.size() < 1 ) {return null; };
         Map<String, Object> tempMap = list.get(0);
         Set<String> keysTemp = tempMap.keySet();
@@ -141,8 +148,9 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         Map<String,Object> map = new HashMap<>();
         map.put("head",head);
         map.put("dataList",dataList);
-        map.put("fileName","");
-        map.put("sheetName","");
+        String date = new SimpleDateFormat("yyyyMMddHHssmm").format(new Date());
+        map.put("fileName",MapUtil.getString(obj,"CONFIG_NAME")+ ""+date );
+        map.put("sheetName",MapUtil.getString(obj,"CONFIG_NAME"));
         return map;
     }
 }

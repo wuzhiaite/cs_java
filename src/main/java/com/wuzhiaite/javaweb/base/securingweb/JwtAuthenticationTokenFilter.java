@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.base.securingweb;
 
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,14 +26,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     SpringDataUserDetailsService userDetailsService;
 
 
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @param chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            final String authToken = authHeader.substring("Bearer ".length());
-
+        String token = request.getParameter("token");
+        if( (authHeader != null && authHeader.startsWith("Bearer "))
+                   || StringUtils.isNotBlank(token)) {
+            final String authToken = StringUtils.isNotBlank(authHeader)
+                                        ? authHeader.substring("Bearer ".length())
+                                        :  token;
             String username = JwtTokenUtil.parseToken(authToken);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
