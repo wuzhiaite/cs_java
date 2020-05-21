@@ -1,11 +1,12 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wuzhiaite.javaweb.base.easyexcel.write.DownloadExcel;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
-import com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.write.DownloadEntity;
+import com.wuzhiaite.javaweb.base.easyexcel.write.DownloadEntity;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigDetailService;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigOperService;
 import lombok.extern.log4j.Log4j2;
@@ -149,24 +150,46 @@ public class ConfigController {
         return ResultObj.successObj(count) ;
     }
 
+
+    /**
+     * 获取配置表页面的信息
+     * @param id
+     * @return
+     */
+    @PostMapping("/getpageparam/{id}")
+    public ResultObj getPageParam(@PathVariable("id") String id){
+        Map<String, Object> params = new HashMap<>();
+        try {
+            params.put("ID",id);
+            params = configOperService.get(params);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(params) ;
+    }
+
     /**
      * 通用文件下载方法
      * @param response
      * @param id
      */
-    @PostMapping("/downloadFile/{id}")
+    @RequestMapping("/downloadFile/{id}")
     public void downloadFile(HttpServletResponse response,
-                             @PathVariable String id,
-                             @RequestBody Map<String,Object> params){
+                             @PathVariable String id){
         try {
+            HashMap<String, Object> params = new HashMap<>();
             params.put("ID",id);
             Map<String,Object> data = detailService.getExcelFormatData(params);
-            DownloadEntity.builder()
-                    .head((List<List<String>>) data.get("head"))
-                    .sheetName((String) data.get("sheetName"))
-                    .fileName((String) data.get("fileName"))
-                    .list((List<Object>) data.get("dataList"))
-                    .build();
+            DownloadEntity<Object> entity
+                    = DownloadEntity.builder()
+                        .response(response)
+                        .head((List<List<String>>) data.get("head"))
+                        .sheetName((String) data.get("sheetName"))
+                        .fileName((String) data.get("fileName"))
+                        .list((List<Object>) data.get("dataList"))
+                        .build();
+            DownloadExcel.downloadFailedUsingJson(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();

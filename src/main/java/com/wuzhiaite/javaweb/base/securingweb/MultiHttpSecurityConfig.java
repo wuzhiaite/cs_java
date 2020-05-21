@@ -100,7 +100,6 @@ public class MultiHttpSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
                 .antMatchers("/api/user/login","/api/user/logout").permitAll()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/api/menus/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers()

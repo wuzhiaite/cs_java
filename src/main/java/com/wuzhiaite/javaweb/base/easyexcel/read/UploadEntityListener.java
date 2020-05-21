@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.read;
+package com.wuzhiaite.javaweb.base.easyexcel.read;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import lombok.extern.slf4j.Slf4j;

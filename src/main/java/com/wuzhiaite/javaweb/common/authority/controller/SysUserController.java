@@ -29,13 +29,19 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/api")
 public class SysUserController extends BaseController {
-
+    /**
+     *
+     */
     @Autowired
     private SysUserService userService;
-
+    /**
+     *
+     */
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    /**
+     *
+     */
     @Autowired
     private RedisUtil redisUtil;
     /**
@@ -82,6 +88,24 @@ public class SysUserController extends BaseController {
         return ResultObj.successObj("this is user base info");
     }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("/user/logout")
+    public ResultObj logout(){
+        Map<String,Object> map = new HashMap<>();
+        try {
+            SecurityUserDetails principal =
+                    (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return  ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(map ,"登出成功");
+    }
 
 
 

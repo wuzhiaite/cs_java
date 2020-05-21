@@ -1,8 +1,9 @@
-package com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.write;
+package com.wuzhiaite.javaweb.base.easyexcel.write;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @ToString
 @Builder
 @Data
+@Accessors
 public class DownloadEntity<T> {
     /**
      * 实体类字节

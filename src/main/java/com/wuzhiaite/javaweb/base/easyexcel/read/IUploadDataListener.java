@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.read;
+package com.wuzhiaite.javaweb.base.easyexcel.read;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
@@ -7,8 +7,6 @@ import com.alibaba.excel.metadata.CellExtra;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.Assert;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

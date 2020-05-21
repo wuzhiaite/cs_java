@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.common.pagelistconfig.easyexcel.read;
+package com.wuzhiaite.javaweb.base.easyexcel.read;
 
 
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;

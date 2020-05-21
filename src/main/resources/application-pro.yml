@@ -10,7 +10,7 @@ spring:
     name: microserver-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
   dbsource: #多数据源配置
     master:
-      driver-class-name: com.mysql.cj.jdbc.Drivergit
+      driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://rm-uf6101yy6jg1qe3e8lo.mysql.rds.aliyuncs.com/com_sys?serverTimezone=UTC&useSSL=false
       password: wuzhiaite
       username: wuzhiaite

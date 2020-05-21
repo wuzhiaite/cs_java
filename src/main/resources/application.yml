@@ -11,4 +11,4 @@ spring:
     mode: HTML5
     cache: true
   profiles:
-    active: pro
+    active: dev
