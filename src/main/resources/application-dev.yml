@@ -48,6 +48,9 @@ spring:
     port: 25
     username: li656494298@foxmail.com
     password: wmtyfdyfqplmbeda
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    enabled: true
 
 
 
@@ -65,9 +68,6 @@ mybatis:
   mapper-locations: /mapper/*.xml
 
 uploadFilePath: D:\\uploadFile\\
-
-
-
 
 
 
