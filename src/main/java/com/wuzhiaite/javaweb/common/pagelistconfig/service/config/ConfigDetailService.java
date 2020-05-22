@@ -119,15 +119,18 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
      */
     public Map<String, Object> getExcelFormatData(Map<String, Object> params) {
         List<Map<String, Object>> list = getList(params);
-
         if(StringUtils.isEmpty(list) || list.size() < 1 ) {return null; };
-        Map<String, Object> tempMap = list.get(0);
-        Set<String> keysTemp = tempMap.keySet();
+        Map<String, Object> obj = this.get(params);
+        String columns = MapUtil.getString(obj, "SHOW_COLUMNS");
+        JSONArray objects = JSONArray.parseArray(columns);
         List<List<String>> head = new ArrayList<>();
-        for(String key : keysTemp){
+        String[] keysTemp = new String[objects.size()];
+        for(int i = 0 ; i < objects.size() ; i ++){
+            String key = (String) objects.get(i);
             List<String> temp = new ArrayList<>();
             temp.add(key);
             head.add(temp);
+            keysTemp[i] = key ;
         }
         //展示列数据
         List<List<Object>> dataList = new ArrayList<List<Object>>();
@@ -141,7 +144,7 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
             }
             dataList.add(data);
         }
-        Map<String, Object> obj = this.get(params);
+
         Map<String,Object> map = new HashMap<>();
         map.put("head",head);
         map.put("dataList",dataList);

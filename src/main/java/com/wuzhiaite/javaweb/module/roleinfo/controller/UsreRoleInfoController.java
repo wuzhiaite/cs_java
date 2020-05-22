@@ -1,4 +1,4 @@
-package ${package.Controller};
+package com.wuzhiaite.javaweb.module.roleinfo.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,45 +14,27 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Map;
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-<#if restControllerStyle>
+import com.wuzhiaite.javaweb.module.roleinfo.service.IUsreRoleInfoService;
+import com.wuzhiaite.javaweb.module.roleinfo.entity.UsreRoleInfo;
 import org.springframework.web.bind.annotation.RestController;
-<#else>
-import org.springframework.stereotype.Controller;
-</#if>
-<#if superControllerClassPackage??>
-import ${superControllerClassPackage};
-</#if>
 
 /**
 * <p>
-* ${table.comment!}
+* 
 * </p>
-* @author ${author}
-* @since ${date}
+* @author lpf
+* @since 2020-05-22
 */
-<#if restControllerStyle>
 @RestController
-<#else>
-@Controller
-</#if>
-@RequestMapping("/api<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("/api/usre-role-info")
 @Slf4j
-<#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
-<#else>
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
-<#else>
-public class ${table.controllerName} {
-</#if>
+public class UsreRoleInfoController {
 
     /**
     * 业务处理类
     */
     @Autowired
-    private ${table.serviceName} service;
+    private IUsreRoleInfoService service;
 
     /**
     * 查找列表数据
@@ -61,15 +43,15 @@ public class ${table.controllerName} {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        Page<${entity}> pageList = null;
+        Page<UsreRoleInfo> pageList = null;
         try {
-            ${entity} entity = StringUtils.isEmpty(param.get("entity"))
-                                ? new ${entity}()
-                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),${entity}.class);
+            UsreRoleInfo entity = StringUtils.isEmpty(param.get("entity"))
+                                ? new UsreRoleInfo()
+                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),UsreRoleInfo.class);
             Page page = StringUtils.isEmpty(param.get("page"))
                                 ? new Page().setSize(10).setCurrent(1)
                                 : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-            QueryWrapper<${entity}> wrapper = new QueryWrapper<>(entity);
+            QueryWrapper<UsreRoleInfo> wrapper = new QueryWrapper<>(entity);
             pageList = service.page(page,wrapper);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -84,10 +66,10 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/getList")
-    public ResultObj getList(@RequestBody(required = false) ${entity} entity){
-        List<${entity}> list = null;
+    public ResultObj getList(@RequestBody(required = false) UsreRoleInfo entity){
+        List<UsreRoleInfo> list = null;
         try {
-            list = service.list(new QueryWrapper<${entity}>(entity));
+            list = service.list(new QueryWrapper<UsreRoleInfo>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -104,7 +86,7 @@ public class ${table.controllerName} {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      ${entity} result = null;
+      UsreRoleInfo result = null;
         try {
             result = service.getById(id);
         } catch (Exception e) {
@@ -120,7 +102,7 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage(@RequestBody  ${entity} entity){
+    public ResultObj addOrUpdatePage(@RequestBody  UsreRoleInfo entity){
         boolean flag = false;
         try {
             flag = service.saveOrUpdate(entity);
@@ -136,7 +118,7 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/batchAddOrUpdate")
-    public ResultObj batchAddOrUpdate(@RequestBody List<${entity}> list){
+    public ResultObj batchAddOrUpdate(@RequestBody List<UsreRoleInfo> list){
         boolean flag = false;
         try {
             flag = service.saveOrUpdateBatch(list);
@@ -164,4 +146,3 @@ public class ${table.controllerName} {
     }
 
  }
-</#if>

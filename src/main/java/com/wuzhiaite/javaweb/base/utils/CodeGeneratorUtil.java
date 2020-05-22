@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.wuzhiaite.javaweb.base.multidatabase.DataSourceConfigure;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSourceContextHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @since 20200424
  */
 @Component
+@Slf4j
 public class CodeGeneratorUtil {
     /**
      * 获取数据库配置信息
@@ -58,7 +60,6 @@ public class CodeGeneratorUtil {
      * 策略配置
      */
     private static StrategyConfig strategy = new StrategyConfig();
-    private static InjectionConfig cfg ;
     /**
      * 自动注入数据源配置信息
      * @param dataSourceConfigure
@@ -78,12 +79,9 @@ public class CodeGeneratorUtil {
         gc.setOutputDir(OUTPUT_DIR);
         gc.setOpen(false);
         gc.setSwagger2(true);
-
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-//        templateConfig.setController("/templates/controlle.java");
-//        templateConfig.setService("/templates/service.java");
-//        templateConfig.setServiceImpl(null);
+        templateConfig.setXml(null);
         // 策略配置
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
@@ -135,6 +133,21 @@ public class CodeGeneratorUtil {
                 this.setMap(tempMap);
             }
         };
+        List<FileOutConfig> focList = new ArrayList<>();
+        String templatePath = "/templates/mapper.xml.ftl";
+        // 自定义配置会被优先输出
+        focList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                String packageName = pc.getParent().replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
+                String path = OUTPUT_DIR +File.separator + packageName
+                        + "/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML ;
+                log.info(path);
+                return path;
+            }
+        });
+        cfg.setFileOutConfigList(focList);
         generator.setCfg(cfg);
     }
 

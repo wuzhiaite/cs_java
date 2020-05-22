@@ -3,6 +3,7 @@ server:
   servlet:
     context-path: /
 
+
 spring:
   profiles:
     include:
@@ -20,7 +21,6 @@ spring:
       url: jdbc:mysql://localhost:3307/cmbi_boss?serverTimezone=GMT%2B8
       password: root
       username: root
-
   redis:
 #    host: 192.168.210.128
     host: 47.113.120.21
@@ -49,27 +49,12 @@ spring:
     username: li656494298@foxmail.com
     password: wmtyfdyfqplmbeda
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
-    enabled: true
-
-
-
+    enabled: false
 
 logging:
   file:
     path: D:\log
-
-
-
-mybatis:
-  configuration:
-    cache-enabled: true
-
-  mapper-locations: /mapper/*.xml
-
 uploadFilePath: D:\\uploadFile\\
-
-
 
 
 

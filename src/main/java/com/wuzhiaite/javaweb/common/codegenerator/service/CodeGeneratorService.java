@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.common.codegenerator.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.multidatabase.DataSourceConfigure;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamciDb;
@@ -7,6 +8,7 @@ import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSource;
 import com.wuzhiaite.javaweb.base.multidatabase.DynamicDataSourceContextHolder;
 import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import com.wuzhiaite.javaweb.common.codegenerator.mapper.CodeGeneratorMapper;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import com.zaxxer.hikari.pool.HikariProxyConnection;
@@ -48,7 +50,9 @@ public class CodeGeneratorService extends ComCrudServiceImpl<CodeGeneratorMapper
     public PageInfo<Map<String,Object>> getTableList(Map<String, Object> params) throws SQLException {
         Map<String, Object> database = mapper.findOneBySQL("select database()");
         params.put("database",MapUtil.getString(database,"database()"));
-        return new PageInfo<Map<String,Object>>(mapper.getTableList(params));
+        String orders = MapUtil.getString(params,"orders");
+        orders = StringUtil.isBlank(orders) ? " TABLE_NAME  DESC " : orders ;
+        return this.findListByPage(params,orders);
     }
 
     /**

@@ -5,7 +5,7 @@
 <mapper namespace="com.wuzhiaite.javaweb.common.codegenerator.mapper.CodeGeneratorMapper">
 
      <!--    查找所有表-->
-    <select id="getTableList" resultType="java.util.Map" parameterType="map">
+    <select id="findListByPage" resultType="java.util.Map" parameterType="map">
         SELECT
             TABLE_SCHEMA,
             TABLE_NAME,

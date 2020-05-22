@@ -56,7 +56,7 @@ public class MenusController {
     public ResultObj getList(@RequestBody(required = false) Menus entity){
         List<Menus> list = null;
         try {
-            list = service.list(new QueryWrapper<Menus>(entity));
+            list = service.menuslist(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());

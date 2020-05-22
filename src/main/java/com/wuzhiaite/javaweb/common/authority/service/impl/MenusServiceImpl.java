@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper;
@@ -25,16 +26,16 @@ public class MenusServiceImpl extends ServiceImpl<MenusMapper, Menus> implements
 
     /**
      * 获取菜单列表
-     * @param queryWrapper
+     * @param
      * @return
      */
     @Override
-    public List<Menus> list(Wrapper<Menus> queryWrapper) {
-        List<Menus> menus = query().orderByAsc("orderBy").list();;
+    public List<Menus> menuslist(Menus entity) {
+        List<Menus> menus = baseMapper.getMenuList(entity);
         List<Menus> temp = new ArrayList<>();
         for(Menus menu : menus ){
             String fatherId = menu.getFatherId();
-            if(!fatherId.equals("root")){
+            if(!StringUtils.isEmpty(fatherId)){
                 getMenuFather(menu,menus);
             }else{
                 continue ;
@@ -42,7 +43,7 @@ public class MenusServiceImpl extends ServiceImpl<MenusMapper, Menus> implements
         }
         for(Menus m : menus){
             String fatherId = m.getFatherId();
-            if(fatherId.equals("root")){
+            if(StringUtils.isEmpty(fatherId)){
                 temp.add(m);
             }
         }

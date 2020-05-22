@@ -1,9 +1,4 @@
 
-
-
-mybatis:
-  type-aliases-package: com.wuzhiaite.javaweb.base.entity # entity别名类所在包
-  mapper-locations: mybatis/mapper/*.xml    # mapper映射文件
 spring:
   thymeleaf:
     prefix: classpath:/templates/
@@ -12,3 +7,8 @@ spring:
     cache: true
   profiles:
     active: dev
+
+mybatis:
+  configuration:
+    cache-enabled: true
+

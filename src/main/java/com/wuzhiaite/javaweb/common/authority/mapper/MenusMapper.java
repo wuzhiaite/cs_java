@@ -4,6 +4,8 @@ import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * <p>
 *  Mapper 接口
@@ -16,6 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MenusMapper extends BaseMapper<Menus> {
 
 
-
-
+    List<Menus> getMenuList(Menus entity);
 }
