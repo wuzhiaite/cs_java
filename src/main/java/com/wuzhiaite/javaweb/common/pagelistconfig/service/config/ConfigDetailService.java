@@ -62,13 +62,14 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
         List<Map<String,Object>> conditions = (List<Map<String, Object>>) JSONObject.parse(conditionFileds);
         Set<String> queries = params.keySet();
-        StringBuilder conditionSQL = new StringBuilder();
+        StringBuilder conditionSQL = new StringBuilder(" 1=1 ");
         for(Map<String,Object> condition : conditions){
             String prop = MapUtil.getString(condition, "prop");
             String type = MapUtil.getString(condition, "type");
             if(queries.contains(prop)){
                 for(QueryEnum value : QueryEnum.values()){
                     if( type .equals(value.type()) ){
+                        conditionSQL.append(" AND ");
                         value.appendStr(conditionSQL,prop,params.get(prop));
                     }
                 }
@@ -79,11 +80,7 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
                 && StringUtil.isNotBlank((String) params.get("search"))){
             String search = MapUtil.getString(params, "search");
             String fileds = MapUtil.getString(obj, "SEARCH_FILEDS");
-            if (conditionSQL.length() > 5) {
-                conditionSQL.append(" AND  (");
-            } else {
-                conditionSQL.append(" ");
-            }
+            conditionSQL.append(" AND ");
             JSONArray arr = JSONObject.parseArray(fileds);
             int len = arr.size() ;
             for(int i = 0 ; i < len  ; i++){
