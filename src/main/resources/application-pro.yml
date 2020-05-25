@@ -36,11 +36,6 @@ spring:
       max-file-size: 2000MB
       max-request-size: 2000MB
 
-mybatis:
-  configuration:
-    cache-enabled: true
-  mapper-locations: /mapper/*.xml
-
 
 
 
