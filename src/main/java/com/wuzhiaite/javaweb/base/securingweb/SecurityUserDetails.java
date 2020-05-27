@@ -15,6 +15,7 @@ import java.util.ListIterator;
 
 /**
  * 用户信息类
+ * @author lpf
  */
 @ToString
 public class SecurityUserDetails implements UserDetails, Serializable {
@@ -85,4 +86,7 @@ public class SecurityUserDetails implements UserDetails, Serializable {
         boolean matches = encoder.matches("123", p);
         System.out.println(matches);
     }
+
+
+
 }

@@ -5,11 +5,13 @@ import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
+import com.wuzhiaite.javaweb.common.authority.entity.Role;
 import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import com.wuzhiaite.javaweb.common.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,11 +71,13 @@ public class SysUserController extends BaseController {
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
             User user = userService.getUserInfo(username) ;
-
+            List<Role> roles = userService.getRoles(username);
             map.put("token",str);
             map.put("username",principal.getUsername());
             map.put("authorities",principal.getAuthorities());
             map.put("user",user );
+            map.put("roles",roles);
+
             log.info(String.valueOf(map));
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -82,6 +87,7 @@ public class SysUserController extends BaseController {
     }
 
     @RequestMapping("/user/userinfo")
+    @PreAuthorize("hasAuthority('sys:user:view')")
     public ResultObj userInfo(){
         SecurityUserDetails principal =
                 (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

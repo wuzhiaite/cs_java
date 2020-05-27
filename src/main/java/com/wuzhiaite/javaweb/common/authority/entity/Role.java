@@ -10,6 +10,7 @@ public class Role implements Serializable {
     private String roleLabel ;
     private String roleValue ;
     private Boolean isVlidate ;
+    private String  permissions ;
 
 
 

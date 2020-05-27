@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 
 import lombok.Data;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class User implements Serializable {
@@ -12,6 +13,7 @@ public class User implements Serializable {
    private String  telephone ;
    private String  profilePhoto ;
    private Boolean isValidate ;
+//   private List<Role> roles ;
 
 
 

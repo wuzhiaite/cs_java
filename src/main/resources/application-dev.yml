@@ -35,10 +35,11 @@ spring:
     lettuce:
       shutdown-timeout: 0
     timeout: 5000
-#  rabbitmq:
-#    host: 192.168.210.128
-#    password: guest
-#    username: guest
+  rabbitmq:
+    host: 47.113.120.21
+    port: 5672
+    password: admin
+    username: admin
   servlet:
     multipart: #上传配置
       max-file-size: 2000MB #最大
