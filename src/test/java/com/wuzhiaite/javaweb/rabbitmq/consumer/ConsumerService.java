@@ -13,7 +13,7 @@ public class ConsumerService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues="queue_lpf")
+//    @RabbitListener(queues="queue_lpf")
     public void getMessage(Map message){
         System.out.println("********************************************************");
         System.out.println(message);

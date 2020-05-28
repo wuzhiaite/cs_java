@@ -34,9 +34,9 @@ spring:
   rabbitmq:
     host: 47.113.120.21
     port: 5672
-    password: admin
-    username: admin
-    virtual-host: dev_virtual
+    password: root
+    username: root
+    virtual-host: /dev_virtual
 
   servlet:
     multipart: #上传配置

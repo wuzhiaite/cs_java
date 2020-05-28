@@ -38,14 +38,30 @@ public class RabbitMQApplication {
     @Autowired
     private RabbitAdmin rabbitAdmin;
 
-
     @Test
-    public void getRabbitQueue(){
-        String exchange = rabbitTemplate.getExchange();
-        System.out.println(exchange);
-
+    public void buildTopicRabbit(){
+        Exchange topicExchange = new ExchangeBuilder("topic_exchange", ExchangeTypes.TOPIC).durable(true).build();
+        rabbitAdmin.declareExchange(topicExchange);
+        Queue queue1 = QueueBuilder.durable("queue_topic").build();
+        rabbitAdmin.declareQueue(queue1);
+        Queue queue2 = QueueBuilder.durable("queue_lpf").build();
+        rabbitAdmin.declareQueue(queue2);
+        Queue queue3 = QueueBuilder.durable("topic_lpf").build();
+        rabbitAdmin.declareQueue(queue3);
+        //队列和交换器绑定
+        Binding binding = BindingBuilder.bind(queue1).to(topicExchange).with("#.topic").noargs();
+        Binding binding1 = BindingBuilder.bind(queue2).to(topicExchange).with("queue.#").noargs();
+        Binding binding2 = BindingBuilder.bind(queue3).to(topicExchange).with("#.lpf").noargs();
+        rabbitAdmin.declareBinding(binding);
+        rabbitAdmin.declareBinding(binding1);
+        rabbitAdmin.declareBinding(binding2);
     }
-
+    @Test
+    public void sendMsg(){
+        CorrelationData data = new CorrelationData(UUID.randomUUID().toString().replace("-", ""));
+        String message="this is a topic message(queue.lpf is the routingkey)";
+        rabbitTemplate.convertAndSend("topic_exchange","queue.lpf", (Object) message,data);
+    }
 
     @Test
     public void buildRabbit(){
@@ -63,7 +79,6 @@ public class RabbitMQApplication {
         System.out.println("buildRabbit"+beanName);
     }
 
-
     @Test
     public void sendRabbitInfo() {
         CorrelationData data = new CorrelationData(UUID.randomUUID().toString().replace("-", ""));
@@ -71,7 +86,6 @@ public class RabbitMQApplication {
 //		rabbitTemplate.convertAndSend("exchange_direct", "mq_key", book,data);
         byte[] sendMessage = Base64Utils.encode(JSONObject.toJSONString(book).getBytes());
         rabbitTemplate.convertAndSend("exchange_direct", "mq_key", sendMessage,data);
-
     }
 
 
