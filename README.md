@@ -24,7 +24,8 @@ keytool -genkey -alias jwt -keyalg  RSA -keysize 1024 -validity 365 -keystore jw
 ### excel 处理使用阿里的 EasyExcel
 https://www.yuque.com/easyexcel/doc/fill
 
-
+### Springboot 整合 RabbiMQ
+https://docs.spring.io/spring-amqp/docs/2.2.6.RELEASE/api/org/springframework/amqp/rabbit/annotation/EnableRabbit.html
 
 
 

@@ -1,3 +1,7 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /
 
 spring:
   thymeleaf:
@@ -6,7 +10,7 @@ spring:
     mode: HTML5
     cache: true
   profiles:
-    active: pro
+    active: dev
 
 mybatis:
   configuration:

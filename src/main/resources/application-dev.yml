@@ -1,7 +1,3 @@
-server:
-  port: 8001
-  servlet:
-    context-path: /
 
 
 spring:
@@ -40,6 +36,8 @@ spring:
     port: 5672
     password: admin
     username: admin
+    virtual-host: dev_virtual
+
   servlet:
     multipart: #上传配置
       max-file-size: 2000MB #最大
@@ -51,6 +49,7 @@ spring:
     password: wmtyfdyfqplmbeda
   liquibase:
     enabled: false
+
 
 logging:
   file:
