@@ -60,11 +60,6 @@ public class SpringBootJavawebBaseApplicationTests {
     public void getTableList(){
        dbQuery= new MySqlQuery();
        String tablesSql = dbQuery.tablesSql();
-
-
-
-
-
    }
 
 

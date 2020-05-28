@@ -16,7 +16,7 @@ import java.util.Map;
 public class RabbitMQInitProperty {
 
 
-    private List<Map<String,Object>> data = new ArrayList<Map<String,Object>>();
+    private List<RabbitEntity> list = new ArrayList<>();
 
 
 }

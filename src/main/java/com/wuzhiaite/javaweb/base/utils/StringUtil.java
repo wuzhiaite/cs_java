@@ -2,6 +2,8 @@ package com.wuzhiaite.javaweb.base.utils;
 
 import com.wuzhiaite.javaweb.base.enums.DelimiterEnum;
 
+import java.util.List;
+
 /**
  * String通用判断
  */

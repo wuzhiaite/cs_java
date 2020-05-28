@@ -1,8 +1,9 @@
 package com.wuzhiaite.javaweb.base.rabbitmq;
 
+import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +60,7 @@ public class RabbitMQConfig  {
         }
     };
     /**
-     *
+     * rabbitmq 初始配置
      */
     @Autowired
     private RabbitMQInitProperty property ;
@@ -90,12 +92,29 @@ public class RabbitMQConfig  {
 
     @Bean
     public RabbitMQInitProperty getRabbitMQProperty(RabbitAdmin rabbitAdmin){
-        List<Map<String, Object>> data = property.getData();
-        if(StringUtils.isEmpty(data)) {
+        List<RabbitEntity> list = property.getList();
+        if(StringUtils.isEmpty(list)) {
             return null ;
         }
-
-//        admin.declareExchange();
+        list.stream().forEach(entity -> {
+            List<String> queues = entity.getQueues();
+            String binding = entity.getBindingKey();
+            String exchange = entity.getExchange();
+            String type = StringUtils.isEmpty(entity.getType())? entity.getType() : ExchangeTypes.DIRECT;
+            if(StringUtils.isEmpty(queues) || StringUtils.isEmpty(binding)
+                        || StringUtils.isEmpty(exchange)
+                        || StringUtils.isEmpty(type)){
+               return;
+            }
+            Exchange exchangeTempt= new ExchangeBuilder(exchange, type).build();
+            rabbitAdmin.declareExchange(exchangeTempt);
+            for(String str : queues){
+                Queue queue = QueueBuilder.durable(str).build();
+                rabbitAdmin.declareQueue(queue);
+                Binding bind = BindingBuilder.bind(queue).to(exchangeTempt).with(binding).noargs();
+                rabbitAdmin.declareBinding(bind);
+            }
+        });
         return this.property ;
     }
 

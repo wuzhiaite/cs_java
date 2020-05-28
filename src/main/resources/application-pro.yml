@@ -27,6 +27,12 @@ spring:
         min-idle: 0
     lettuce:
       shutdown-timeout: 0
+  rabbitmq:
+    host: 47.113.120.21
+    port: 5672
+    password: root
+    username: root
+    virtual-host:  /pro_virtual
   servlet:
     multipart:
       max-file-size: 2000MB
