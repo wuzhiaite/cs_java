@@ -22,22 +22,14 @@ public class SysUserService  {
 
     public List<Role>  getRoles(String username){
         List<Role> roles = null;
-        if(redisUtil.hget("userinfo",username) != null){
-            roles = (List<Role>) redisUtil.hget("roles",username);
-        }else{
-            roles = mapper.getRoles(username);
-        }
+        roles = mapper.getRoles(username);
         return roles;
     }
 
 
     public User getUserInfo(String username) {
         User user = null;
-        if(redisUtil.hget("userinfo",username) != null){
-            user = (User) redisUtil.hget("userinfo",username);
-        }else{
-           user = mapper.getUser(username) ;
-        }
+        user = mapper.getUser(username) ;
         return user ;
     }
 }
