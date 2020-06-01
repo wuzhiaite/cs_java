@@ -23,11 +23,8 @@
             <if test="fatherId != null and fatherId != '' ">
                 AND fatherId = #{fatherId}
             </if>
-
-
-
-            order by orderBy asc
         </where>
+        order by orderBy asc
 
     </select>
 </mapper>

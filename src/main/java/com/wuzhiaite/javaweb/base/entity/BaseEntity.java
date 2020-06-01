@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @Accessors
 public class BaseEntity {
+    private String id;
     private Date createTime;
     private Date updateTime;
     private String createUser;

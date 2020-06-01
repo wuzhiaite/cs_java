@@ -29,8 +29,6 @@ public class DictKeyList extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id ;
-
     private String dictNameText;
 
     private String dictName;
