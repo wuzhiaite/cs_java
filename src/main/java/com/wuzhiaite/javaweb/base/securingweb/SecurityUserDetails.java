@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.base.securingweb;
 
-import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,24 +21,24 @@ import java.util.ListIterator;
 public class SecurityUserDetails implements UserDetails, Serializable {
     private String username;
     private String password;
-    private List<Role> roles ;
+    private List<UserRole> userRoles;
 
     public SecurityUserDetails(){}
 
-    public SecurityUserDetails(String username,String password,List<Role> roles){
+    public SecurityUserDetails(String username,String password,List<UserRole> userRoles){
         this.username = username ;
         this.password = password ;
-        this.roles = roles ;
+        this.userRoles = userRoles;
     }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> gaList = new ArrayList();
-        ListIterator<Role> iterator = roles.listIterator();
+        ListIterator<UserRole> iterator = userRoles.listIterator();
         for(;iterator.hasNext();){
-            Role role = iterator.next();
-            gaList.add(new SimpleGrantedAuthority(role.getRoleValue()));
+            UserRole userRole = iterator.next();
+            gaList.add(new SimpleGrantedAuthority(userRole.getRoleValue()));
         }
         return gaList;
     }

@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.service;
 
-import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lpf
  * @since 2020-05-31
  */
-public interface IUserRoleService extends IService<Role> {
+public interface IUserRoleService extends IService<UserRole> {
 
 }

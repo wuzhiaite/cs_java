@@ -1,9 +1,13 @@
 package com.wuzhiaite.javaweb.common.authority.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author lpf
+ */
 @Data
 public class User implements Serializable {
    private String  id ;
@@ -13,7 +17,8 @@ public class User implements Serializable {
    private String  telephone ;
    private String  profilePhoto ;
    private Boolean isValidate ;
-//   private List<Role> roles ;
+   @TableField(exist = false)
+   private List<UserRole> roles ;
 
 
 

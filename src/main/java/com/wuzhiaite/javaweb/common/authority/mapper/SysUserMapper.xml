@@ -5,11 +5,11 @@
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="roleMap" type="com.wuzhiaite.javaweb.common.authority.entity.Role">
+    <resultMap id="roleMap" type="com.wuzhiaite.javaweb.common.authority.entity.UserRole">
         <id column="ID" property="id" />
         <result column="ROLE_LABEL" property="roleLabel" />
         <result column="ROLE_VALUE" property="roleValue" />
-        <result column="ISVALIDATE" property="isVlidate" />
+        <result column="isValidate" property="isValidate" />
     </resultMap>
     <!-- 字段映射-->
     <resultMap id="userMap" type="com.wuzhiaite.javaweb.common.authority.entity.User">
@@ -38,9 +38,9 @@
     <select id="getRoles" parameterType="string" resultMap="roleMap">
         SELECT
             ROLE.ID ,
-            ROLE.ROLE_LABEL,
-            ROLE.ROLE_VALUE,
-            ROLE.ISVALIDATE
+            ROLE.role_label,
+            ROLE.role_value,
+            ROLE.isValidate
         FROM USER_INFO INFO
         LEFT JOIN USRE_ROLE_INFO RI ON INFO.ID = RI.USER_ID
         LEFT JOIN USER_ROLE ROLE ON ROLE.ID = RI.ROLE_ID

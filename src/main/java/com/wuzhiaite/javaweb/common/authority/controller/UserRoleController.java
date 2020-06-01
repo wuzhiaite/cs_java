@@ -2,7 +2,7 @@ package com.wuzhiaite.javaweb.common.authority.controller;
 
 
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
-import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,17 +49,19 @@ public class UserRoleController {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        Page<Role> pageList = null;
+        Page<UserRole> pageList = null;
         try {
-            Role entity = StringUtils.isEmpty(param.get("entity"))
-                                ? new Role()
-                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),Role.class);
+            UserRole entity = StringUtils.isEmpty(param.get("entity"))
+                                ? new UserRole()
+                                : JSON.parseObject(JSON.toJSONString(param.get("entity")), UserRole.class);
             Page page = StringUtils.isEmpty(param.get("page"))
                                 ? new Page().setSize(10).setCurrent(1)
                                 : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-            QueryWrapper<Role> wrapper = new QueryWrapper<>(entity);
-            wrapper.like("ROLE_LABEL",entity.getSearch())
-                    .or().like("ROLE_VALUE",entity.getSearch());
+            QueryWrapper<UserRole> wrapper = new QueryWrapper<>(entity);
+            if(!StringUtils.isEmpty(entity.getSearch())){
+                wrapper.like("role_label",entity.getSearch())
+                        .or().like("role_value",entity.getSearch());
+            }
             pageList = service.page(page,wrapper);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -74,10 +76,10 @@ public class UserRoleController {
     * @return
     */
     @PostMapping("/getList")
-    public ResultObj getList(@RequestBody(required = false) Role entity){
-        List<Role> list = null;
+    public ResultObj getList(@RequestBody(required = false) UserRole entity){
+        List<UserRole> list = null;
         try {
-            list = service.list(new QueryWrapper<Role>(entity));
+            list = service.list(new QueryWrapper<UserRole>(entity));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
@@ -94,7 +96,7 @@ public class UserRoleController {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      Role result = null;
+      UserRole result = null;
         try {
             result = service.getById(id);
         } catch (Exception e) {
@@ -110,7 +112,7 @@ public class UserRoleController {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage(@RequestBody  Role entity){
+    public ResultObj addOrUpdatePage(@RequestBody UserRole entity){
         boolean flag = false;
         try {
 
@@ -127,7 +129,7 @@ public class UserRoleController {
     * @return
     */
     @PostMapping("/batchAddOrUpdate")
-    public ResultObj batchAddOrUpdate(@RequestBody List<Role> list){
+    public ResultObj batchAddOrUpdate(@RequestBody List<UserRole> list){
         boolean flag = false;
         try {
             flag = service.saveOrUpdateBatch(list);

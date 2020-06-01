@@ -5,7 +5,7 @@ import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
-import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import com.wuzhiaite.javaweb.common.common.BaseController;
@@ -71,12 +71,12 @@ public class SysUserController extends BaseController {
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
             User user = userService.getUserInfo(username) ;
-            List<Role> roles = userService.getRoles(username);
+            List<UserRole> userRoles = userService.getRoles(username);
             map.put("token",str);
             map.put("username",principal.getUsername());
             map.put("authorities",principal.getAuthorities());
             map.put("user",user );
-            map.put("roles",roles);
+            map.put("roles", userRoles);
 
             log.info(String.valueOf(map));
         } catch (Exception e) {

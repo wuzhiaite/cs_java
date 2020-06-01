@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service;
 
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
-import com.wuzhiaite.javaweb.common.authority.entity.Role;
+import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class SysUserService  {
     @Autowired
     private RedisUtil redisUtil ;
 
-    public List<Role>  getRoles(String username){
-        List<Role> roles = null;
-        roles = mapper.getRoles(username);
-        return roles;
+    public List<UserRole>  getRoles(String username){
+        List<UserRole> userRoles = null;
+        userRoles = mapper.getRoles(username);
+        return userRoles;
     }
 
 

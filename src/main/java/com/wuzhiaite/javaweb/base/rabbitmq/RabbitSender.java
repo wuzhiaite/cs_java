@@ -22,6 +22,10 @@ public class RabbitSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    /**
+     *
+     * @return
+     */
     private CorrelationData getCorrelation(){
         return new CorrelationData(UUID.randomUUID().toString().replace("-", ""));
     }
