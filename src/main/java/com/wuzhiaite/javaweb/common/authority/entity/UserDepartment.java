@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.wuzhiaite.javaweb.base.entity.TreeEntity;
 import io.swagger.annotations.ApiModel;
@@ -27,7 +28,7 @@ import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 public class UserDepartment extends TreeEntity<UserDepartment> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @TableField(value="department_name")
+    @TableField(value="department_name",insertStrategy= FieldStrategy.IGNORED,updateStrategy = FieldStrategy.IGNORED)
     private String label;
 
     private String departmentName;
