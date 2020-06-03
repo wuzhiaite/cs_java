@@ -2,13 +2,17 @@ package com.wuzhiaite.javaweb.common.authority.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wuzhiaite.javaweb.base.utils.MapUtil;
+import com.wuzhiaite.javaweb.base.utils.RabbitUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.mapper.SysUserMapper;
+import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.connection.RabbitUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +25,9 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class SysUserService  {
+public class SysUserService extends ComCrudServiceImpl<SysUserMapper,Map<String,Object>> {
 
-    @Autowired
-    private SysUserMapper mapper ;
+
     @Autowired
     private RedisUtil redisUtil ;
 
@@ -45,20 +48,7 @@ public class SysUserService  {
         return user ;
     }
 
-    /**
-     *  对用户权限进行设置
-     * @param message
-     * @throws UnsupportedEncodingException
-     */
-    @RabbitListener(queues="user.permission")
-    public void setUserPermission(Message message) throws UnsupportedEncodingException {
-        byte[] body = message.getBody();
-        String str = new String(body, "UTF-8");
-        JSONObject jsonObject = new JSONObject();
-        Map<String,Object> obj = jsonObject.getObject(str, Map.class);
 
-
-    }
 
 
 }

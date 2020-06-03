@@ -42,7 +42,7 @@
             ROLE.role_value,
             ROLE.isValidate
         FROM USER_INFO INFO
-        LEFT JOIN USRE_ROLE_INFO RI ON INFO.ID = RI.USER_ID
+        LEFT JOIN USER_ROLE_INFO RI ON INFO.ID = RI.USER_ID
         LEFT JOIN USER_ROLE ROLE ON ROLE.ID = RI.ROLE_ID
         WHERE INFO.USER_ID = #{username}
 

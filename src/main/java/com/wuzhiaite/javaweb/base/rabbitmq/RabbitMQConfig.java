@@ -118,8 +118,6 @@ public class RabbitMQConfig  {
         return this.property ;
     }
 
-
-
     /**
      *  对象数据格式化
      * @return
