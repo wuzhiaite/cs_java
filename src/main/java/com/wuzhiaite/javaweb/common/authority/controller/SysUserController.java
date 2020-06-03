@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
+import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
@@ -10,6 +11,7 @@ import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import com.wuzhiaite.javaweb.common.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,13 +32,18 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class SysUserController extends BaseController {
     /**
      *
      */
     @Autowired
     private SysUserService userService;
+    /**
+     *
+     */
+    @Autowired
+    private RabbitSender sender ;
     /**
      *
      */
@@ -52,7 +59,7 @@ public class SysUserController extends BaseController {
      * @param
      * @return
      */
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public ResultObj login(@RequestBody Map<String,String> params,
                            HttpServletRequest request) throws Exception {
          Map<String,Object> map = new HashMap<>();
@@ -98,13 +105,12 @@ public class SysUserController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/user/logout")
+    @RequestMapping("/logout")
     public ResultObj logout(){
         Map<String,Object> map = new HashMap<>();
         try {
             SecurityUserDetails principal =
                     (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -113,6 +119,19 @@ public class SysUserController extends BaseController {
         return ResultObj.successObj(map ,"登出成功");
     }
 
+    @RequestMapping("/setUserPermission")
+    public ResultObj setUserPermission(@RequestBody Map<String,Object> params){
+        try {
+            if(MapUtil.isNull(params)){
+                throw new RuntimeException("参数不能为空，请重新确认");
+            }
+            sender.convertAndSend("cs.user","user.permission",params);
 
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return  ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj("权限设置成功");
+    }
 
 }
