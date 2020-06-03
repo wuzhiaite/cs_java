@@ -1,16 +1,16 @@
 package com.wuzhiaite.javaweb.common.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 import lombok.Data;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
  * @author lpf
  */
 @Data
-public class User extends BaseEntity implements Serializable {
+public class User implements Serializable {
    private String  id ;
    private String  userId ;
    private String  username ;
@@ -20,6 +20,10 @@ public class User extends BaseEntity implements Serializable {
    private Boolean isValidate ;
    @TableField(exist = false)
    private List<UserRole> roles ;
+   private Date createTime;
+   private Date updateTime;
+   private String createUser;
+   private String updateUser;
 
 
 }

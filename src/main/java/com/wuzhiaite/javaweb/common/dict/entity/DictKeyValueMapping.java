@@ -1,6 +1,5 @@
 package com.wuzhiaite.javaweb.common.dict.entity;
 
-import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +7,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 * <p>
@@ -22,7 +22,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="DictKeyValueMapping对象", description="")
-public class DictKeyValueMapping extends BaseEntity implements Serializable {
+public class DictKeyValueMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,5 +34,10 @@ public class DictKeyValueMapping extends BaseEntity implements Serializable {
 
     private String bz;
 
+    private String id;
+    private Date createTime;
+    private Date updateTime;
+    private String createUser;
+    private String updateUser;
 
 }

@@ -2,14 +2,14 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.ToString;
-import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 
 /**
 * <p>
@@ -25,7 +25,7 @@ import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 @Accessors(chain = true)
 @ApiModel(value="UserRoleInfo对象", description="")
 @Builder
-public class UserRoleInfo extends BaseEntity implements Serializable {
+public class UserRoleInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +34,13 @@ public class UserRoleInfo extends BaseEntity implements Serializable {
 
     @TableField("user_id")
     private String userId;
+
+    private String id;
+    private Date createTime;
+    private Date updateTime;
+    private String createUser;
+    private String updateUser;
+
 
 
 }

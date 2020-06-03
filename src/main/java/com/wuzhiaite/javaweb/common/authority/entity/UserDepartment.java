@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.ToString;
-import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 
 /**
 * <p>

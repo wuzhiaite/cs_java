@@ -88,7 +88,7 @@ public class CodeGeneratorUtil {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id","update_time","create_time","update_user","create_user");
+//        strategy.setSuperEntityColumns("id","update_time","create_time","update_user","create_user");
         strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix(pc.getModuleName() + "_");
     }

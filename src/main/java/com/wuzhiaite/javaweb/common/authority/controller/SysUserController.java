@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSenderEntity;
@@ -129,9 +130,8 @@ public class SysUserController extends BaseController {
             RabbitSenderEntity entity = RabbitSenderEntity.builder()
                                               .exchange("cs.user.topic")
                                               .routeKey("user.permission")
-                                              .params(params).build();
+                                              .params(new JSONObject(params).toString()).build();
             sender.convertAndSend(entity);
-
         } catch (Exception e) {
             log.error(e.getMessage());
             return  ResultObj.failObj(e.getMessage());

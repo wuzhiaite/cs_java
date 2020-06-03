@@ -1,14 +1,14 @@
 package com.wuzhiaite.javaweb.common.authority.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.ToString;
-import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 
 /**
 * <p>
@@ -24,7 +24,7 @@ import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 @Accessors(chain = true)
 @ApiModel(value="UserDepartmentInfo对象", description="")
 @Builder
-public class UserDepartmentInfo extends BaseEntity implements Serializable {
+public class UserDepartmentInfo  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,5 +32,10 @@ public class UserDepartmentInfo extends BaseEntity implements Serializable {
 
     private String departmentId;
 
+    private String id;
+    private Date createTime;
+    private Date updateTime;
+    private String createUser;
+    private String updateUser;
 
 }
