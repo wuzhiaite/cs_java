@@ -40,7 +40,11 @@ public class RabbitSender {
         rabbitTemplate.convertAndSend(exchange, routingKey, message, getCorrelation());
     }
 
-
-
-
+    /**
+     *
+     * @param entity
+     */
+    public void convertAndSend(RabbitSenderEntity entity) {
+        rabbitTemplate.convertAndSend(entity.getExchange(), entity.getRouteKey(), entity.getParams(), getCorrelation());
+    }
 }

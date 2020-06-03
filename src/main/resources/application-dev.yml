@@ -54,12 +54,14 @@ spring:
 logging:
   file:
     path: D:\log
+
 uploadFilePath: D:\\uploadFile\\
 # rabbitmq 初始化配置
 rabbit-init:
   list:
-    - {exchange: cs.user,queues: [user.role,role.permission] , bindingKey: '#.role.#', type: topic }
-    - {exchange: cs.user,queues: [role.permission] , bindingKey: '#.permission', type: topic }
+    - {exchange: "cs.user.topic",queues: [user.permission] , bindingKey: '#.permission', type: topic }
 
+
+debug: false
 
 

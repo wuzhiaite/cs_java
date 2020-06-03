@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.common.authority.controller;
 
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
+import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSenderEntity;
 import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
@@ -125,7 +126,11 @@ public class SysUserController extends BaseController {
             if(MapUtil.isNull(params)){
                 throw new RuntimeException("参数不能为空，请重新确认");
             }
-            sender.convertAndSend("cs.user","user.permission",params);
+            RabbitSenderEntity entity = RabbitSenderEntity.builder()
+                                              .exchange("cs.user.topic")
+                                              .routeKey("user.permission")
+                                              .params(params).build();
+            sender.convertAndSend(entity);
 
         } catch (Exception e) {
             log.error(e.getMessage());

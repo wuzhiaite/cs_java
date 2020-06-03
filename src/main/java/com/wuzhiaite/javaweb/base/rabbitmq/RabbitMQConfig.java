@@ -100,13 +100,13 @@ public class RabbitMQConfig  {
             List<String> queues = entity.getQueues();
             String binding = entity.getBindingKey();
             String exchange = entity.getExchange();
-            String type = StringUtils.isEmpty(entity.getType())? entity.getType() : ExchangeTypes.DIRECT;
+            String type = !StringUtils.isEmpty(entity.getType())? entity.getType() : ExchangeTypes.DIRECT;
             if(StringUtils.isEmpty(queues) || StringUtils.isEmpty(binding)
                         || StringUtils.isEmpty(exchange)
                         || StringUtils.isEmpty(type)){
                return;
             }
-            Exchange exchangeTempt= new ExchangeBuilder(exchange, type).build();
+            Exchange exchangeTempt= new ExchangeBuilder(exchange, type).durable(true).build();
             rabbitAdmin.declareExchange(exchangeTempt);
             for(String str : queues){
                 Queue queue = QueueBuilder.durable(str).build();
