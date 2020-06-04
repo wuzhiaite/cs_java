@@ -14,21 +14,31 @@ import java.util.Date;
 public class UserRole implements Serializable {
     private String id ;
     private String roleLabel ;
-    @TableField(value="role_label",insertStrategy= FieldStrategy.IGNORED,updateStrategy = FieldStrategy.IGNORED)
-    private String label;
-    @TableField(value="role_value",insertStrategy= FieldStrategy.IGNORED,updateStrategy = FieldStrategy.IGNORED)
-    private String value;
+
     private String roleValue ;
     @TableField("isValidate")
     private Boolean isValidate ;
     private String permissions ;
-    @TableField(exist = false)
-    private String search ;
 
     private Date createTime;
     private Date updateTime;
     private String createUser;
     private String updateUser;
 
+    @TableField(exist=false)
+    private String label;
+    @TableField(exist=false)
+    private String value;
+    @TableField(exist = false)
+    private String search ;
 
+    public void setId(String id) {
+        this.id = id;
+        this.value = id;
+    }
+
+    public void setRoleLabel(String roleLabel) {
+        this.roleLabel = roleLabel;
+        this.label = roleLabel;
+    }
 }

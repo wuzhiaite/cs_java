@@ -49,16 +49,25 @@ public class SysUserConsumer {
         try {
 
             Map<String,String> body = RabbitUtil.getMessageBody(message,Map.class);
+            String id = MapUtil.getString(body, "id");
             String userId = MapUtil.getString(body, "userId");
+            String riId = StringUtils.isEmpty(MapUtil.getString(body, "riId"))
+                                    ? MapUtil.getString(body, "riId")
+                                    : UUID.randomUUID().toString() ;
+            String diId = StringUtils.isEmpty(MapUtil.getString(body, "diId"))
+                    ? MapUtil.getString(body, "diId")
+                    : UUID.randomUUID().toString();
             String departmentId = MapUtil.getString(body, "departmentId");
             String roleId = MapUtil.getString(body, "roleId");
             if(!StringUtils.isEmpty(roleId)){
                 UserRoleInfo roleInfo = UserRoleInfo.builder()
+                                            .id(riId)
                                             .roleId(roleId).userId(userId).build();
                 roleInfoService.saveOrUpdate(roleInfo);
             }
             if(!StringUtils.isEmpty(departmentId)){
                 UserDepartmentInfo departmentInfo = UserDepartmentInfo.builder()
+                                                    .id(diId)
                                                     .userId(userId).departmentId(departmentId).build();
                 departmentInfoService.saveOrUpdate(departmentInfo);
             }

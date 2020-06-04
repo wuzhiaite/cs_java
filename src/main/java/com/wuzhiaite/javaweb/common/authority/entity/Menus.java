@@ -33,7 +33,7 @@ public class Menus implements Serializable {
 
     private String name;
 
-    @TableField(value="name")
+    @TableField(exist = false)
     private String label;
 
     @TableField("iconCls")
@@ -55,4 +55,8 @@ public class Menus implements Serializable {
     @TableField("orderBy")
     private String orderBy ;
 
+    public void setName(String name) {
+        this.name = name;
+        this.label = name ;
+    }
 }

@@ -27,13 +27,17 @@ import lombok.ToString;
 public class UserDepartment extends TreeEntity<UserDepartment> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @TableField(value="department_name",insertStrategy= FieldStrategy.IGNORED,updateStrategy = FieldStrategy.IGNORED)
-    private String label;
 
     private String departmentName;
     @TableField("isValidate")
     private Boolean isValidate ;
 
     private String bz;
+    @TableField(exist = false)
+    private String label;
 
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName ;
+        this.label = departmentName ;
+    }
 }
