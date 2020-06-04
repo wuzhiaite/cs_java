@@ -1,16 +1,15 @@
 package com.wuzhiaite.javaweb.common.authority.consumer;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
-import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RabbitUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartmentInfo;
+import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRoleInfo;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentInfoService;
+import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserRoleInfoService;
+import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.util.StringUtils;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,7 +28,11 @@ import java.util.UUID;
  */
 @Component
 public class SysUserConsumer {
-
+    /**
+     * 用户service
+     */
+    @Autowired
+    private IUserInfoService userInfoService;
     /**
      * 用户角色关联service
      */
@@ -45,37 +49,17 @@ public class SysUserConsumer {
      * @throws UnsupportedEncodingException
      */
     @RabbitListener(queues="user.permission")
-    public void setUserPermission(Message message) throws UnsupportedEncodingException {
+    public void setUserPermission(Message message) {
         try {
-
-            Map<String,String> body = RabbitUtil.getMessageBody(message,Map.class);
-            String id = MapUtil.getString(body, "id");
-            String userId = MapUtil.getString(body, "userId");
-            String riId = StringUtils.isEmpty(MapUtil.getString(body, "riId"))
-                                    ? MapUtil.getString(body, "riId")
-                                    : UUID.randomUUID().toString() ;
-            String diId = StringUtils.isEmpty(MapUtil.getString(body, "diId"))
-                    ? MapUtil.getString(body, "diId")
-                    : UUID.randomUUID().toString();
-            String departmentId = MapUtil.getString(body, "departmentId");
-            String roleId = MapUtil.getString(body, "roleId");
-            if(!StringUtils.isEmpty(roleId)){
-                UserRoleInfo roleInfo = UserRoleInfo.builder()
-                                            .id(riId)
-                                            .roleId(roleId).userId(userId).build();
-                roleInfoService.saveOrUpdate(roleInfo);
-            }
-            if(!StringUtils.isEmpty(departmentId)){
-                UserDepartmentInfo departmentInfo = UserDepartmentInfo.builder()
-                                                    .id(diId)
-                                                    .userId(userId).departmentId(departmentId).build();
-                departmentInfoService.saveOrUpdate(departmentInfo);
-            }
-        } catch (RuntimeException | JsonProcessingException e) {
+            UserInfo user = RabbitUtil.getMessageBody(message, UserInfo.class);
+            UserDepartmentInfo departmentInfo = user.getDepartmentInfo();
+            departmentInfoService.saveOrUpdate(departmentInfo);
+            List<UserRoleInfo> roleInfo = user.getRoleInfo();
+            roleInfoService.saveOrUpdateBatch(roleInfo);
+            userInfoService.updateById(user);
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         } finally {
-
-
         }
 
 

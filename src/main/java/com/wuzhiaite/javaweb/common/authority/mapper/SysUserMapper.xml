@@ -7,7 +7,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="roleMap" type="com.wuzhiaite.javaweb.common.authority.entity.UserRole">
         <id column="ID" property="id" />
-        <result column="ROLE_LABEL" property="roleLabel" />
+        <result column="role_label" property="roleLabel" />
         <result column="ROLE_VALUE" property="roleValue" />
         <result column="isValidate" property="isValidate" />
     </resultMap>

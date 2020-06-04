@@ -5,11 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RabbitUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
+import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
-import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.mapper.SysUserMapper;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.RabbitUtils;
@@ -42,13 +43,25 @@ public class SysUserService extends ComCrudServiceImpl<SysUserMapper,Map<String,
      * @param username
      * @return
      */
-    public User getUserInfo(String username) {
-        User user = null;
+    public UserInfo getUserInfo(String username) {
+        UserInfo user = null;
         user = mapper.getUser(username) ;
         return user ;
     }
 
-
-
-
+    /**
+     * 暂时先这样写。。。更新是否有效
+     * @param body
+     * @return
+     */
+    public boolean updateValidate(Map<String, Object> body) {
+        String sql = new SQL() {{
+            UPDATE("user_info");
+            SET("isValidate="+body.get("isValidate"));
+            WHERE("id="+MapUtil.getString(body, "id"))
+            .AND()
+            .WHERE("user_id=" + MapUtil.getString(body, "userId"));
+        }}.toString();
+        return mapper.updateBySQL(sql) == 1;
+    }
 }

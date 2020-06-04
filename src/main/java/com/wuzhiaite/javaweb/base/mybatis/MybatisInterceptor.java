@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.oConvertUtils;
-import com.wuzhiaite.javaweb.common.authority.entity.User;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;

@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.lang.Assert;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSenderEntity;
@@ -8,12 +8,11 @@ import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
+import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
-import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import com.wuzhiaite.javaweb.common.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -79,7 +78,7 @@ public class SysUserController extends BaseController {
             //获取token信息
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
-            User user = userService.getUserInfo(username) ;
+            UserInfo user = userService.getUserInfo(username) ;
             List<UserRole> userRoles = userService.getRoles(username);
             map.put("token",str);
             map.put("username",principal.getUsername());
@@ -122,15 +121,13 @@ public class SysUserController extends BaseController {
     }
 
     @RequestMapping("/setUserPermission")
-    public ResultObj setUserPermission(@RequestBody Map<String,Object> params){
+    public ResultObj setUserPermission(@RequestBody UserInfo user){
         try {
-            if(MapUtil.isNull(params)){
-                throw new RuntimeException("参数不能为空，请重新确认");
-            }
+            Assert.notNull(user);
             RabbitSenderEntity entity = RabbitSenderEntity.builder()
                                               .exchange("cs.user.topic")
                                               .routeKey("user.permission")
-                                              .params(new JSONObject(params).toString()).build();
+                                              .params(user).build();
             sender.convertAndSend(entity);
         } catch (Exception e) {
             log.error(e.getMessage());

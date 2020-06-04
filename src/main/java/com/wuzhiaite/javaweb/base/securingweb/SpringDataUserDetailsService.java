@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.base.securingweb;
 
+import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
-import com.wuzhiaite.javaweb.common.authority.entity.User;
 import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +27,7 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         if(StringUtils.isEmpty(userService)){
             userService = new SysUserService();
         }
-        User user = userService.getUserInfo(username);
+        UserInfo user = userService.getUserInfo(username);
         List<UserRole> userRoles = userService.getRoles(username);
         return new SecurityUserDetails(username,user.getPassword(), userRoles);
     }
