@@ -136,4 +136,20 @@ public class SysUserController extends BaseController {
         return ResultObj.successObj("权限设置成功");
     }
 
+
+
+    @PostMapping("/getPermission/{id}")
+    public ResultObj getUserPermission(@PathVariable String id){
+        try {
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return  ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj("权限设置成功");
+    }
+
+
+
+
 }

@@ -12,13 +12,12 @@
         <result column="isValidate" property="isValidate" />
     </resultMap>
     <!-- 字段映射-->
-    <resultMap id="userMap" type="com.wuzhiaite.javaweb.common.authority.entity.User">
+    <resultMap id="userMap" type="com.wuzhiaite.javaweb.common.authority.entity.UserInfo">
         <id column="ID" property="id" />
         <result column="USER_ID" property="userId" />
         <result column="USERNAME" property="username" />
         <result column="PASSWORD" property="password" />
         <result column="TELEPHONE" property="telephone" />
-        <result column="PROFILE_PHOTO" property="profilePhoto" />
         <result column="ISVALIDATE" property="isValidate" />
     </resultMap>
 
@@ -28,8 +27,6 @@
             USER_ID ,
             USERNAME ,
             PASSWORD ,
-            TELEPHONE ,
-            PROFILE_PHOTO ,
             ISVALIDATE
             FROM  USER_INFO WHERE USER_ID = #{username}
     </select>

@@ -43,9 +43,6 @@ public class UserInfo implements Serializable {
 
    private String telephone;
 
-   @TableField("PROFILE_PHOTO")
-   private String profilePhoto;
-
    @TableField("isValidate")
    private String isValidate;
 
