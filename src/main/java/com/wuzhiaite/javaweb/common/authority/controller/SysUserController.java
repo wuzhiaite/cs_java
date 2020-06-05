@@ -7,6 +7,7 @@ import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSenderEntity;
 import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
+import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.*;
@@ -141,7 +142,7 @@ public class SysUserController extends BaseController {
             RabbitSenderEntity entity = RabbitSenderEntity.builder()
                                               .exchange("cs.user.topic")
                                               .routeKey("user.permission")
-                                              .params(user).build();
+                                              .params(JsonMapperUtil.toString(user)).build();
             sender.convertAndSend(entity);
         } catch (Exception e) {
             log.error(e.getMessage());

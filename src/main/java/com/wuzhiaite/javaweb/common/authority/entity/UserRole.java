@@ -2,7 +2,9 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,10 +13,17 @@ import java.util.Date;
  * @author lpf
  */
 @Data
+@ToString
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@ApiModel(value="UserRole对象", description="")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRole implements Serializable {
+
     private String id ;
     private String roleLabel ;
-
     private String roleValue ;
     @TableField("isValidate")
     private Boolean isValidate ;

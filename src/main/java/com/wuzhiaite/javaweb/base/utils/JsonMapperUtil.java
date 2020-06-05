@@ -4,6 +4,8 @@ import cn.hutool.core.lang.Assert;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
+import java.io.IOException;
+
 /**
  * json 处理的工具类
  * @author lpf
@@ -36,7 +38,18 @@ public class JsonMapperUtil {
         return jm.readValue(json,t);
     }
 
-
+    /**
+     *
+     * @param bytes
+     * @param clazz
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
+    public static <T> T parseValue(byte[] bytes,Class<T> clazz) throws IOException {
+        Assert.notNull(bytes);
+        return jm.readValue(bytes,clazz);
+    }
 
 
 
