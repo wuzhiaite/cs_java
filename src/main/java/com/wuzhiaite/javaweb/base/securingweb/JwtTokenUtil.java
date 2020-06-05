@@ -70,13 +70,5 @@ public class JwtTokenUtil {
         return subject;
     }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        String root = generateToken("123");
-        log.info(root);
-        String s = parseToken(root);
-        log.info(s);
-    }
-
 }
 

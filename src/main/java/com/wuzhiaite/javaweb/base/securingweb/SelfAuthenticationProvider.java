@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * 前端交互
+ * @author lpfs
  */
 @Component
 public class SelfAuthenticationProvider  implements AuthenticationProvider {
@@ -42,7 +43,6 @@ public class SelfAuthenticationProvider  implements AuthenticationProvider {
             if(!StringUtils.isEmpty(loginNums) && loginNums >= 3){
                 throw new RuntimeException("已经错误登录了3次，请1分钟之后再重试！");
             }else{
-//                loginNums = StringUtils.isEmpty(loginNums) ? 1 : loginNums + 1 ;
                 loginNums = redisUtil.hincr("loginNums",userName,1);
                 if(loginNums == 3){
                     redisUtil.hset("loginNums",userName,loginNums,1*60);
@@ -60,6 +60,15 @@ public class SelfAuthenticationProvider  implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authentication) {
         return true;
+    }
+
+
+
+    public static void main(String[] args) throws InterruptedException {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String password = "123";
+        String encode = encoder.encode(password);
+        System.out.println(encode);
     }
 
 
