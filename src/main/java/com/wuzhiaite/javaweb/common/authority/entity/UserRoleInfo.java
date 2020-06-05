@@ -5,11 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.ToString;
 
 /**
 * <p>
@@ -25,6 +22,8 @@ import lombok.ToString;
 @Accessors(chain = true)
 @ApiModel(value="UserRoleInfo对象", description="")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRoleInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

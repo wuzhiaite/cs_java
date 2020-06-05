@@ -9,19 +9,13 @@ import com.wuzhiaite.javaweb.common.authority.entity.UserRoleInfo;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserRoleInfoService;
-import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author lpf

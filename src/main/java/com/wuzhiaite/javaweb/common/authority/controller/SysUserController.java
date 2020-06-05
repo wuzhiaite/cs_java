@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSenderEntity;
@@ -8,9 +9,8 @@ import com.wuzhiaite.javaweb.base.securingweb.JwtTokenUtil;
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
-import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
-import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
-import com.wuzhiaite.javaweb.common.authority.service.SysUserService;
+import com.wuzhiaite.javaweb.common.authority.entity.*;
+import com.wuzhiaite.javaweb.common.authority.service.*;
 import com.wuzhiaite.javaweb.common.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,12 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/api/user")
 public class SysUserController extends BaseController {
+
     /**
-     *
+     * 
      */
     @Autowired
-    private SysUserService userService;
+    private IUserInfoService userInfoService ;
     /**
      *
      */
@@ -54,7 +55,19 @@ public class SysUserController extends BaseController {
      *
      */
     @Autowired
-    private RedisUtil redisUtil;
+    private IUserRoleService roleService ;
+    @Autowired
+    private IUserDepartmentService departmentService;
+
+    /**
+     *
+     */
+    @Autowired
+    private IUserRoleInfoService roleInfoService;
+
+    @Autowired
+    private IUserDepartmentInfoService departmentInfoService;
+
     /**
      * 登录
      * @param
@@ -78,12 +91,13 @@ public class SysUserController extends BaseController {
             //获取token信息
             SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
             String str = JwtTokenUtil.generateToken(principal.getUsername());
-            UserInfo user = userService.getUserInfo(username) ;
-            List<UserRole> userRoles = userService.getRoles(username);
+            UserInfo userInfo = UserInfo.builder().userId(username).build();
+            userInfo = userInfoService.getOne(new QueryWrapper<>(userInfo));
+            List<UserRole> userRoles = roleService.getRoleList(username);
             map.put("token",str);
             map.put("username",principal.getUsername());
             map.put("authorities",principal.getAuthorities());
-            map.put("user",user );
+            map.put("user",userInfo );
             map.put("roles", userRoles);
 
             log.info(String.valueOf(map));
@@ -140,13 +154,20 @@ public class SysUserController extends BaseController {
 
     @PostMapping("/getPermission/{id}")
     public ResultObj getUserPermission(@PathVariable String id){
+        UserInfo userInfo = null ;
         try {
-
+             userInfo = userInfoService.getById(id);
+            UserRoleInfo roleInfo = UserRoleInfo.builder().userId(id).build();
+            List<UserRoleInfo> roleInfoList = roleInfoService.list(new QueryWrapper<>(roleInfo));
+            userInfo.setRoleInfo(roleInfoList);
+            UserDepartmentInfo departmentInfo = UserDepartmentInfo.builder().userId(id).build();
+            departmentInfo = departmentInfoService.getOne(new QueryWrapper<UserDepartmentInfo>(departmentInfo));
+            userInfo.setDepartmentInfo(departmentInfo);
         } catch (Exception e) {
             log.error(e.getMessage());
             return  ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj("权限设置成功");
+        return ResultObj.successObj(userInfo);
     }
 
 

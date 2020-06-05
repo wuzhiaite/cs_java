@@ -3,4 +3,16 @@
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.UserRoleMapper">
 
 
+    <select id="getRoleList" resultType="com.wuzhiaite.javaweb.common.authority.entity.UserRole">
+        SELECT
+            ROLE.id ,
+            ROLE.role_label roleLabel,
+            ROLE.role_value roleValue,
+            ROLE.isValidate
+        FROM user_info INFO
+        LEFT JOIN USER_ROLE_INFO RI ON INFO.ID = RI.USER_ID
+        LEFT JOIN USER_ROLE ROLE ON ROLE.ID = RI.ROLE_ID
+        WHERE INFO.USER_ID = #{username}
+
+    </select>
 </mapper>

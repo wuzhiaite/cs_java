@@ -4,7 +4,10 @@ import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserInfoMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -16,5 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService {
+
+
+
 
 }
