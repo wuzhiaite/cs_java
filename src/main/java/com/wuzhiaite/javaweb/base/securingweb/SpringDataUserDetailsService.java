@@ -35,7 +35,6 @@ public class SpringDataUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserInfo user = UserInfo.builder().userId(username).build();
         user = userService.getOne(new QueryWrapper<UserInfo>(user));
-
         List<UserRole> userRoles = roleService.getRoleList(username);
         return new SecurityUserDetails(username,user.getPassword(), userRoles);
     }

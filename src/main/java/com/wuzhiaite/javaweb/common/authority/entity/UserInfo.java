@@ -38,7 +38,7 @@ public class UserInfo implements Serializable {
    private String password;
 
    @TableField("isValidate")
-   private String isValidate;
+   private Boolean isValidate;
 
    private Date createTime;
 

@@ -4,15 +4,11 @@
 
 
     <select id="getRoleList" resultType="com.wuzhiaite.javaweb.common.authority.entity.UserRole">
-        SELECT
-            ROLE.id id,
-            ROLE.role_label roleLabel,
-            ROLE.role_value roleValue,
-            ROLE.isValidate isValidate
-        FROM user_info INFO
-        LEFT JOIN USER_ROLE_INFO RI ON INFO.ID = RI.USER_ID
-        LEFT JOIN USER_ROLE ROLE ON ROLE.ID = RI.ROLE_ID
-        WHERE INFO.USER_ID = #{username}
-
+        select
+        role.*
+        from user_role role
+        left join user_role_info ri on role.id=ri.role_id
+        left join user_info ui on ui.id=ri.user_id
+        where ui.user_id= #{username}
     </select>
 </mapper>
