@@ -69,6 +69,9 @@ public class SysUserController extends BaseController {
     @Autowired
     private IUserDepartmentInfoService departmentInfoService;
 
+    @Autowired
+    private IUserPermissionService permissionService ;
+
     /**
      * 登录
      * @param

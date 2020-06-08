@@ -1,8 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service;
 
-import com.wuzhiaite.javaweb.base.service.ITree;
-import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wuzhiaite.javaweb.base.service.ITree;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
 import com.wuzhiaite.javaweb.common.authority.entity.UserPermission;
 
@@ -14,10 +13,9 @@ import java.util.List;
  * </p>
  *
  * @author lpf
- * @since 2020-04-28
+ * @since 2020-06-08
  */
-public interface IMenusService extends ITree<Menus> {
+public interface IUserPermissionService extends ITree<UserPermission> {
 
-    List<Menus> menuslist(Menus entity);
-
+    List<UserPermission> menusPermisisonList(UserPermission entity);
 }

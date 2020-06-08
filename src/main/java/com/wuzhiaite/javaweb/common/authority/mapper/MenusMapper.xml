@@ -2,29 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper">
 
-    <select id="getMenuList"
-            parameterType="com.wuzhiaite.javaweb.common.authority.entity.Menus"
-            resultType="com.wuzhiaite.javaweb.common.authority.entity.Menus">
-        select
-          id,
-          path,
-          name,
-          name label,
-          iconCls,
-          realPath,
-          hidden,
-          father_id fatherId,
-          isvalidate,
-          iskeepalive,
-          orderBy
-        from menus
-        <where>
-            1=1
-            <if test="fatherId != null and fatherId != '' ">
-                AND fatherId = #{fatherId}
-            </if>
-        </where>
-        order by orderBy asc
 
-    </select>
+
 </mapper>

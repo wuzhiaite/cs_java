@@ -51,6 +51,8 @@ public class UserInfo implements Serializable {
    private List<UserRoleInfo> roleInfo ;
    @TableField(exist = false)
    private UserDepartmentInfo departmentInfo;
+   @TableField(exist = false)
+   private List<UserPermission> permissionInfo;
 
 
 

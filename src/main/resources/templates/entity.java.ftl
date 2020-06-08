@@ -5,6 +5,7 @@ import ${pkg};
 </#list>
 <#if swagger2>
 import io.swagger.annotations.ApiModel;
+import lombok.experimental.Accessors;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>

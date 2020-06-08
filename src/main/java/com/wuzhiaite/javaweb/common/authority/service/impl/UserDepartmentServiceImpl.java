@@ -31,8 +31,8 @@ public class UserDepartmentServiceImpl extends TreeService<UserDepartmentMapper,
         QueryWrapper<UserDepartment> wrapper = new QueryWrapper<>(entity);
         wrapper.orderByAsc("orderBy");
         List<UserDepartment> list = getBaseMapper().selectList(wrapper);
-        List<UserDepartment> tree = this.getTree(list);
-        return tree;
+        list = this.getTree(list);
+        return list;
     }
 
 

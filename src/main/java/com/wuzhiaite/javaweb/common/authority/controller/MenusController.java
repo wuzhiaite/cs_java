@@ -1,6 +1,8 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
 
+import com.wuzhiaite.javaweb.common.authority.entity.UserPermission;
+import com.wuzhiaite.javaweb.common.authority.service.IUserPermissionService;
 import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +31,8 @@ public class MenusController {
     */
     @Autowired
     private IMenusService service;
+    @Autowired
+    private IUserPermissionService permissionService;
 
     /**
     * 查找列表数据
@@ -64,6 +68,22 @@ public class MenusController {
         return ResultObj.successObj(list);
     }
 
+    /**
+     * 查找列表
+     * @param entity
+     * @return
+     */
+    @PostMapping("/getPermissionList")
+    public ResultObj getPermissionList(@RequestBody(required = false) UserPermission entity){
+        List<UserPermission> list = null;
+        try {
+            list = permissionService.menusPermisisonList(entity);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(list);
+    }
 
 
         /**
