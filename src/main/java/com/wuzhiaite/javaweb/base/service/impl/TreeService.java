@@ -45,7 +45,7 @@ public class TreeService< M extends BaseMapper<T>,T extends TreeEntity>
     /**
      * 关联子和父
      */
-    private void getFather(T t, List<T> list) {
+    protected void getFather(T t, List<T> list) {
         for(T m : list){
             if(t.getFatherId().equals(m.getId())){
                 List<T> childrens = m.getChildren();

@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 * <p>
@@ -75,9 +77,9 @@ public class MenusController {
      */
     @PostMapping("/getPermissionList")
     public ResultObj getPermissionList(@RequestBody(required = false) UserPermission entity){
-        List<UserPermission> list = null;
+        List<UserPermission> list = null ;
         try {
-            list = permissionService.menusPermisisonList(entity);
+            list = permissionService.menusPermisison(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResultObj.failObj(e.getMessage());
