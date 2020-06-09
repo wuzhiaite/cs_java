@@ -2,18 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.UserPermissionMapper">
 
-    <select id="getMenusPermissionList"
-            resultType="com.wuzhiaite.javaweb.common.authority.entity.UserPermission">
-       select
-            m.id,
-            m.id as menu_id,
-            m.name as label,
-            m.father_id,
-            per.user_id,
-            per.add,
-            per.edit,
-            per.delete
-            from menus m
-            left join user_permission per on m.id = per.id and per.user_id=#{userId}
-    </select>
+
 </mapper>

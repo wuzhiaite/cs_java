@@ -1,7 +1,8 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
 
-import com.wuzhiaite.javaweb.common.authority.entity.UserPermission;
+import com.wuzhiaite.javaweb.common.authority.entity.UserMenusPermission;
+import com.wuzhiaite.javaweb.common.authority.service.IUserMenusPermissionService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserPermissionService;
 import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
 * <p>
@@ -34,7 +33,7 @@ public class MenusController {
     @Autowired
     private IMenusService service;
     @Autowired
-    private IUserPermissionService permissionService;
+    private IUserMenusPermissionService permissionService;
 
     /**
     * 查找列表数据
@@ -76,8 +75,8 @@ public class MenusController {
      * @return
      */
     @PostMapping("/getPermissionList")
-    public ResultObj getPermissionList(@RequestBody(required = false) UserPermission entity){
-        List<UserPermission> list = null ;
+    public ResultObj getPermissionList(@RequestBody(required = false) UserMenusPermission entity){
+        List<UserMenusPermission> list = null ;
         try {
             list = permissionService.menusPermisison(entity);
         } catch (Exception e) {

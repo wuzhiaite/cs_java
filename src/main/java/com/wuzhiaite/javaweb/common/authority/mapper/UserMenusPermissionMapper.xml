@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.UserMenusPermissionMapper">
+
+    <select id="getMenusPermissionList"
+            resultType="com.wuzhiaite.javaweb.common.authority.entity.UserMenusPermission">
+       select
+            case when per.id != '' then per.id else uuid() end id,
+            m.id as menu_id,
+            m.name,
+            m.father_id,
+            per.user_id,
+            per.can_add,
+            per.can_edit,
+            per.can_delete
+            from menus m
+            left join user_permission per on m.id = per.menu_id and per.user_id=#{userId}
+    </select>
+
+</mapper>

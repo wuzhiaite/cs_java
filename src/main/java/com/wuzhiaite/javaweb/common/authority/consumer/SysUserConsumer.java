@@ -4,11 +4,10 @@ package com.wuzhiaite.javaweb.common.authority.consumer;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wuzhiaite.javaweb.base.utils.RabbitUtil;
-import com.wuzhiaite.javaweb.common.authority.entity.UserDepartmentInfo;
-import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
-import com.wuzhiaite.javaweb.common.authority.entity.UserRoleInfo;
+import com.wuzhiaite.javaweb.common.authority.entity.*;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
+import com.wuzhiaite.javaweb.common.authority.service.IUserPermissionService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserRoleInfoService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -39,6 +38,8 @@ public class SysUserConsumer {
      */
     @Autowired
     private IUserDepartmentInfoService departmentInfoService ;
+    @Autowired
+    private IUserPermissionService permissionService ;
     /**
      *  对用户权限进行设置
      * @param message
@@ -60,7 +61,15 @@ public class SysUserConsumer {
             roleInfoService.remove(roleWrapper);
             List<UserRoleInfo> roleInfo = user.getRoleInfo();
             roleInfoService.saveOrUpdateBatch(roleInfo);
+
+            List<UserPermission> permissionInfo = user.getPermissionInfo();
+            QueryWrapper<UserPermission> permissionWrapper = new QueryWrapper<>();
+            permissionWrapper.eq("user_id",user.getId());
+            permissionService.remove(permissionWrapper);
+            permissionService.saveBatch(permissionInfo);
+
             userInfoService.updateById(user);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         } catch (IOException e) {

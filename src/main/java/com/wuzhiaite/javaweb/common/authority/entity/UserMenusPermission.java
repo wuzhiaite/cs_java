@@ -25,21 +25,21 @@ import java.util.Date;
 @ApiModel(value="UserPermission对象", description="")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPermission  implements Serializable {
+public class UserMenusPermission extends TreeEntity<UserMenusPermission>  implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private String id ;
 
     private String userId;
 
     private String menuId;
 
-    private Boolean canAdd;
+    private String name ;
 
-    private Boolean canEdit;
+    private Boolean canAdd = true ;
 
-    private Boolean canDelete;
+    private Boolean canEdit = true ;
+
+    private Boolean canDelete = true ;
 
     private Date createTime;
 

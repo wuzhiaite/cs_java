@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.mapper;
 
+import com.wuzhiaite.javaweb.common.authority.entity.UserMenusPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wuzhiaite.javaweb.common.authority.entity.UserPermission;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,9 +15,7 @@ import java.util.List;
 * @since 2020-06-08
 */
 @Mapper
-public interface UserPermissionMapper extends BaseMapper<UserPermission> {
+public interface UserMenusPermissionMapper extends BaseMapper<UserMenusPermission> {
 
-
-
-
+    List<UserMenusPermission> getMenusPermissionList(UserMenusPermission entity);
 }

@@ -1,19 +1,12 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.wuzhiaite.javaweb.base.service.impl.TreeService;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
-import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
-import com.wuzhiaite.javaweb.common.authority.entity.UserPermission;
 import com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
