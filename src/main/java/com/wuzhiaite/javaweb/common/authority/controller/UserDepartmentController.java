@@ -17,6 +17,9 @@ import java.util.Map;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentService;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
 import org.springframework.web.bind.annotation.RestController;
+import com.wuzhiaite.javaweb.module.per.entity.DepartmentMenusPermission;
+import com.wuzhiaite.javaweb.module.per.service.IDepartmentMenusPermissionService ;
+
 
 /**
 * <p>
@@ -35,6 +38,8 @@ public class UserDepartmentController {
     */
     @Autowired
     private IUserDepartmentService service;
+    @Autowired
+    private IDepartmentMenusPermissionService departmentMenusPermissionService ;
 
     /**
     * 查找列表数据
@@ -76,8 +81,6 @@ public class UserDepartmentController {
         }
         return ResultObj.successObj(list);
     }
-
-
 
     /**
     * 通过ID获取
