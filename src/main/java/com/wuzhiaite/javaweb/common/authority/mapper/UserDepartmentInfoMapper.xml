@@ -2,4 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.UserDepartmentInfoMapper">
 
+    <select id="getUserDepartment"
+            resultType="com.wuzhiaite.javaweb.common.authority.entity.UserDepartment">
+            select
+                department.id,
+                department.department_name,
+                department.father_id,
+                department.menus
+                from
+                user_department_info di
+                left join user_department department on di.department_id=department.id
+             <where>
+                 department.isValidate= 1
+                 <if test="userId != null and userId != '' ">
+                     and di.user_id=#{userId}
+                 </if>
+             </where>
+    </select>
 </mapper>

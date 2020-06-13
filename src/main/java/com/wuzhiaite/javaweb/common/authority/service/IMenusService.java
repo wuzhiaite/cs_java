@@ -14,7 +14,16 @@ import java.util.List;
  * @since 2020-04-28
  */
 public interface IMenusService extends ITree<Menus> {
-
+    /**
+     *
+     * @param entity
+     * @return
+     */
     List<Menus> menuslist(Menus entity);
 
+    /**
+     *
+     * @return
+     */
+    List<Menus> getUserMenuList();
 }

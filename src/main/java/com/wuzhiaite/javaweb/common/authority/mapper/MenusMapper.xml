@@ -3,5 +3,27 @@
 <mapper namespace="com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper">
 
 
+    <select id="getUserMenuList" resultType="com.wuzhiaite.javaweb.common.authority.entity.Menus">
+        select
+            m.*,
+            per.user_id,
+            per.can_add,
+            per.can_edit,
+            per.can_delete
+            from menus m
+            left join user_permission per on m.id = per.menu_id
+            <where>
+                <if test="userId != null and userId != '' ">
+                    per.user_id=#{userId}
+                </if>
+                <if test="menuIds != null and menuIds.size > 0">
+                   and m.id in
+                    <foreach collection="menuIds" index="index" item="id" open="(" separator="," close=")" >
+                       #{id}
+                    </foreach>
+                </if>
+            </where>
 
+
+    </select>
 </mapper>

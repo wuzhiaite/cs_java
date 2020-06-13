@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ *  用户菜单页面按钮权限
  * </p>
  *
  * @author lpf

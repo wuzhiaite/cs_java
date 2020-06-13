@@ -3,6 +3,7 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.wuzhiaite.javaweb.base.entity.TreeEntity;
@@ -46,6 +47,15 @@ public class Menus extends TreeEntity implements Serializable {
     private Boolean isvalidate;
 
     private Boolean iskeepalive;
+    @TableField(exist = false)
+    private Map<String,Object> meta;
+    @TableField(exist = false)
+    private Boolean canAdd;
+    @TableField(exist = false)
+    private Boolean canEdit;
+    @TableField(exist = false)
+    private Boolean canDelete;
+
 
     public void setName(String name) {
         this.name = name;

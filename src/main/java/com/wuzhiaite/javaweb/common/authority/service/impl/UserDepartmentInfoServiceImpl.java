@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
+import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartmentInfo;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserDepartmentInfoMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentInfoService;
@@ -16,5 +17,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserDepartmentInfoServiceImpl extends ServiceImpl<UserDepartmentInfoMapper, UserDepartmentInfo> implements IUserDepartmentInfoService {
+
+    /**
+     *
+     * @param departmentInfo
+     * @return
+     */
+    @Override
+    public UserDepartment getUserDepartment(String id) {
+        return baseMapper.getUserDepartment(id);
+    }
+
+
+
 
 }

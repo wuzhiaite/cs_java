@@ -70,6 +70,23 @@ public class MenusController {
     }
 
     /**
+     * 获取当前用户菜单及权限
+     * @return
+     */
+    @PostMapping("/getUserMenu")
+    public ResultObj getUserMenu(){
+        List<Menus> list = null;
+        try {
+            list = service.getUserMenuList();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(list);
+    }
+
+
+    /**
      * 查找列表
      * @param entity
      * @return
