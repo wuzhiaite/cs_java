@@ -20,7 +20,7 @@ public class UserDepartmentInfoServiceImpl extends ServiceImpl<UserDepartmentInf
 
     /**
      *
-     * @param departmentInfo
+     * @param id
      * @return
      */
     @Override

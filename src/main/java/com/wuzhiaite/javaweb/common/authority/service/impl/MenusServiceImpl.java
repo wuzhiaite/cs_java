@@ -87,13 +87,8 @@ public class MenusServiceImpl  extends TreeService<MenusMapper, Menus>
                 temp.add("can_edit");
             }
             Map<String,Object> meta = new HashMap<>();
-            try {
-                String permissions = JsonMapperUtil.toString(temp);
-                meta.put("permissions",permissions);
-                menu.setMeta(meta);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            meta.put("permissions",temp);
+            menu.setMeta(meta);
         });
         return this.getTree(menus);
     }
