@@ -3,12 +3,14 @@ package com.wuzhiaite.javaweb.common.authority.consumer;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.rabbitmq.client.Channel;
 import com.wuzhiaite.javaweb.base.utils.RabbitUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.*;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserPermissionService;
 import com.wuzhiaite.javaweb.common.authority.service.IUserRoleInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.util.List;
  * @author lpf
  */
 @Component
+@Slf4j
 public class SysUserConsumer {
     /**
      * 用户service
@@ -46,7 +49,7 @@ public class SysUserConsumer {
      * @throws UnsupportedEncodingException
      */
     @RabbitListener(queues="user.permission")
-    public void setUserPermission(Message message) {
+    public void setUserPermission(Message message, Channel channel) throws IOException {
         try {
             UserInfo user = RabbitUtil.getMessageBody(message, UserInfo.class);
             //先对部门关联数据进行删除，再重新插入，
@@ -70,13 +73,11 @@ public class SysUserConsumer {
 
             userInfoService.updateById(user);
 
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }  catch (IOException e) {
+            log.error("消费方法{}，爆出错误信息：{}","setUserPermission",e.getMessage());
         } finally {
-
-
+            //告诉MQ删除这一条消息，若是true，则是删除所有小于tags的消息
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }
 
 

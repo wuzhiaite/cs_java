@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.base.rabbitmq;
 
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -34,6 +35,7 @@ import java.util.Map;
  */
 @Configuration
 @Component
+@Slf4j
 public class RabbitMQConfig implements RabbitListenerConfigurer {
 
     /**
@@ -42,8 +44,7 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
     final RabbitTemplate.ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-            System.err.println("correlationData: " + correlationData);
-            System.err.println("ack: " + ack);
+            log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause);
             if(!ack){
                 //可以进行日志记录、异常处理、补偿处理等
                 System.err.println("异常处理...."+cause);
@@ -94,6 +95,11 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
         return new RabbitAdmin(rabbitTemplate());
     }
 
+    /**
+     * 初始化消息队列
+     * @param rabbitAdmin
+     * @return
+     */
     @Bean
     public RabbitMQInitProperty getRabbitMQProperty(RabbitAdmin rabbitAdmin){
         List<RabbitEntity> list = property.getList();
