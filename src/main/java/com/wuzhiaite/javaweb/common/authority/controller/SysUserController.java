@@ -84,11 +84,9 @@ public class SysUserController extends BaseController {
         //用户验证
         try {
             String username = MapUtil.getString(params, "username");
-
             String password = MapUtil.getString(params, "password");
             UsernamePasswordAuthenticationToken token
                     = new UsernamePasswordAuthenticationToken(username, password);
-
             Authentication authentication = authenticationManager.authenticate(token);
             //存储认证信息
             SecurityContextHolder.getContext().setAuthentication(authentication);
