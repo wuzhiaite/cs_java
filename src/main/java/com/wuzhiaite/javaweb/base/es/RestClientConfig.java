@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.net.InetSocketAddress;
 
@@ -15,6 +16,9 @@ import java.net.InetSocketAddress;
  * @author lpf
  */
 @Configuration
+@EnableElasticsearchRepositories(
+        basePackages = "org.springframework.data.elasticsearch.repository"
+)
 public class RestClientConfig extends AbstractElasticsearchConfiguration {
     /**
      * 生成rest的高级客户端
@@ -26,7 +30,8 @@ public class RestClientConfig extends AbstractElasticsearchConfiguration {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
                 .connectedTo("106.52.137.87:9200")
                 .build();
-        return RestClients.create(clientConfiguration).rest();
+        RestHighLevelClient client = RestClients.create(clientConfiguration).rest();
+        return client ;
     }
 
 

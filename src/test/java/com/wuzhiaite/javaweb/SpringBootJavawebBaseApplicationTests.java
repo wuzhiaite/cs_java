@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
+import com.wuzhiaite.javaweb.module.temp.entity.Temp;
+import com.wuzhiaite.javaweb.module.temp.service.ITempService;
 import com.wuzhiaite.javaweb.spring.serveice.AopServiceTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -19,7 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -84,6 +88,20 @@ public class SpringBootJavawebBaseApplicationTests {
         menusService.list(null);
     }
 
+
+    @Autowired
+    private ITempService tempService;
+
+
+
+    @Test
+    public void updateMapper(){
+        List<Temp> list = tempService.list();
+        tempService.remove(new QueryWrapper<Temp>());
+        boolean b = tempService.saveOrUpdateBatch(list);
+
+
+    }
 
 
 
