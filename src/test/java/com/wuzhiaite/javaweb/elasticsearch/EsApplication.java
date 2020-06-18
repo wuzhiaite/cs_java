@@ -20,6 +20,8 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -67,14 +69,17 @@ public class EsApplication {
 
     @Autowired
     PersonRepository repository;
+
     @Test
     public void getPersonByRepository(){
-        Iterable<Person> all = repository.findAll();
-        all.forEach(person -> {
-            System.out.println("================================================");
-            System.out.println(person);
-            System.out.println("================================================");
-        });
+        List<Person> zsf = repository.findByName("张三丰");
+        log.info(zsf.toString());
+//        Iterable<Person> all = repository.findByNameAndId("张三丰","987314");
+//        all.forEach(person -> {
+//            System.out.println("================================================");
+//            System.out.println(person);
+//            System.out.println("================================================");
+//        });
 
     }
 

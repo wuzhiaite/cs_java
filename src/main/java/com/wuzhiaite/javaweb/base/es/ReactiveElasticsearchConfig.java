@@ -13,6 +13,7 @@ import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.elasticsearch.repository.config.EnableReactiveElasticsearchRepositories;
 
 import java.net.InetSocketAddress;
 
@@ -21,6 +22,7 @@ import java.net.InetSocketAddress;
  * @author lpf
  */
 @Configuration
+@EnableReactiveElasticsearchRepositories
 public class ReactiveElasticsearchConfig extends AbstractReactiveElasticsearchConfiguration {
     /**
      * 配置要使用的客户端。
