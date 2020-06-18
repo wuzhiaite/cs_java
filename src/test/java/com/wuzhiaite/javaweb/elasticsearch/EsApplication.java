@@ -7,13 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.GetQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
@@ -36,7 +33,8 @@ public class EsApplication {
 
     @Test
     public void saveEs(){
-        Person person = Person.builder().id("77777").name("王五").age(19).build();
+        Person person = Person.builder().id("66666").name("六哥").age(19).build();
+//        IndexCoordinates indexCoordinates = operations.getIndexCoordinatesFor(person.getClass());
         IndexQuery indexQuery = new IndexQueryBuilder()
                 .withId(person.getId())
                 .withObject(person)
@@ -74,12 +72,12 @@ public class EsApplication {
     public void getPersonByRepository(){
         List<Person> zsf = repository.findByName("张三丰");
         log.info(zsf.toString());
-//        Iterable<Person> all = repository.findByNameAndId("张三丰","987314");
-//        all.forEach(person -> {
-//            System.out.println("================================================");
-//            System.out.println(person);
-//            System.out.println("================================================");
-//        });
+        Iterable<Person> all = repository.findByNameAndId("张三丰",987314);
+        all.forEach(person -> {
+            System.out.println("================================================");
+            System.out.println(person);
+            System.out.println("================================================");
+        });
 
     }
 

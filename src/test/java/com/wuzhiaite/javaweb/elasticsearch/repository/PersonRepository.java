@@ -15,5 +15,7 @@ public interface PersonRepository extends ElasticsearchRepository<Person,String>
     @Query("{\"match\": {\"name\": {\"query\": \"?0\"}}}")
     List<Person> findByName(String name);
 
+    List<Person> findByNameAndId(String name, int id);
+
 
 }
