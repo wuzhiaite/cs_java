@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.base.es;
 
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -20,6 +21,9 @@ import java.net.InetSocketAddress;
         basePackages = "org.springframework.data.elasticsearch.repository"
 )
 public class RestClientConfig extends AbstractElasticsearchConfiguration {
+    @Value("${es.hostAndPort}")
+    private String hostAndport;
+
     /**
      * 生成rest的高级客户端
      * @return
@@ -28,7 +32,7 @@ public class RestClientConfig extends AbstractElasticsearchConfiguration {
     @Bean
     public RestHighLevelClient elasticsearchClient() {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo("106.52.137.87:9200")
+                .connectedTo(hostAndport)
                 .build();
         RestHighLevelClient client = RestClients.create(clientConfiguration).rest();
         return client ;

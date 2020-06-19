@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.elasticsearch;
 
 
+import com.wuzhiaite.javaweb.elasticsearch.entity.Education;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Person;
 import com.wuzhiaite.javaweb.elasticsearch.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.GetQuery;
@@ -17,6 +19,10 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -78,14 +84,34 @@ public class EsApplication {
             System.out.println(person);
             System.out.println("================================================");
         });
-
     }
 
 
+    @Test
+    public void personGroup() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Education junior = Education.builder().schoolName("江河初中").edcationLevel("junior").startTime(sdf.parse("2000-09-01"))
+                .endTime(sdf.parse("2003-06-30")).build();
+
+        Education senior = Education.builder().schoolName("江河高中").edcationLevel("senior").startTime(sdf.parse("2003-09-01"))
+                .endTime(sdf.parse("2006-06-30")).build();
+        ArrayList<Education> list = new ArrayList<>();
+        list.add(junior);
+        list.add(senior);
 
 
+        Person tomcat = Person.builder().id("123324").name("tomcat").age(16).education(list).build();
+        Person save = repository.save(tomcat);
 
+    }
 
+    @Test
+    public void getList(){
+        Sort order = Sort.by(new Sort.Order(Sort.Direction.DESC, "name"));
+        Iterable<Person> all = repository.findAll(order);
+//        repository.search()
+
+    }
 
 
 

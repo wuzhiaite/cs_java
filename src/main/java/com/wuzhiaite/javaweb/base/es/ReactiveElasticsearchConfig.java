@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.base.es;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -24,6 +25,10 @@ import java.net.InetSocketAddress;
 @Configuration
 @EnableReactiveElasticsearchRepositories
 public class ReactiveElasticsearchConfig extends AbstractReactiveElasticsearchConfiguration {
+
+    @Value("${es.hostAndPort}")
+    private String hostAndport;
+
     /**
      * 配置要使用的客户端。
      * @return
@@ -32,7 +37,7 @@ public class ReactiveElasticsearchConfig extends AbstractReactiveElasticsearchCo
     @Bean
     public ReactiveElasticsearchClient reactiveElasticsearchClient() {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo("106.52.137.87:9200")
+                .connectedTo(hostAndport)
                 .build();
         return DefaultReactiveElasticsearchClient.create(clientConfiguration);
     }

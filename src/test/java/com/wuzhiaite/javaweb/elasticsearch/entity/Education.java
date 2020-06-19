@@ -4,23 +4,25 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Document(indexName="person_index")
-public class Person implements Serializable {
+@Document(indexName="education_index")
+public class Education {
     @Id
     private String id;
-    @Field(fielddata=true)
-    private String name;
-    private Integer age;
-    private List<Education> education;
+    private String edcationLevel;
+
+    @Field(type= FieldType.Date,pattern = "yyyy-MM-dd")
+    private Date startTime;
+    private Date endTime;
+    private String schoolName;
 
 
 }

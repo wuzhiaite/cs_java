@@ -62,6 +62,9 @@ rabbit-init:
     - {exchange: "cs.user.topic",queues: [user.permission] , bindingKey: '#.permission', type: topic }
 
 
+es:
+  hostAndPort: 106.52.137.87:9200
+
 debug: false
 
 
