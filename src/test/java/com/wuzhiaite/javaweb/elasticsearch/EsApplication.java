@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -109,11 +111,18 @@ public class EsApplication {
     public void getList(){
         Sort order = Sort.by(new Sort.Order(Sort.Direction.DESC, "name"));
         Iterable<Person> all = repository.findAll(order);
-//        repository.search()
 
+//        repository.search()
     }
 
+    @Test
+    public void updateEntity(){
+        Person person = Person.builder().id("66666").name("六哥ya!!!").age(19).build();
+        Person p = repository.index(person);
+        p= repository.findById("66666").get();
+        log.info("=========================== {} ==================",p);
 
+    }
 
 
 
