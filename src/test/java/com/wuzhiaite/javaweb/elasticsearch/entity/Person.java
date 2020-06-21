@@ -17,8 +17,8 @@ import java.util.List;
 public class Person implements Serializable {
     @Id
     private String id;
-    @Field(fielddata=true)
     private String name;
+    @Field(fielddata=true)
     private Integer age;
     private List<Education> education;
 

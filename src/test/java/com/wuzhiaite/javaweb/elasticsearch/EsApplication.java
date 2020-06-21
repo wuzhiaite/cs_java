@@ -1,16 +1,27 @@
 package com.wuzhiaite.javaweb.elasticsearch;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Education;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Person;
 import com.wuzhiaite.javaweb.elasticsearch.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
@@ -107,13 +118,6 @@ public class EsApplication {
 
     }
 
-    @Test
-    public void getList(){
-        Sort order = Sort.by(new Sort.Order(Sort.Direction.DESC, "name"));
-        Iterable<Person> all = repository.findAll(order);
-
-//        repository.search()
-    }
 
     @Test
     public void updateEntity(){
@@ -123,6 +127,44 @@ public class EsApplication {
         log.info("=========================== {} ==================",p);
 
     }
+
+     @Test
+    public void deleteAll(){
+        repository.deleteAll();
+     }
+
+    @Test
+    public void getList(){
+        Sort order = Sort.by(new Sort.Order(Sort.Direction.DESC, "age"));
+        Iterable<Person> all = repository.findAll(order);
+        for (Person person : all) {
+            log.info("==============={}================",person);
+        }
+        System.out.println("************************************************");
+        MatchAllQueryBuilder query = QueryBuilders.matchAllQuery();
+        Iterable<Person> search = repository.search(query);
+        for (Person person : search) {
+            log.info("==============={}================",person);
+        }
+
+
+    }
+    
+    @Test
+    public void getPageList() throws JsonProcessingException {
+//        PageRequest age = PageRequest.of(1, 10, Sort.Direction.ASC, "age");
+        PageRequest of = PageRequest.of(1, 10);
+        Page<Person> all = repository.findAll(of);
+        log.info("==============={}================", JsonMapperUtil.toString(all));
+    }
+
+    public void getSortList(){
+
+    }
+
+
+
+
 
 
 
