@@ -3,7 +3,7 @@ package com.wuzhiaite.javaweb.elasticsearch.repository;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Person;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.data.repository.Repository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

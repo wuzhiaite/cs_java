@@ -1,18 +1,27 @@
 package com.wuzhiaite.javaweb.elasticsearch;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Education;
 import com.wuzhiaite.javaweb.elasticsearch.entity.Person;
 import com.wuzhiaite.javaweb.elasticsearch.repository.PersonRepository;
+import com.wuzhiaite.javaweb.module.temp.entity.Temp;
+import com.wuzhiaite.javaweb.module.temp.service.ITempService;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.SimpleQueryStringBuilder;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.AggregatorFactory;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.min.MinAggregationBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
+import org.joda.time.Period;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +33,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.GetQuery;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
-import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,21 +158,53 @@ public class EsApplication {
 
 
     }
-    
+
     @Test
     public void getPageList() throws JsonProcessingException {
 //        PageRequest age = PageRequest.of(1, 10, Sort.Direction.ASC, "age");
         PageRequest of = PageRequest.of(1, 10);
-        Page<Person> all = repository.findAll(of);
+
+        MatchAllQueryBuilder query = QueryBuilders.matchAllQuery();
+        Page all = repository.findAll(of);
+
+        Page search = repository.search(query, of);
+        NativeSearchQuery nq = new NativeSearchQueryBuilder().withPageable(of).build();
+        Page<Person> people = operations.queryForPage(nq, Person.class);
+
+
         log.info("==============={}================", JsonMapperUtil.toString(all));
+        log.info("==============={}================", JsonMapperUtil.toString(search));
+        log.info("================{}===========",JsonMapperUtil.toString(people));
     }
 
+    /**
+     *
+     */
+    @Test
     public void getSortList(){
-
+        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field("country")
+                .subAggregation(AggregationBuilders.dateHistogram("by_year")
+                        .field("dateOfBirth")
+                        .subAggregation(AggregationBuilders.avg("avg_children").field("children"))
+                );
+        NativeSearchQuery query = new NativeSearchQueryBuilder().addAggregation(aggregationBuilder).build();
+        List<Person> people = operations.queryForList(query, Person.class);
     }
 
 
 
+
+    @Autowired
+    private ITempService tempService;
+
+    @Test
+    public void updateMapper(){
+        List<Temp> list = tempService.list();
+        tempService.remove(new QueryWrapper<Temp>());
+        boolean b = tempService.saveOrUpdateBatch(list);
+
+
+    }
 
 
 
