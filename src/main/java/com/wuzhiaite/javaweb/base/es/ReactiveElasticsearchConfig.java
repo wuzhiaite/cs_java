@@ -43,6 +43,7 @@ public class ReactiveElasticsearchConfig extends AbstractReactiveElasticsearchCo
     }
 
 
+    @Override
     @Bean
     public ElasticsearchConverter elasticsearchConverter() {
         return new MappingElasticsearchConverter(elasticsearchMappingContext());

@@ -49,7 +49,12 @@ spring:
     password: wmtyfdyfqplmbeda
   liquibase:
     enabled: false
-
+  activiti:
+    db-history-used: true
+    history-level: full
+    database-schema-update: true
+  main:
+    allow-bean-definition-overriding: true
 
 logging:
   file:
@@ -66,6 +71,4 @@ es:
   hostAndPort: 106.52.137.87:9200
 
 debug: false
-
-
 

@@ -14,6 +14,10 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author lpf
+ * @description 配置数据库
+ */
 @ConfigurationProperties(prefix="spring")
 @Configuration
 @Data

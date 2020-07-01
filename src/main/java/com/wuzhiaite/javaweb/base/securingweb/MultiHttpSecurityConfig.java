@@ -65,7 +65,7 @@ public class MultiHttpSecurityConfig extends WebSecurityConfigurerAdapter{
         return new SpringDataUserDetailsService();
     }
     /**自定义密码如何编码*/
-//    @Bean
+    @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
