@@ -20,6 +20,7 @@ public class Person implements Serializable {
     private String name;
     @Field(fielddata=true)
     private Integer age;
+    private String prov;
     private List<Education> education;
 
 

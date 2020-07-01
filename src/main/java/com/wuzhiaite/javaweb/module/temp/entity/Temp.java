@@ -49,12 +49,6 @@ public class Temp implements Serializable {
 
     private String aecode2;
 
-    private String chinaCertificateNo;
-
-    private String hongkongCertificateNo;
-
-    private String passortCertificateNo;
-
     private String country;
 
     private String crsContent;
@@ -102,9 +96,9 @@ public class Temp implements Serializable {
 
 
     public static void main(String[] args) throws  Exception{
-        String str = "eyJqdXJpc2RpY3Rpb24xIjoiQ0hOIiwidGluMSI6IjQyMTIyMzE5OTAwNDE1MjU2OSIsInJlYXNvbjEiOiIiLCJleHBsYWluMSI6IiIsIm5hbWUiOiJcdTllYzRcdTYwMWQgSHVhbmcgU2kiLCJmaXJzdE5hbWUiOiJcdTllYzRcdTYwMWQgSHVhbmcgU2kiLCJzZXhfcHJlZml4IjoiTWlzcyIsImFkZHJlc3MiOiJcdTZiNjZcdTZjNDlcdTVlMDJcdTZjNDlcdTk2MzNcdTUzM2FcdTZjNDlcdTZiMjNcdTgyZDExXHU1M2Y3XHU5NjQ0MVx1NTNmNyIsImJpcnRoZGF5IjoiMTk5MC0wNC0xNSJ9";
+        String str = "eyJpcCI6IjEyMS4zMy42MC4xMjIiLCJpcFpvbmUiOiJcdTVlN2ZcdTRlMWMgXHU1ZTdmXHU1ZGRlIiwidXNlckFnZW50IjoiTW96aWxsYVwvNS4wIChMaW51eDsgQW5kcm9pZCA5OyBNSSA5IFRyYW5zcGFyZW50IEVkaXRpb24gQnVpbGRcL1BLUTEuMTgxMTIxLjAwMTsgd3YpIEFwcGxlV2ViS2l0XC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBWZXJzaW9uXC80LjAgQ2hyb21lXC83NC4wLjM3MjkuMTM2IE1vYmlsZSBTYWZhcmlcLzUzNy4zNiB6eWFwcFwvMi4xLjUgKFhpYW9taSBNSSA5IFRyYW5zcGFyZW50IEVkaXRpb247IEFuZHJvaWQgOSkgdXVpZFwvY2I5NzUxOTUgY2hhbm5lbFwvZ3VhbndhbmcgcmVkX2dyZWVuX3NldHRpbmdcL3JlZCBsYW5ndWFnZVwvemgtQ04iLCJ2ZXJpZnl3YXkiOiJcdTgxZWFcdTUyYTlcdTUyOWVcdTc0MDYiLCJxMSI6IjQiLCJxMiI6IjQiLCJxMyI6IjMiLCJxNCI6IjQiLCJxNSI6IjMiLCJxNiI6IjUiLCJxNyI6IjUiLCJxOCI6IjIiLCJxOSI6W1swLDAsMF0sWzAsMCwwXSxbMCwwLDBdLFsxLDMsMl0sWzAsMCwwXSxbMCwwLDBdLFswLDAsMF0sWzAsMCwwXSxbMCwwLDBdLFsxLDMsMl0sWzAsMCwwXSxbMCwwLDBdLFswLDAsMF1dLCJzY29yZSI6IjM3IiwicmVhc29uIjoiXHU3ODZlXHU4YmE0XHVmZjBjXHU1NmUwXHU1ZTAyXHU1NzNhXHU3M2FmXHU1ODgzXHU1NDhjXHU2NzJjXHU0ZWJhXHU4YmE0XHU3N2U1XHU2NmY0XHU2NWIwIn0=";
         byte[] decode = decoder.decode(str);
-        System.out.println(new String(decode,"utf-8"));
+        System.out.println(new String(decode));
 
     }
 
