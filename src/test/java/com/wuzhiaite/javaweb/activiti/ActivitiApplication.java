@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.*;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Before;
@@ -39,14 +41,26 @@ public class ActivitiApplication {
 
     @Test
     public void deployProcess(){
-//        this.init();
         RepositoryService repositoryService = processEngine.getRepositoryService();
-        repositoryService.createDeployment()
+        Deployment deploy = repositoryService.createDeployment()
                 .addClasspathResource("org/activiti/test/my-process.bpmn20.xml")
                 .deploy();
 
         log.info("Number of process definitions: " + repositoryService.createProcessDefinitionQuery().count());
     }
+
+    @Test
+    public void getDeployProcess() throws JsonProcessingException {
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+//        repositoryService.createDeployment().addBytes();
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
+        list.stream().forEach(p->{
+            log.info("============  process//id:{},name:{},key:{},deploymentId:{} ============",
+                    p.getId(),p.getName(),p.getKey(),p.getDeploymentId());
+        });
+
+    }
+
 
 
     @Test
@@ -99,7 +113,16 @@ public class ActivitiApplication {
     }
 
 
+    
+    @Test
+    public void getTaskUser(){
+        TaskService taskService = processEngine.getTaskService();
+        IdentityService identityService = processEngine.getIdentityService();
 
+
+
+
+    }
 
 
 

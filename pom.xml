@@ -286,7 +286,23 @@
             <artifactId>activiti-spring-boot-starter-jpa</artifactId>
             <version>6.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.15-beta2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-schemas -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <!--poi tool-->
+        <dependency>
+            <groupId>com.deepoove</groupId>
+            <artifactId>poi-tl</artifactId>
+            <version>1.6.0-beta1</version>
+        </dependency>
 
     </dependencies>
 
