@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.activiti;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,17 +44,18 @@ public class ActivitiApplication {
     public void deployProcess(){
         RepositoryService repositoryService = processEngine.getRepositoryService();
         Deployment deploy = repositoryService.createDeployment()
-                .addClasspathResource("org/activiti/test/my-process.bpmn20.xml")
+                .addClasspathResource("processes/VacationRequest.bpmn20.xml")
                 .deploy();
-
+//        repositoryService.createDeployment().
         log.info("Number of process definitions: " + repositoryService.createProcessDefinitionQuery().count());
     }
 
     @Test
     public void getDeployProcess() throws JsonProcessingException {
         RepositoryService repositoryService = processEngine.getRepositoryService();
-//        repositoryService.createDeployment().addBytes();
-        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
+        int firstResult=1;
+        int maxResults = 10;
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().listPage(firstResult,maxResults);
         list.stream().forEach(p->{
             log.info("============  process//id:{},name:{},key:{},deploymentId:{} ============",
                     p.getId(),p.getName(),p.getKey(),p.getDeploymentId());
@@ -61,7 +63,19 @@ public class ActivitiApplication {
 
     }
 
+    @Test
+    public void getStartedProcess(){
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().list();
+        list.stream().forEach(p->{
+            try {
+                log.info("================= id:{},name:{} ==============", p.getDeploymentId(),p.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
+    }
 
     @Test
     public void startProcess(){
@@ -70,61 +84,69 @@ public class ActivitiApplication {
         variables.put("numberOfDays", new Integer(4));
         variables.put("vacationMotivation", "I'm really tired!");
         RuntimeService runtimeService = processEngine.getRuntimeService();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("vacationRequest", variables);
+
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("vacationRequestUser", variables);
 
         log.info("Number of process instances: " + runtimeService.createProcessInstanceQuery().count());
     }
 
+
+
     @Test
-    public void endProcess(){
+    public void getTaskList() throws JsonProcessingException {
         TaskService taskService = processEngine.getTaskService();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
+        List<Task> tasks = taskService.createTaskQuery()
+                .taskCandidateGroup("management")
+                .list();
         for (Task task : tasks) {
             log.info("Task available: " + task.getName());
         }
-        //任务完成操作
-        Task task = tasks.get(0);
+        ManagementService managementService = processEngine.getManagementService();
+    }
+    @Test
+    public void doTheTask(){
+        TaskService taskService = processEngine.getTaskService();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
+        Task task = tasks.get(1);
         Map<String, Object> taskVariables = new HashMap<String, Object>();
         taskVariables.put("vacationApproved", "false");
         taskVariables.put("managerMotivation", "We have a tight deadline!");
         taskService.complete(task.getId(), taskVariables);
     }
-    @Test
-    public void getTaskList() throws JsonProcessingException {
-        TaskService taskService = processEngine.getTaskService();
-        List<Task> tasks = taskService.createTaskQuery()
-                .taskAssignee("kermit")
-//                .processVariableValueEquals("orderId", "0815")
-                .orderByDueDateNullsFirst().asc()
-                .list();
-        log.info("=================={}=============", JsonMapperUtil.toString(tasks));
 
+    /**
+     *
+     */
+    @Test
+    public void doNextProcess(){
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        TaskService taskService = processEngine.getTaskService();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("Kermit").list();
+        for (Task task : tasks) {
+            log.info("=============================Task available: " + task.getName());
+            log.info("============================= Task variable:" + task.getDescription());
+        }
+    }
+
+    /**
+     * 结束任务
+     */
+    @Test
+    public void doEndProcess(){
+        TaskService taskService = processEngine.getTaskService();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("Kermit").list();
+        Task task = tasks.get(0);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("resendRequest", false);
+        log.info("======================{}complete==============",task.getName());
+        taskService.complete(task.getId(),map);
     }
     
     @Test
-    public void getTaskList2() throws JsonProcessingException {
+    public void manageTest(){
         ManagementService managementService = processEngine.getManagementService();
-        TaskService taskService = processEngine.getTaskService();
-        List<Task> tasks = taskService.createNativeTaskQuery()
-                .sql("SELECT count(*) FROM " + managementService.getTableName(Task.class) + " T ")
-//                .parameter("taskName", "gonzoTask")
-                .list();
-        log.info("========{}==============",JsonMapperUtil.toString(tasks));
-    }
-
-
-    
-    @Test
-    public void getTaskUser(){
-        TaskService taskService = processEngine.getTaskService();
-        IdentityService identityService = processEngine.getIdentityService();
-
-
-
 
     }
-
-
 
 
 

@@ -75,7 +75,7 @@ public class ActivitiProcessConfig {
         // jdbc最大等待时间20秒，超出后重新连接
         config.setJdbcMaxWaitTime(2000);
         config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
-        config.setDeploymentResources(resources);
+//        config.setDeploymentResources(resources);
         return config;
     }
 

@@ -5,13 +5,14 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:activiti="http://activiti.org/bpmn">
 
-    <process id="vacationRequest" name="Vacation request">
+    <process id="vacationRequestUser" name="Vacation request2.0">
 
         <startEvent id="request" activiti:initiator="employeeName">
             <extensionElements>
                 <activiti:formProperty id="numberOfDays" name="Number of days" type="long" value="1" required="true"/>
                 <activiti:formProperty id="startDate" name="First day of holiday (dd-MM-yyy)" datePattern="dd-MM-yyyy hh:mm" type="date" required="true" />
                 <activiti:formProperty id="vacationMotivation" name="Motivation" type="string" />
+                <activiti:executionListener class="com.wuzhiaite.javaweb.activiti.MyListener" event="start" />
             </extensionElements>
         </startEvent>
         <sequenceFlow id="flow1" sourceRef="request" targetRef="handleRequest" />
@@ -61,6 +62,7 @@
                     <activiti:value id="true" name="Yes" />
                     <activiti:value id="false" name="No" />
                 </activiti:formProperty>
+                <activiti:executionListener class="com.wuzhiaite.javaweb.activiti.MyListener" />
             </extensionElements>
             <humanPerformer>
                 <resourceAssignmentExpression>
