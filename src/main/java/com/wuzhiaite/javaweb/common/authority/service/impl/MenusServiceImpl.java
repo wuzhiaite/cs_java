@@ -9,6 +9,7 @@ import com.wuzhiaite.javaweb.common.authority.entity.*;
 import com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserMenusPermissionMapper;
 import com.wuzhiaite.javaweb.common.authority.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @since 2020-04-28
  */
 @Service
+@Slf4j
 public class MenusServiceImpl  extends TreeService<MenusMapper, Menus>
              implements IMenusService {
 
@@ -75,21 +77,29 @@ public class MenusServiceImpl  extends TreeService<MenusMapper, Menus>
             return null;
         }
         List<Menus> menus = baseMapper.getUserMenuList(id,list);
-        menus.stream().forEach(menu->{
-            List<String> temp = new ArrayList<>();
-            if(menu.getCanAdd()){
-                temp.add("can_add");
+
+        try {
+            for(Menus menu : menus){
+                List<String> temp = new ArrayList<>();
+                if(StringUtils.isEmpty(menu.getCanAdd()) && menu.getCanAdd()){
+                    temp.add("can_add");
+                }
+                if(StringUtils.isEmpty(menu.getCanDelete()) && menu.getCanDelete()){
+                    temp.add("can_delete");
+                }
+                if(StringUtils.isEmpty(menu.getCanEdit()) && menu.getCanEdit()){
+                    temp.add("can_edit");
+                }
+                Map<String,Object> meta = new HashMap<>();
+                meta.put("permissions",temp);
+                menu.setMeta(meta);
             }
-            if(menu.getCanDelete()){
-                temp.add("can_delete");
-            }
-            if(menu.getCanEdit()){
-                temp.add("can_edit");
-            }
-            Map<String,Object> meta = new HashMap<>();
-            meta.put("permissions",temp);
-            menu.setMeta(meta);
-        });
+            ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("================{}=========",menus);
+
         return this.getTree(menus);
     }
 

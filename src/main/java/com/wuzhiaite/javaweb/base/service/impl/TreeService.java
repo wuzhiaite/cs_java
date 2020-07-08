@@ -14,7 +14,6 @@ import java.util.List;
  * 树状图数据格式化
  * @author lpf
  */
-//@Service
 public class TreeService< M extends BaseMapper<T>,T extends TreeEntity>
                                         extends ServiceImpl<M ,T> implements ITree<T> {
     /**

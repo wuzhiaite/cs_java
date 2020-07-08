@@ -35,11 +35,11 @@ public class UserMenusPermission extends TreeEntity<UserMenusPermission>  implem
 
     private String name ;
 
-    private Boolean canAdd = true ;
+    private Boolean canAdd = false ;
 
-    private Boolean canEdit = true ;
+    private Boolean canEdit = false ;
 
-    private Boolean canDelete = true ;
+    private Boolean canDelete = false ;
 
     private Date createTime;
 

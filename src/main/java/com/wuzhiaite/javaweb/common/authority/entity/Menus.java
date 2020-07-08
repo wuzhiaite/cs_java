@@ -50,11 +50,12 @@ public class Menus extends TreeEntity implements Serializable {
     @TableField(exist = false)
     private Map<String,Object> meta;
     @TableField(exist = false)
-    private Boolean canAdd;
+    private Boolean canAdd = false;
     @TableField(exist = false)
-    private Boolean canEdit;
+    private Boolean canEdit = false;
     @TableField(exist = false)
-    private Boolean canDelete;
+    private Boolean canDelete = false;
+
 
 
     public void setName(String name) {

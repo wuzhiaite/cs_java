@@ -16,7 +16,7 @@ import java.util.Map;
 public class ActivitController {
 
     @Autowired
-    RepositoryService rep;
+    RepositoryService repositoryService;
     @Autowired
     RuntimeService runservice;
     @Autowired
@@ -27,8 +27,6 @@ public class ActivitController {
     TaskService taskservice;
     @Autowired
     HistoryService histiryservice;
-    @Autowired
-    private RepositoryService repositoryService;
 
     /**
      *  创建工作流
@@ -43,7 +41,7 @@ public class ActivitController {
             MultipartFile file = uploadfile;
             String filename = file.getOriginalFilename();
             InputStream is = file.getInputStream();
-            rep.createDeployment().addInputStream(filename, is).deploy();
+            repositoryService.createDeployment().addInputStream(filename, is).deploy();
         } catch (Exception e) {
             log.error(e.getMessage());
             ResultObj.failObj(e.getMessage());
@@ -84,6 +82,21 @@ public class ActivitController {
         }
         return ResultObj.successObj("删除成功");
     }
+
+
+    @PostMapping("/")
+    public ResultObj startProcess(){
+        try {
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj("删除成功");
+    }
+
+
+
+
 
 
 

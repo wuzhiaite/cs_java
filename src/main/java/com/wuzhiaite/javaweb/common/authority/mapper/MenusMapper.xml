@@ -24,7 +24,7 @@
                     </foreach>
                 </if>
             </where>
-            order by m.orderBy
+            order by m.orderBy asc
 
     </select>
 </mapper>

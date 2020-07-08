@@ -13,6 +13,7 @@ import org.activiti.engine.task.Task;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -139,9 +140,11 @@ public class ActivitiApplication {
         HashMap<String, Object> map = new HashMap<>();
         map.put("resendRequest", false);
         log.info("======================{}complete==============",task.getName());
+        taskService.claim(task.getId(),"");
         taskService.complete(task.getId(),map);
     }
-    
+    @Autowired
+    private IdentityService identityService;
     @Test
     public void manageTest(){
         ManagementService managementService = processEngine.getManagementService();
