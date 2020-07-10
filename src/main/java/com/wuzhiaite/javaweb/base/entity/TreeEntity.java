@@ -13,14 +13,14 @@ import java.util.List;
 @Data
 public class TreeEntity<T extends TreeEntity> {
 
-    private String fatherId;
+    protected String fatherId;
     @TableField(exist = false)
     private List<T> children;
     @TableField("orderBy")
-    private String orderBy ;
-    private String id;
+    protected String orderBy ;
+    protected String id;
     @TableField(exist = false)
-    private Boolean hasChildrens ;
+    protected Boolean hasChildrens ;
 
     public void setChildren(List<T> children) {
         this.children = children;

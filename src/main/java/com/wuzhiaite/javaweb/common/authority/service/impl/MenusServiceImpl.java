@@ -77,27 +77,6 @@ public class MenusServiceImpl  extends TreeService<MenusMapper, Menus>
             return null;
         }
         List<Menus> menus = baseMapper.getUserMenuList(id,list);
-
-        try {
-            for(Menus menu : menus){
-                List<String> temp = new ArrayList<>();
-                if(StringUtils.isEmpty(menu.getCanAdd()) && menu.getCanAdd()){
-                    temp.add("can_add");
-                }
-                if(StringUtils.isEmpty(menu.getCanDelete()) && menu.getCanDelete()){
-                    temp.add("can_delete");
-                }
-                if(StringUtils.isEmpty(menu.getCanEdit()) && menu.getCanEdit()){
-                    temp.add("can_edit");
-                }
-                Map<String,Object> meta = new HashMap<>();
-                meta.put("permissions",temp);
-                menu.setMeta(meta);
-            }
-            ;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         log.info("================{}=========",menus);
 
         return this.getTree(menus);

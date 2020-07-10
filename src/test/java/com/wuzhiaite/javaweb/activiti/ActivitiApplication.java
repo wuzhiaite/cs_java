@@ -75,7 +75,6 @@ public class ActivitiApplication {
                 e.printStackTrace();
             }
         });
-
     }
 
     @Test

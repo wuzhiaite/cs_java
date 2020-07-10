@@ -54,6 +54,27 @@ public class MenusController {
 
     /**
      * 查找列表
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllList")
+    public ResultObj getAllList(){
+        List<Menus> list = null;
+        try {
+            QueryWrapper<Menus> wrapper = new QueryWrapper<>();
+            wrapper.orderByAsc("orderBy");
+            list = service.list(wrapper);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(list);
+    }
+
+
+
+    /**
+     * 查找列表
      * @param entity
      * @return
      */
