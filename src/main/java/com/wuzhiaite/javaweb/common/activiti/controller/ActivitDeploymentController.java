@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.common.activiti.controller;
 
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
+import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -11,37 +12,36 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-@RestController("/activiti")
+/**
+ * @description 流程发布处理类
+ * @author lpf
+ * @since 20200710
+ */
+@RestController("/activiti/deployment")
 @Slf4j
-public class ActivitController {
-
+public class ActivitDeploymentController {
+    /**
+     *
+     */
     @Autowired
-    RepositoryService repositoryService;
-    @Autowired
-    RuntimeService runservice;
-    @Autowired
-    FormService formservice;
-    @Autowired
-    IdentityService identityservice;
-    @Autowired
-    TaskService taskservice;
-    @Autowired
-    HistoryService histiryservice;
+    private RepositoryService repositoryService;
 
     /**
      *  创建工作流
-     * @param uploadfile
+     * @param params
      * @return
      */
-    @PostMapping(value = "/uploadworkflow/{deploymentId}")
-    public ResultObj fileupload(@RequestParam MultipartFile uploadfile,
-                                @PathVariable("deploymentId") String deploymentId) {
+    @PostMapping(value = "/deployWorkflow")
+    public ResultObj deployWorkflow(@RequestParam Map<String,Object> params) {
         try {
-            repositoryService.deleteDeployment(deploymentId);
-            MultipartFile file = uploadfile;
-            String filename = file.getOriginalFilename();
-            InputStream is = file.getInputStream();
-            repositoryService.createDeployment().addInputStream(filename, is).deploy();
+            String modelXml = MapUtil.getString(params, "modelXml");
+            String workflowName = MapUtil.getString(params, "workflowName");
+            String modelImage = MapUtil.getString(params, "modelImage");
+
+            repositoryService.createDeployment()
+                    .addString(workflowName,modelXml)
+                    .addString(workflowName,modelImage)
+                    .deploy();
         } catch (Exception e) {
             log.error(e.getMessage());
             ResultObj.failObj(e.getMessage());
@@ -84,15 +84,7 @@ public class ActivitController {
     }
 
 
-    @PostMapping("/")
-    public ResultObj startProcess(){
-        try {
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
-        return ResultObj.successObj("删除成功");
-    }
+
 
 
 

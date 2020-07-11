@@ -3,8 +3,12 @@ package com.wuzhiaite.javaweb.activiti;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wuzhiaite.javaweb.base.activiti.cmd.JumpDeleteTaskCmd;
+import com.wuzhiaite.javaweb.base.activiti.cmd.SetFLowNodeAndGoCmd;
 import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.bpmn.model.*;
+import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -17,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -150,10 +152,61 @@ public class ActivitiApplication {
 
     }
 
+    /**
+     *
+     */
+    @Test
+    public void listTaskTest() {
+        // 获取当前任务
+        TaskService taskService = processEngine.getTaskService();
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        ManagementService managementService = processEngine.getManagementService();
 
 
+        Task currentTask = taskService.createTaskQuery().taskId("132502").singleResult();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(currentTask.getProcessDefinitionId());
+        // 获取流程定义
+        Process process = bpmnModel.getMainProcess();
+        // 获取目标节点定义
+        FlowNode targetNode = (FlowNode) process.getFlowElement("sid-C24BA4F5-F744-4DD7-8D51-03C3698044D2");
 
+        // 删除当前运行任务，同时返回执行id，该id在并发情况下也是唯一的
+        String executionEntityId = managementService.executeCommand(new JumpDeleteTaskCmd(currentTask.getId()));
 
+        // 流程执行到来源节点
+        managementService.executeCommand(new SetFLowNodeAndGoCmd(targetNode, executionEntityId));
+    }
+
+    /**
+     * 获取配置的流程节点
+     */
+    @Test
+    public void getProcessNodes(){
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
+        ProcessDefinition processDefinition = list.get(2);
+        String id = processDefinition.getId();
+        repositoryService.createProcessDefinitionQuery().deploymentId(id).latestVersion();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(id);
+        Process mainProcess = bpmnModel.getMainProcess();
+        log.info("===========",mainProcess.getName());
+        Collection<FlowElement> fe = mainProcess.getFlowElements();
+        Iterator<FlowElement> it = fe.iterator();
+        for(;it.hasNext();){
+            FlowElement next = it.next();
+            log.info("******************* name:{},id:{},class:{}****************",
+                    next.getName(),next.getId(),next.getClass().toString());
+        }
+
+        List<Process> processes = bpmnModel.getProcesses();
+        Process process = processes.get(0);
+        Collection<FlowElement> flowElements = process.getFlowElements();
+        Iterator<FlowElement> iterator = flowElements.iterator();
+        for(;iterator.hasNext();){
+            FlowElement el = iterator.next();
+            log.info("============== name:{},id:{}",el.getName(),el.getId());
+        }
+    }
 
 
 
