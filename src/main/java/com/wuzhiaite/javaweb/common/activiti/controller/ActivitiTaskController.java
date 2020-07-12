@@ -63,6 +63,37 @@ public class ActivitiTaskController {
         return ResultObj.successObj(list);
     }
 
+    /**
+     * 完成任务
+     * @param params
+     * @return
+     */
+    @PostMapping("/complateTask")
+    public ResultObj complateTask(@RequestBody Map<String,Object> params){
+        try {
+            taskService.complateTask(params);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj("流转成功");
+    }
+
+    @PostMapping("/fallbackTask")
+    public ResultObj  fallbackTask(@RequestBody Map<String,Object> params){
+        try {
+            taskService.fallbackTask(params);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj("流转成功");
+    }
+
+
+
+
 
 
 

@@ -2,9 +2,14 @@ package com.wuzhiaite.javaweb.common.activiti.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import com.github.pagehelper.util.StringUtil;
+import com.wuzhiaite.javaweb.base.activiti.cmd.JumpDeleteTaskCmd;
+import com.wuzhiaite.javaweb.base.activiti.cmd.SetFLowNodeAndGoCmd;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.SpringSecurityUtil;
 import com.wuzhiaite.javaweb.common.activiti.service.IActivitiTaskService;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.FlowNode;
+import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -14,6 +19,7 @@ import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
@@ -24,6 +30,7 @@ import java.util.Map;
  * @description 流程任务处理类
  * @since 20200710
  */
+@Service
 public class ActivitiTaskServiceImpl implements IActivitiTaskService {
 
     @Autowired
@@ -38,6 +45,8 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
     private TaskService taskService;
     @Autowired
     private HistoryService histiryService;
+    @Autowired
+    private ManagementService managementService;
 
     /**
      *  发起流程：
@@ -101,6 +110,57 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
 
         return tasks;
     }
+
+    /**
+     * 执行任务
+     * @param params
+     */
+    @Override
+    public void complateTask(Map<String, Object> params) {
+        String taskId = MapUtils.getString(params, "taskId");
+        Map<String, Object> form = (Map<String, Object>) MapUtils.getMap(params, "form");
+        String assigne = MapUtils.getString(params, "assigne");
+
+        Task task = taskService.createTaskQuery().taskId(assigne).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        taskService.complete(taskId,form);
+        Task newTask = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        String id = newTask.getId();
+        taskService.claim(id,assigne);
+    }
+
+    /**
+     * 退回任务
+     * @param params
+     */
+    @Override
+    public void fallbackTask(Map<String, Object> params) {
+        try {
+            String taskId = MapUtils.getString(params, "taskId");
+            Assert.notNull(taskId);
+            String flowNodeId = MapUtils.getString(params, "flowNodeId");
+            Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(currentTask.getProcessDefinitionId());
+            // 获取流程定义
+            Process process = bpmnModel.getMainProcess();
+            // 获取目标节点定义
+            FlowNode targetNode = (FlowNode) process.getFlowElement(flowNodeId);
+
+            // 删除当前运行任务，同时返回执行id，该id在并发情况下也是唯一的
+            String executionEntityId = managementService.executeCommand(new JumpDeleteTaskCmd(currentTask.getId()));
+
+            // 流程执行到来源节点
+            managementService.executeCommand(new SetFLowNodeAndGoCmd(targetNode, executionEntityId));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+
+
 
 
 }

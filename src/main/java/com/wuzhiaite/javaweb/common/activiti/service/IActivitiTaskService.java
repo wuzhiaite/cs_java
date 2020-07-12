@@ -19,4 +19,8 @@ public interface IActivitiTaskService {
 
 
     List<Task> getUserTaskList(Map<String, Object> params);
+
+    void complateTask(Map<String, Object> params);
+
+    void fallbackTask(Map<String, Object> params);
 }
