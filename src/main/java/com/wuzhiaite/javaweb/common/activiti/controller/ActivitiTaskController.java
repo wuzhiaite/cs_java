@@ -9,6 +9,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,7 +21,8 @@ import java.util.Map;
  * @since 20200710
  */
 @Slf4j
-@RestController("/activiti/task")
+@RestController
+@RequestMapping("/api/activiti/task")
 public class ActivitiTaskController {
     /**
      * 业务处理类
