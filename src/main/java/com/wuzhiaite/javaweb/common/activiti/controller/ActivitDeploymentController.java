@@ -116,7 +116,7 @@ public class ActivitDeploymentController {
             log.error(e.getMessage());
             ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj("删除成功");
+        return ResultObj.successObj();
     }
 
 

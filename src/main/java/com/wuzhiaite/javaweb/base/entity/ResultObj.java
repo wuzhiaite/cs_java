@@ -21,6 +21,9 @@ public class ResultObj {
         this.message = message;
         this.code = code;
     }
+    public static ResultObj successObj(){
+        return successObj(null,StatusEnum.SUCCESS.getMessage());
+    }
     public static ResultObj successObj(Object obj){
         return successObj(obj,StatusEnum.SUCCESS.getMessage());
     }
