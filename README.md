@@ -39,7 +39,9 @@
 
 **Springboot 整合 RabbiMQ:** https://docs.spring.io/spring-amqp/docs/2.2.6.RELEASE/api/org/springframework/amqp/rabbit/annotation/EnableRabbit.html
 
-**springboot 整合ElasticSearch：**
+**springboot 整合ElasticSearch:**
+
+**springboot 整合quartz:**
 
 
 
