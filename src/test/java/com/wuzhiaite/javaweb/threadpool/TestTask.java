@@ -17,6 +17,8 @@ public class TestTask  implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
+        Thread.currentThread().interrupt();
+        System.out.println("这是个测试");
 
     }
 }

@@ -6,11 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +24,20 @@ public class ActivitiHistoricController {
 
     @Autowired
     private IActivitiHistoricService historicService;
+
+
+    /**
+     * Purpose：获取流程图并显示
+     *
+     * @param processInstanceId 流程定义id
+     * @param response
+     * @return
+     */
+    @GetMapping(value = "/getProcessImg/{processInstanceId}")
+    public void getProcessImg(@PathVariable String processInstanceId, HttpServletResponse response) {
+        historicService.getProccessImage(processInstanceId, response);
+    }
+
 
     /**
      *

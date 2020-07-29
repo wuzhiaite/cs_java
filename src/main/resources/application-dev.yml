@@ -37,7 +37,6 @@ spring:
     password: root
     username: root
     virtual-host: /dev_virtual
-
   servlet:
     multipart: #上传配置
       max-file-size: 2000MB #最大

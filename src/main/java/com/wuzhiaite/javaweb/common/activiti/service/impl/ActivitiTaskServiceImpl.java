@@ -68,12 +68,13 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
         String processDefinitionId = MapUtil.getString(process, "ID_");
         //设置流程发起人为当前用户
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        String name = "root";
         form.put("employee",name);
         ProcessInstance instance = null;
         if(!StringUtil.isEmpty(processDefinitionId)){
             instance = runtimeservice.startProcessInstanceById(processDefinitionId, form);
         }else if(!StringUtil.isEmpty(MapUtil.getString(process,"KEY_"))){
-            instance =  runtimeservice.startProcessInstanceByKey(MapUtil.getString(params,"KEY_"),form);
+            instance =  runtimeservice.startProcessInstanceByKey(MapUtil.getString(process,"KEY_"),form);
         }else{
             throw new RuntimeException("没有传入发起流程的key值，请重新确认！");
         }
