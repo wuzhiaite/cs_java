@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.common.dict.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.wuzhiaite.javaweb.common.dict.entity.DictEntity;
 import com.wuzhiaite.javaweb.common.dict.entity.DictKeyValueMapping;
 import com.wuzhiaite.javaweb.common.dict.service.IDictKeyValueMappingService;
 import org.springframework.util.StringUtils;
@@ -117,6 +118,20 @@ public class DictKeyListController {
             return ResultObj.failObj(e.getMessage());
         }
         return ResultObj.successObj(result);
+    }
+    /**
+     * 根据字典名称查看字典相关数据
+     */
+    @PostMapping("/getdict/{dictName}")
+    public ResultObj getDictByName(@PathVariable String dictName){
+        List<DictEntity> list = null;
+        try {
+            list = service.getDictByName(dictName);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(list);
     }
 
     /**
