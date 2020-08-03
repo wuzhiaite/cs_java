@@ -76,8 +76,6 @@ public class ActivitiHistoricServiceImpl  implements IActivitiHistoricService {
         if(StringUtils.isEmpty(processDefinitionkey = MapUtil.getString(params,"processDefinitionkey"))){
             historicTaskInstanceQuery.processDefinitionKey(processDefinitionkey);
         }
-
-
         List<HistoricTaskInstance> list = historicTaskInstanceQuery.listPage(pageNum,pageSize);
 
         return list;

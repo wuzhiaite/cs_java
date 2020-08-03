@@ -68,7 +68,6 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
         String processDefinitionId = MapUtil.getString(process, "ID_");
         //设置流程发起人为当前用户
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//        String name = "root";
         form.put("employee",name);
         ProcessInstance instance = null;
         if(!StringUtil.isEmpty(processDefinitionId)){
@@ -80,6 +79,7 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
         }
 
         String id = instance.getId();
+
         Task task = taskService.createTaskQuery().processInstanceId(id).singleResult();
         taskService.claim(task.getId(),assigne);
         return instance;
