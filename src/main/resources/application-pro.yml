@@ -37,13 +37,34 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+  mail: #邮箱
+    host: smtp.qq.com
+    port: 25
+    username: li656494298@foxmail.com
+    password: wmtyfdyfqplmbeda
+    liquibase:
+      enabled: false
+    activiti:
+      db-history-used: true
+      history-level: full
+      database-schema-update: true
+
+#上传文件存放地址
+uploadFilePath: /usr/local/java/upload/
+
+# rabbitmq 初始化配置
+rabbit-init:
+  list:
+    - {exchange: "cs.user.topic",queues: [user.permission] , bindingKey: '#.permission', type: topic }
 
 
+es:
+  hostAndPort: 106.52.137.87:9200
 
+debug: false
 
 logging:
   file:
     path: /usr/local/java/log/
 
 
-uploadFilePath: /usr/local/java/upload/

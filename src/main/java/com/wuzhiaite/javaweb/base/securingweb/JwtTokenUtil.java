@@ -21,8 +21,8 @@ import java.util.HashMap;
 @Slf4j
 public class JwtTokenUtil {
     // 寻找证书文件
-    private static InputStream inputStream =
-            Thread.currentThread().getContextClassLoader().getResourceAsStream("jwt.jks");
+//    private static InputStream inputStream =
+//            Thread.currentThread().getContextClassLoader().getResourceAsStream("jwt.jks");
     private static PrivateKey privateKey = null;
     private static PublicKey publicKey = null;
     /**有效期24小时 */
@@ -34,11 +34,11 @@ public class JwtTokenUtil {
     static { // 将证书文件里边的私钥公钥拿出来
         try {
             // java key store 固定常量
-            KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(inputStream, "123456".toCharArray());
+//            KeyStore keyStore = KeyStore.getInstance("JKS");
+//            keyStore.load(inputStream, "123456".toCharArray());
             // jwt 为 命令生成整数文件时的别名
-            privateKey = (PrivateKey) keyStore.getKey("jwt", "123456".toCharArray());
-            publicKey = keyStore.getCertificate("jwt").getPublicKey();
+//            privateKey = (PrivateKey) keyStore.getKey("jwt", "123456".toCharArray());
+//            publicKey = keyStore.getCertificate("jwt").getPublicKey();
 
         } catch (Exception e) {
             e.printStackTrace();
