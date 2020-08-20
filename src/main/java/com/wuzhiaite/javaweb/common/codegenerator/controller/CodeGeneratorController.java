@@ -15,7 +15,7 @@ import java.util.Map;
  * @author lpf
  */
 @RestController
-@RequestMapping("/api/codegenerator/")
+@RequestMapping("/codegenerator/")
 @Slf4j
 public class CodeGeneratorController {
     /**

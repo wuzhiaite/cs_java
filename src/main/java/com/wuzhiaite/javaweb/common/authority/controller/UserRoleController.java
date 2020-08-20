@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 * @since 2020-05-31
 */
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/role")
 @Slf4j
 public class UserRoleController {
 

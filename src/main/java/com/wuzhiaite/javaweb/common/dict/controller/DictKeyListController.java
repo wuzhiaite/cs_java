@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 * @since 2020-05-16
 */
 @RestController
-@RequestMapping("/api/dict")
+@RequestMapping("/dict")
 @Slf4j
 public class DictKeyListController {
 

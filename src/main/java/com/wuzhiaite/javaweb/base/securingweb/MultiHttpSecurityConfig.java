@@ -98,7 +98,7 @@ public class MultiHttpSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .authorizeRequests()
                 .antMatchers("/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                .antMatchers("/api/user/login","/api/user/logout").permitAll()
+                .antMatchers("/user/login","/user/logout").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers(HttpMethod.GET).permitAll()
                 .anyRequest().authenticated()

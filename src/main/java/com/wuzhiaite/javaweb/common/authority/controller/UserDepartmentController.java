@@ -29,7 +29,7 @@ import com.wuzhiaite.javaweb.module.per.service.IDepartmentMenusPermissionServic
 * @since 2020-06-01
 */
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/department")
 @Slf4j
 public class UserDepartmentController {
 

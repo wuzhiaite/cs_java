@@ -1,7 +1,7 @@
 server:
   port: 8001
   servlet:
-    context-path: /
+    context-path: /api
 
 spring:
   thymeleaf:
@@ -10,10 +10,16 @@ spring:
     mode: HTML5
     cache: true
   profiles:
-    active: pro
+    active: dev
   main:
     allow-bean-definition-overriding: true
 
 mybatis:
   configuration:
     cache-enabled: true
+
+
+#logging:
+#  pattern:
+#    console: %d{yyyy‐MM‐dd} [%thread] %‐5level %logger{50} ‐ %msg%n
+
