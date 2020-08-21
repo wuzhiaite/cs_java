@@ -1,7 +1,6 @@
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
 !**/src/test/**
 
 ### STS ###
@@ -29,3 +28,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 配置文件忽略上传
+/src/main/resources/application-pro-extra.yml
+/src/main/resources/application-dev.yml
+/src/main/resources/application-dev-extra.yml
+
+
