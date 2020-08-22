@@ -1,0 +1,74 @@
+
+spring:
+  profiles:
+    include: pro-extra #加入额外的文件
+  application:
+    name: microserver-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+  dbsource: #多数据源配置
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://rm-uf6101yy6jg1qe3e8lo.mysql.rds.aliyuncs.com/com_sys?serverTimezone=UTC&useSSL=false
+      password: wuzhiaite
+      username: wuzhiaite
+#    dbcp2:ss
+#      min-idle: 5                         # 数据库连接池的最小维持连接数
+#      initial-size: 5                     # 初始化连接数
+#      max-total: 5                        # 最大连接数
+#      max-wait-millis: 150                # 等待连接获取的最大超时时间springboot linux启动项目
+  redis:
+    host: 47.113.120.21
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+      shutdown-timeout: 0
+  rabbitmq:
+    host: 47.113.120.21
+    port: 5672
+    password: root
+    username: root
+    virtual-host:  /pro_virtual
+  servlet:
+    multipart:
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+  mail: #邮箱
+    host: smtp.qq.com
+    port: 25
+    username: li656494298@foxmail.com
+    password: wmtyfdyfqplmbeda
+    liquibase:
+      enabled: false
+    activiti:
+      db-history-used: true
+      history-level: full
+      database-schema-update: true
+
+#上传文件存放地址
+uploadFilePath: /usr/local/java/upload/
+
+# rabbitmq 初始化配置
+rabbit-init:
+  list:
+    - {exchange: "cs.user.topic",queues: [user.permission] , bindingKey: '#.permission', type: topic }
+
+
+es:
+  hostAndPort: 106.52.137.87:9200
+
+debug: false
+
+logging:
+  file:
+    path: logs
+
+
+
+
+
+

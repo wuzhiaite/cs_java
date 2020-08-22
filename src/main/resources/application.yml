@@ -10,7 +10,7 @@ spring:
     mode: HTML5
     cache: true
   profiles:
-    active: dev
+    active: pro
   main:
     allow-bean-definition-overriding: true
 
@@ -21,5 +21,5 @@ mybatis:
 
 #logging:
 #  pattern:
-#    console: %d{yyyy‐MM‐dd} [%thread] %‐5level %logger{50} ‐ %msg%n
-
+#    console: '%d{yyyy‐MM‐dd} [%thread] %‐5level %logger{50} ‐ %msg%n'
+#    file: '%d{yyyy/MM/dd} === [%thread] == %-5level == %logger{50} == %msg%n'
