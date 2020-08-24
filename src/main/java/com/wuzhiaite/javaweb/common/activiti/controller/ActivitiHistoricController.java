@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/activiti/historic")
+@RequestMapping("/activiti/historic")
 public class ActivitiHistoricController {
 
 

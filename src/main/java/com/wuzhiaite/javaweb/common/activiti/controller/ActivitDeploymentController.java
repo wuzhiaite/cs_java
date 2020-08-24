@@ -13,11 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @description 流程发布处理类
@@ -25,7 +31,7 @@ import java.util.Map;
  * @since 20200710
  */
 @RestController
-@RequestMapping("/api/activiti/deployment")
+@RequestMapping("/activiti/deployment")
 @Slf4j
 public class ActivitDeploymentController {
     /**
@@ -33,6 +39,7 @@ public class ActivitDeploymentController {
      */
     @Autowired
     private RepositoryService repositoryService;
+
 
     /**
      *  创建工作流
@@ -105,18 +112,46 @@ public class ActivitDeploymentController {
      */
     @PostMapping("/getDeployWorkflow/{id}")
     public ResultObj getDeployWorkflow(@PathVariable("id") String id){
+        StringBuffer res = new StringBuffer();
         try {
             Deployment deployment = repositoryService.createDeploymentQuery()
                     .processDefinitionKey(id)
                     .singleResult();
             String deploymentId = deployment.getId();
-//            byte[] modelEditorSource = repositoryService.getDeploymentResourceNames();
-
+            List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
+            String sourceName = names.stream()
+                    .filter(name -> name.indexOf(".bpmn") != -1)
+                    .findFirst().get();
+            InputStream in = repositoryService.getResourceAsStream(deploymentId, sourceName);
+            BufferedReader read = new BufferedReader(new InputStreamReader(in));
+            try {
+                String line;
+                line = read.readLine();
+                while (line != null) {
+                    res.append(line);
+                    line = read.readLine();
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (null != read) {
+                        read.close();
+                        read = null;
+                    }
+                    if (null != in) {
+                        in.close();
+                        in = null;
+                    }
+                } catch (IOException e) {
+                }
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj();
+        return ResultObj.successObj(res.toString());
     }
 
 

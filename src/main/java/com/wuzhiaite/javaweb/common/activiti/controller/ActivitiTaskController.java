@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/activiti/task")
+@RequestMapping("/activiti/task")
 public class ActivitiTaskController {
     /**
      * 业务处理类

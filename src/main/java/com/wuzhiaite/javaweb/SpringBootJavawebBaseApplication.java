@@ -31,7 +31,6 @@ public class SpringBootJavawebBaseApplication {
             SpringApplication.run(SpringBootJavawebBaseApplication.class, args);
         } catch (Exception e) {
             log.error(e.getMessage());
-
             e.printStackTrace();
         }
     }
