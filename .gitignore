@@ -33,5 +33,6 @@ build/
 /src/main/resources/application-pro-extra.yml
 /src/main/resources/application-dev.yml
 /src/main/resources/application-dev-extra.yml
+/src/main/resources/application-dev-nacos.yml
 
 logs

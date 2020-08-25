@@ -2,6 +2,8 @@ server:
   port: 8001
   servlet:
     context-path: /api
+  tomcat:
+    max-http-post-size: 10MB
 
 spring:
   thymeleaf:
@@ -9,17 +11,31 @@ spring:
     suffix: .html
     mode: HTML5
     cache: true
-  profiles:
-    active: pro
+#  profiles:
+#    active: dev
   main:
     allow-bean-definition-overriding: true
+  application:
+    name: application
+
+#nacos
+nacos:
+  config:
+    file-extension: yaml
+    server-addr: self.txyun.com:8848
+    bootstrap:
+      enable: true
+    data-id: cs_java
+    group: cs_group
+    auto-refresh: true
+    type: yaml
+  discovery:
+    server-addr: self.txyun.com:8848
+
 
 mybatis:
   configuration:
     cache-enabled: true
 
 
-#logging:
-#  pattern:
-#    console: '%d{yyyy‐MM‐dd} [%thread] %‐5level %logger{50} ‐ %msg%n'
-#    file: '%d{yyyy/MM/dd} === [%thread] == %-5level == %logger{50} == %msg%n'
+

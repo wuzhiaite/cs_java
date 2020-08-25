@@ -10,11 +10,6 @@ spring:
       url: jdbc:mysql://rm-uf6101yy6jg1qe3e8lo.mysql.rds.aliyuncs.com/com_sys?serverTimezone=UTC&useSSL=false
       password: wuzhiaite
       username: wuzhiaite
-#    dbcp2:ss
-#      min-idle: 5                         # 数据库连接池的最小维持连接数
-#      initial-size: 5                     # 初始化连接数
-#      max-total: 5                        # 最大连接数
-#      max-wait-millis: 150                # 等待连接获取的最大超时时间springboot linux启动项目
   redis:
     host: 47.113.120.21
     port: 6379
@@ -62,7 +57,7 @@ es:
   hostAndPort: 106.52.137.87:9200
 
 debug: false
-
+#日志导出地址
 logging:
   file:
     path: logs
