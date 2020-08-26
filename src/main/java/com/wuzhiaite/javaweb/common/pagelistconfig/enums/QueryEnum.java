@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.enums;
 
 /**
- * @description 根据
+ * @description 根据查询条件进行拼接
  * @author lpf
  */
 

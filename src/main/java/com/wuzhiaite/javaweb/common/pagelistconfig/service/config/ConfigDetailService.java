@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import com.wuzhiaite.javaweb.common.pagelistconfig.enums.ParamsEnum;
 import com.wuzhiaite.javaweb.common.pagelistconfig.enums.QueryEnum;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.ConfigDetailMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -62,10 +63,23 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
         List<Map<String,Object>> conditions = (List<Map<String, Object>>) JSONObject.parse(conditionFileds);
         Set<String> queries = params.keySet();
+
+        //查询条件是否有给定魔术值，如果有进行替换
+        for(String key : queries){
+            String value = String.valueOf(params.get(key));
+            for(ParamsEnum pe : ParamsEnum.values()){
+                if(value.equals(pe.label())){
+                    params.put(key,pe.mapperValue());
+                }
+            }
+        }
+
         StringBuilder conditionSQL = new StringBuilder(" 1=1 ");
+        //根据查询条件
         for(Map<String,Object> condition : conditions){
             String prop = MapUtil.getString(condition, "prop");
             String type = MapUtil.getString(condition, "type");
+            //高级查询项设置初始值
             if(queries.contains(prop)){
                 for(QueryEnum value : QueryEnum.values()){
                     if( type .equals(value.type()) ){
@@ -75,6 +89,8 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
                 }
             }
         }
+
+
         //模糊查询部分
         if(queries.contains("search")
                 && StringUtil.isNotBlank((String) params.get("search"))){

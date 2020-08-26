@@ -11,12 +11,8 @@ spring:
     suffix: .html
     mode: HTML5
     cache: true
-#  profiles:
-#    active: dev
   main:
     allow-bean-definition-overriding: true
-  application:
-    name: application
 
 #nacos
 nacos:
