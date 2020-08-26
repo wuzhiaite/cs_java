@@ -63,18 +63,21 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         String conditionFileds = MapUtil.getString(obj, "CONDITION_FILEDS");
         List<Map<String,Object>> conditions = (List<Map<String, Object>>) JSONObject.parse(conditionFileds);
         Set<String> queries = params.keySet();
-
+        StringBuilder conditionSQL = new StringBuilder(" 1=1 ");
         //查询条件是否有给定魔术值，如果有进行替换
         for(String key : queries){
             String value = String.valueOf(params.get(key));
             for(ParamsEnum pe : ParamsEnum.values()){
-                if(value.equals(pe.label())){
+                int  index = 0 ;
+                if((index = value.indexOf(pe.label()) )!= -1){
                     params.put(key,pe.mapperValue());
+                    conditionSQL.append(" AND ");
+                    conditionSQL.append(key).append("='").append(pe.mapperValue()).append("'");
                 }
             }
         }
 
-        StringBuilder conditionSQL = new StringBuilder(" 1=1 ");
+
         //根据查询条件
         for(Map<String,Object> condition : conditions){
             String prop = MapUtil.getString(condition, "prop");
