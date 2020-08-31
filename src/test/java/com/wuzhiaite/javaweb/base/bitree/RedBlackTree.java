@@ -286,11 +286,15 @@ public final class RedBlackTree<V extends Comparable<V>> {
             return true;
         try {
             /**
+             *   sp
+             *     \
              *      p
              *    /  \
              *   pl  pr
-             *     /   \
-             *   sl    sr
+             *     /
+             *   s
+             *    \
+             *     sr
              */
             RedBlackNode<V> replacement;
             RedBlackNode<V> pl = p.left;
@@ -303,18 +307,40 @@ public final class RedBlackTree<V extends Comparable<V>> {
                  */
                 while ((sl = s.left) != null)
                     s = sl;
-                /**
-                 *
-                 *
-                 */
-                boolean c = s.red; s.red = p.red; p.red = c; //
+                boolean c = s.red; s.red = p.red; p.red = c; //颜色交换
                 RedBlackNode<V> sr = s.right;
                 RedBlackNode<V> pp = p.parent;
-                if (s == pr) { //
+                /**
+                 *     pr
+                 *       \
+                 *        p
+                 *  当pr==s时
+                 * 要删除的节点只有一个右节点时，进行交换
+                 */
+                if (s == pr) {
                     p.parent = s;
                     s.right = p;
                 }
                 else {
+                    /**
+                     *  以下的数据处理逻辑是这样子的
+                     *    pp                 pp
+                     *     \                /
+                     *      p              s
+                     *    /  \           /  \
+                     *   pl  pr   ————> pl   pr
+                     *     /               /
+                     *   s                p
+                     *    \               \
+                     *     sr             sr
+                     *
+                     *   1.找到要删除节点p的右节点pr;
+                     *   2.循环遍历pr的所有子节点的左节点,找到最小子树的左节点s;
+                     *   3.p节点指向s的父节点，p成为s父节点的左子树；
+                     *   4.p的右子树成为s节点的有子节点；
+                     *   5.s的右子节点sr成为p的右子节点
+                     *   6.s的成为p的左节点
+                     */
                     RedBlackNode<V> sp = s.parent;
                     if ((p.parent = sp) != null) {
                         if (s == sp.left)
@@ -341,14 +367,22 @@ public final class RedBlackTree<V extends Comparable<V>> {
                 else
                     replacement = p;
             }
+            /**
+             * 这个replacement分四种情况：
+             * 1.p有左右节点，且p为根节点的最小值子树的左节点（s）,有sr右节点。则为右节点
+             * 2.上面没有右节点，则为p;
+             * 3.p只有左节点pl,replacement=pl
+             * 4.p只有右节点pr,replacement=pr
+             */
             else if (pl != null)
                 replacement = pl;
             else if (pr != null)
                 replacement = pr;
             else
                 replacement = p;
+
             if (replacement != p) {
-                RedBlackNode<V> pp = replacement.parent = p.parent;
+                RedBlackNode<V> pp = replacement.parent = p.parent;//pr
                 if (pp == null)
                     r = replacement;
                 else if (p == pp.left)
@@ -357,10 +391,10 @@ public final class RedBlackTree<V extends Comparable<V>> {
                     pp.right = replacement;
                 p.left = p.right = p.parent = null;
             }
-
+            //这里的replacement节点是用来替换删除节点的
             root = (p.red) ? r : balanceDeletion(r, replacement);
 
-            if (p == replacement) {  // detach pointers
+            if (p == replacement) {  // detach pointers删除p节点和父亲节点的关联关系
                 RedBlackNode<V> pp;
                 if ((pp = p.parent) != null) {
                     if (p == pp.left)
@@ -384,6 +418,9 @@ public final class RedBlackTree<V extends Comparable<V>> {
      */
     private RedBlackNode balanceDeletion(RedBlackNode<V> r, RedBlackNode<V> x) {
         for (RedBlackNode<V>  xp, xpl, xpr;;)  {
+            /**
+             * 判断是否为根节点
+             */
             if (x == null || x == root)
                 return root;
             else if ((xp = x.parent) == null) {
@@ -394,6 +431,11 @@ public final class RedBlackTree<V extends Comparable<V>> {
                 x.red = false;
                 return root;
             }
+            /**
+             *
+             *
+             * 如果要替换的为左节点
+             */
             else if ((xpl = xp.left) == x) {
                 if ((xpr = xp.right) != null && xpr.red) {
                     xpr.red = false;
