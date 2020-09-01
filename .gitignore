@@ -30,9 +30,7 @@ build/
 .vscode/
 
 ### 配置文件忽略上传
-/src/main/resources/application-pro-extra.yml
-/src/main/resources/application-dev.yml
-/src/main/resources/application-dev-extra.yml
-/src/main/resources/application-dev-nacos.yml
+application-dev.yml
+application-pro.yml
 
 logs
