@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class RedBlackTree<V extends Comparable<V>> {
 
     RedBlackNode root;
-    volatile RedBlackNode first;
 
     /**
      * 1.查找插入值的父节点
@@ -19,7 +18,7 @@ public final class RedBlackTree<V extends Comparable<V>> {
         for (RedBlackNode<V> p = root;;) {
             int dir = 0;V pv;
             if (p == null) {//根节点
-                first = root = new RedBlackNode(v,null);
+                root = new RedBlackNode(v,null);
                 break;
             }
             else if ((pv = p.val).compareTo(v) < 0) //根节点值小于新插入值
@@ -48,8 +47,8 @@ public final class RedBlackTree<V extends Comparable<V>> {
             //3.如果p为null,表示是可以插入值的节点
             RedBlackNode<V> xp = p;
             if ((p = (dir <= 0) ? p.left : p.right) == null) {
-                RedBlackNode<V> x,f = first;
-                first = x = new RedBlackNode<V>(v,xp);//生成新的节点,父节点赋值为上面查询出来的可连接点
+                RedBlackNode<V> x;
+                x = new RedBlackNode<V>(v,xp);//生成新的节点,父节点赋值为上面查询出来的可连接点
 //                if (x != null)
 //                    f.prev = x;
                 //根据dir值，关联新生节点和父节点
@@ -324,13 +323,13 @@ public final class RedBlackTree<V extends Comparable<V>> {
                 else {
                     /**
                      *  以下的数据处理逻辑是这样子的
-                     *    pp                 pp
-                     *     \                /
-                     *      p              s
-                     *    /  \           /  \
-                     *   pl  pr   ————> pl   pr
-                     *     /               /
-                     *   s                p
+                     *    pp                 pp                  pp
+                     *     \                /                   /
+                     *      p              s                   s
+                     *    /  \           /  \                /  \
+                     *   pl  pr   ————> pl   pr ————>       pl   pr
+                     *     /               /                    /
+                     *   s                p                    sr
                      *    \               \
                      *     sr             sr
                      *
@@ -380,7 +379,9 @@ public final class RedBlackTree<V extends Comparable<V>> {
                 replacement = pr;
             else
                 replacement = p;
-
+            /**
+             * 用replacement元素替换要删除的p节点
+             */
             if (replacement != p) {
                 RedBlackNode<V> pp = replacement.parent = p.parent;//pr
                 if (pp == null)
@@ -391,10 +392,14 @@ public final class RedBlackTree<V extends Comparable<V>> {
                     pp.right = replacement;
                 p.left = p.right = p.parent = null;
             }
-            //这里的replacement节点是用来替换删除节点的
+            /**
+             * 判断删除后的节点是否需要进行自平衡
+             */
             root = (p.red) ? r : balanceDeletion(r, replacement);
-
-            if (p == replacement) {  // detach pointers删除p节点和父亲节点的关联关系
+            /**
+             * 删除p父亲节点和p节点的关联关系
+             */
+            if (p == replacement) {
                 RedBlackNode<V> pp;
                 if ((pp = p.parent) != null) {
                     if (p == pp.left)
@@ -432,9 +437,18 @@ public final class RedBlackTree<V extends Comparable<V>> {
                 return root;
             }
             /**
+             *           xp              xp
+             *         /    \           /
+             *       xpl(x) xpr        x
+             *             /   \
+             *            sl    sr
              *
              *
-             * 如果要替换的为左节点
+             * 已知：1.x为xp左节点且为黑色
+             *      2.xp节点肯定和x同色（因为红黑树不能有连续红色节点，删除掉中间节点后，只能都是红色或黑色，上面判断了x不能是红色）
+             * 操作：1.x的兄弟节点异色，进行左旋
+             *
+             *  上面分析了x（replacement）节点有5种情况
              */
             else if ((xpl = xp.left) == x) {
                 if ((xpr = xp.right) != null && xpr.red) {
