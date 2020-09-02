@@ -21,7 +21,7 @@ nacos:
     server-addr: self.txyun.com:8848
     bootstrap:
       enable: true
-    data-id: cs_java
+    data-id: cs_java_pro
     group: cs_group
     auto-refresh: true
     type: yaml

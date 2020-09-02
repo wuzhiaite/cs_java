@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.base.entity;
 
+import com.wuzhiaite.javaweb.base.enums.ExceptionEnum;
 import com.wuzhiaite.javaweb.base.enums.StatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,8 +37,16 @@ public class ResultObj {
     public static ResultObj failObj(String message){
         return failObj(null,message);
     }
+    public static ResultObj failObj(ExceptionEnum exceptionEnum){
+        return new ResultObj(null,exceptionEnum.message(),exceptionEnum.code());
+    }
+
     public static ResultObj failObj(Object result,String message){
         return new ResultObj(result,message,StatusEnum.FAIL.getCode());
+    }
+
+    public static ResultObj failObj(Integer code,String message){
+        return new ResultObj(null,message,code);
     }
 
 }
