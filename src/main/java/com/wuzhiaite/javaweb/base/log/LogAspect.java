@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.base.log;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -22,9 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 @Aspect
 @Slf4j
 public class LogAspect {
-
-    @Pointcut("execution(public * com.wuzhiaite.javaweb..*.*(..))")
+    
+    @Pointcut("execution(public * com.wuzhiaite.javaweb.common..*.*(..))")
     public void webLog() {
+
     }
     /**
      * 前置通知:在某连接点之前执行的通知，但这个通知不能阻止连接点之前的执行流程（除非它抛出一个异常）。
@@ -33,6 +35,7 @@ public class LogAspect {
      */
     @Before("webLog()")
     public void before(JoinPoint joinPoint) {
+        final JsonMapper jm = new JsonMapper();
         String request="接口："+joinPoint.getTarget().getClass().getName() + "."+ joinPoint.getSignature().getName()+"参数";
         for (Object object : joinPoint.getArgs()) {
             if (
@@ -43,9 +46,9 @@ public class LogAspect {
                 continue;
             }
             try {
-                request  =request + JsonMapperUtil.toString(object)+" ";
+                request  =request + jm.writeValueAsString(object)+" ";
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
         log.debug(request);
