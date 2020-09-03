@@ -13,9 +13,8 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.history.*;
-import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.task.Event;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -29,8 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @description 流程历史数据
@@ -124,6 +121,7 @@ public class ActivitiHistoricServiceImpl  implements IActivitiHistoricService {
      * @param processInstanceId
      * @return
      */
+    @Override
     public List<HistoricActivityInstance> getHistoricActivityInstance(String processInstanceId) {
         return historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId)
                 .orderByHistoricActivityInstanceId().asc().list();
@@ -186,6 +184,18 @@ public class ActivitiHistoricServiceImpl  implements IActivitiHistoricService {
         } finally {
 
         }
+    }
+
+    @Override
+    public List<HistoricActivityInstance> getHistorySteps(String instId) {
+        String sql = new SQL() {{
+            SELECT("ACT_NAME_,START_TIME_,END_TIME_,DURATION_,ASSIGNEE_");
+            FROM("act_hi_actinst");
+            WHERE("PROC_INST_ID_ ='"+instId+"'");
+            ORDER_BY("START_TIME_ ASC ");
+        }}.toString();
+        List<HistoricActivityInstance> list = historyService.createNativeHistoricActivityInstanceQuery().sql(sql).list();
+        return list;
     }
 
     public List<String> getHighLightedFlows(BpmnModel bpmnModel, List<HistoricActivityInstance> historicActivityInstances) {

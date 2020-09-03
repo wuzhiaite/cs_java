@@ -1,5 +1,6 @@
 package com.wuzhiaite.javaweb.common.activiti.service;
 
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricTaskInstance;
 
@@ -19,4 +20,9 @@ public interface IActivitiHistoricService {
     HistoricDetail getHistoricDetail(Map<String, Object> params);
 
     void getProccessImage(String processInstanceId, HttpServletResponse response);
+
+    List<HistoricActivityInstance> getHistorySteps(String instId);
+
+    List<HistoricActivityInstance> getHistoricActivityInstance(String instId);
+
 }

@@ -3,6 +3,7 @@ package com.wuzhiaite.javaweb.common.activiti.controller;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.common.activiti.service.IActivitiHistoricService;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,16 @@ public class ActivitiHistoricController {
          return ResultObj.successObj("流转成功");
      }
 
+    /**
+     * 历史步骤
+     * @param instId
+     * @return
+     */
+    @PostMapping("/historysteps/{instId}")
+     public ResultObj getHistorySteps(@PathVariable String instId){
+        List<HistoricActivityInstance> steps = historicService.getHistoricActivityInstance(instId);
+        return ResultObj.successObj(steps);
+     }
 
 
 

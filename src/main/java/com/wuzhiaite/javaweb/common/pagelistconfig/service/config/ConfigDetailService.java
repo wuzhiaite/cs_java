@@ -172,4 +172,30 @@ public class ConfigDetailService extends ComCrudServiceImpl<ConfigDetailMapper, 
         map.put("sheetName",MapUtil.getString(obj,"CONFIG_NAME"));
         return map;
     }
+
+    /**
+     * 根据参数获取单条
+     * @param params
+     * @return
+     */
+    public Map<String, Object> singleData(Map<String, Object> params) {
+        String sql = getQuerySql(params);
+        List<Map<String, Object>> results = mapper.getBySQL(sql);
+        return results.size() > 0 ? results.get(0) : null ;
+    }
+
+    /**
+     * 获取多条不分页数据
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> multipleDataQuery(Map<String, Object> params) {
+        String sql = getQuerySql(params);
+        List<Map<String, Object>> results = mapper.getBySQL(sql);
+        String orders = MapUtil.getString(params,"orders");
+        if (!StringUtil.isBlank(orders)) {
+           sql = new StringBuilder(sql).append(orders).toString();
+        }
+        return mapper.getBySQL(sql);
+    }
 }

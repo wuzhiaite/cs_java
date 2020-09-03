@@ -132,6 +132,44 @@ public class ConfigController {
     }
 
     /**
+     * 通用列表单条查询
+     * @param id
+     * @param params
+     * @return
+     */
+    @PostMapping("/singleData/{id}")
+    public ResultObj singleData(@PathVariable("id") String id,
+                                @RequestBody Map<String,Object> params){
+        params.put("ID",id);
+        Map<String,Object> result = null ;
+        try {
+            result = detailService.singleData(params);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(result) ;
+    }
+    /**
+     * 通用列表单条查询
+     * @param id
+     * @param params
+     * @return
+     */
+    @PostMapping("/multipleData/{id}")
+    public ResultObj multipleData(@PathVariable("id") String id,
+                                @RequestBody Map<String,Object> params){
+        params.put("ID",id);
+        List<Map<String,Object>> result = null ;
+        try {
+            result = detailService.multipleDataQuery(params);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResultObj.failObj(e.getMessage());
+        }
+        return ResultObj.successObj(result) ;
+    }
+    /**
      * 删除数据
      * @param id
      * @return

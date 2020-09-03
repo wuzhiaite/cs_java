@@ -70,7 +70,7 @@ public class ActivitiTaskController {
      * @param params
      * @return
      */
-    @PostMapping("/complateTask")
+    @PostMapping("/completeTask")
     public ResultObj complateTask(@RequestBody Map<String,Object> params){
         try {
             taskService.complateTask(params);
