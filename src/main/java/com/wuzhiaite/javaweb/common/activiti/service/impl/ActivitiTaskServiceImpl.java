@@ -122,7 +122,7 @@ public class ActivitiTaskServiceImpl implements IActivitiTaskService {
         Map<String, Object> form = (Map<String, Object>) MapUtils.getMap(params, "form");
         String assigne = MapUtils.getString(params, "assigne");
 
-        Task task = taskService.createTaskQuery().taskId(assigne).singleResult();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         taskService.complete(taskId,form);
         Task newTask = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
