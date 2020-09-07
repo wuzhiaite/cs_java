@@ -110,12 +110,14 @@ public class ActivitDeploymentController {
      * @param id
      * @return
      */
-    @PostMapping("/getDeployWorkflow/{id}")
-    public ResultObj getDeployWorkflow(@PathVariable("id") String id){
+    @PostMapping("/getDeployWorkflow/{key}/{id}")
+    public ResultObj getDeployWorkflow(@PathVariable("key") String key ,
+                                       @PathVariable("id") String id){
         StringBuffer res = new StringBuffer();
         try {
             Deployment deployment = repositoryService.createDeploymentQuery()
-                    .processDefinitionKey(id)
+                    .processDefinitionKey(key)
+                    .deploymentId(id)
                     .singleResult();
             String deploymentId = deployment.getId();
             List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);

@@ -44,7 +44,7 @@ public class ActivitiTaskController {
             log.error(e.getMessage());
             ResultObj.failObj(e.getMessage());
         }
-        return ResultObj.successObj(instance.getId());
+        return ResultObj.successObj();
     }
 
     /**
