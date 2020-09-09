@@ -15,9 +15,9 @@ public class ResultObj {
 
     private Object result;
     private String message;
-    private Integer code;
+    private int code;
 
-    private ResultObj(Object result,String message,Integer code){
+    private ResultObj(Object result,String message,int code){
         this.result = result;
         this.message = message;
         this.code = code;
@@ -35,7 +35,7 @@ public class ResultObj {
         return failObj(StatusEnum.FAIL.getMessage());
     }
     public static ResultObj failObj(String message){
-        return failObj(null,message);
+        return failObj(StatusEnum.FAIL.getCode(),message);
     }
     public static ResultObj failObj(ExceptionEnum exceptionEnum){
         return new ResultObj(null,exceptionEnum.message(),exceptionEnum.code());

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.DriverManager;
 import java.util.concurrent.Callable;
+import java.util.concurrent.locks.LockSupport;
 import java.util.zip.InflaterInputStream;
 
 public class TestTask  implements Runnable {
@@ -19,6 +20,7 @@ public class TestTask  implements Runnable {
     public void run() {
         Thread.currentThread().interrupt();
         System.out.println("这是个测试");
+        LockSupport.park();
 
     }
 }

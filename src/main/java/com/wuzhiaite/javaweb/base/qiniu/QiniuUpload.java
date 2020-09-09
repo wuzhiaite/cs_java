@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
@@ -22,6 +24,7 @@ import java.io.UnsupportedEncodingException;
  *   创建者：ZENG
  *   类全限定名称：com.hyxiaojingyu.common.QiniuUpload
  **/
+@Slf4j
 public class QiniuUpload {
 
     //设置好账号的ACCESS_KEY和SECRET_KEY
@@ -56,8 +59,6 @@ public class QiniuUpload {
             Response response = uploadManager.put(FilePath, FileName, upToken);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
             return VariableName.domain+FileName;
         }catch (QiniuException ex){
             Response r = ex.response;
@@ -102,4 +103,30 @@ public class QiniuUpload {
         }
         return null;
     }
+
+    /**
+     * 删除文件
+     * @param fileName
+     * @return
+     * @throws QiniuException
+     */
+    public static int deleteFile(String fileName) throws QiniuException {
+        //构造一个带指定Zone对象的配置类
+        Configuration cfg = new Configuration(Zone.zone0());
+        String key = fileName;
+        Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+        BucketManager bucketManager = new BucketManager(auth, cfg);
+        Response delete = bucketManager.delete(bucketname, key);
+        return delete.statusCode;
+    }
+
+
+    public static void main(String[] args) throws QiniuException {
+        int count = deleteFile("g6d8b2r3jz");
+        log.info(String.valueOf(count));
+    }
+
 }
+
+
+

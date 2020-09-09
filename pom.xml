@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <docker.image.prefix>registry.aliyuncs.com/cs_java</docker.image.prefix>
     </properties>
 
 
@@ -387,6 +388,24 @@
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>jks</nonFilteredFileExtension>
                     </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+            <!-- docker插件 -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!--docker文件所在的目录-->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>
