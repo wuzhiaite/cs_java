@@ -1,6 +1,8 @@
-package ${package.Controller};
+package com.wuzhiaite.javaweb.common.article.controller;
 
 
+import com.wuzhiaite.javaweb.common.article.entity.CsArticleDetail;
+import com.wuzhiaite.javaweb.common.article.service.ICsArticleDetailService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,45 +16,25 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Map;
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-<#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
-<#else>
-import org.springframework.stereotype.Controller;
-</#if>
-<#if superControllerClassPackage??>
-import ${superControllerClassPackage};
-</#if>
 
 /**
 * <p>
-* ${table.comment!}
+* 
 * </p>
-* @author ${author}
-* @since ${date}
+* @author lpf
+* @since 2020-09-09
 */
-<#if restControllerStyle>
 @RestController
-<#else>
-@Controller
-</#if>
-@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("/article/")
 @Slf4j
-<#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
-<#else>
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
-<#else>
-public class ${table.controllerName} {
-</#if>
+public class CsArticleDetailController {
 
     /**
     * 业务处理类
     */
     @Autowired
-    private ${table.serviceName} service;
+    private ICsArticleDetailService service;
 
     /**
     * 查找列表数据
@@ -61,14 +43,14 @@ public class ${table.controllerName} {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        ${entity} entity = StringUtils.isEmpty(param.get("entity"))
-                            ? new ${entity}()
-                            : JSON.parseObject(JSON.toJSONString(param.get("entity")),${entity}.class);
+        CsArticleDetail entity = StringUtils.isEmpty(param.get("entity"))
+                            ? new CsArticleDetail()
+                            : JSON.parseObject(JSON.toJSONString(param.get("entity")),CsArticleDetail.class);
         Page page = StringUtils.isEmpty(param.get("page"))
                             ? new Page().setSize(10).setCurrent(1)
                             : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-        QueryWrapper<${entity}> wrapper = new QueryWrapper<>(entity);
-        Page<${entity}> pageList = service.page(page,wrapper);
+        QueryWrapper<CsArticleDetail> wrapper = new QueryWrapper<>(entity);
+        Page<CsArticleDetail> pageList = service.page(page,wrapper);
         return ResultObj.successObj(pageList);
     }
 
@@ -78,19 +60,21 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/getList")
-    public ResultObj getList(@RequestBody(required = false) ${entity} entity){
-        List<${entity}>list = service.list(new QueryWrapper<${entity}>(entity));
+    public ResultObj getList(@RequestBody(required = false) CsArticleDetail entity){
+        List<CsArticleDetail> list  = service.list(new QueryWrapper<CsArticleDetail>(entity));
         return ResultObj.successObj(list);
     }
+
+
 
     /**
     * 通过ID获取
     * @param id
     * @return
     */
-    @PostMapping("/getDataById/{id}")
+    @PostMapping("/getBlogById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-        ${entity}   result = service.getById(id);
+        CsArticleDetail result = service.getById(id);
         return ResultObj.successObj(result);
     }
 
@@ -100,8 +84,8 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/addOrUpdatePage")
-    public ResultObj addOrUpdatePage(@RequestBody  ${entity} entity){
-        boolean  flag = service.saveOrUpdate(entity);
+    public ResultObj addOrUpdatePage(@RequestBody  CsArticleDetail entity){
+        boolean flag =  service.saveOrUpdate(entity);
         return ResultObj.successObj(flag);
     }
     /**
@@ -110,8 +94,8 @@ public class ${table.controllerName} {
     * @return
     */
     @PostMapping("/batchAddOrUpdate")
-    public ResultObj batchAddOrUpdate(@RequestBody List<${entity}> list){
-        boolean   flag = service.saveOrUpdateBatch(list);
+    public ResultObj batchAddOrUpdate(@RequestBody List<CsArticleDetail> list){
+        boolean flag = service.saveOrUpdateBatch(list);
         return ResultObj.successObj(flag);
     }
     /**
@@ -121,9 +105,11 @@ public class ${table.controllerName} {
     */
     @PostMapping("/removeById/{id}")
     public ResultObj removeById(@PathVariable String id){
-        boolean   flag = service.removeById(id);
+        boolean flag = service.removeById(id);
         return ResultObj.successObj(flag);
     }
 
+
+
+
  }
-</#if>
