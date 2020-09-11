@@ -2,10 +2,7 @@ package com.wuzhiaite.javaweb.common.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.wuzhiaite.javaweb.base.entity.TreeEntity;
@@ -83,9 +80,7 @@ public class Menus extends TreeEntity implements Serializable {
     }
 
     public void setCanAdd(Boolean canAdd) {
-        if(!StringUtils.isEmpty(this.canAdd) && this.canAdd){
-            addPermissions(CAN_ADD);
-        }
+        this.addPermissions(canAdd,CAN_ADD);
         this.canAdd = canAdd;
     }
 
@@ -95,9 +90,7 @@ public class Menus extends TreeEntity implements Serializable {
     }
 
     public void setCanEdit(Boolean canEdit) {
-        if(!StringUtils.isEmpty(this.canEdit) && this.canEdit){
-            addPermissions(CAN_EDIT);
-        }
+        this.addPermissions(canEdit,CAN_EDIT);
         this.canEdit = canEdit;
     }
 
@@ -106,9 +99,7 @@ public class Menus extends TreeEntity implements Serializable {
     }
 
     public void setCanDelete(Boolean canDelete) {
-        if(!StringUtils.isEmpty(this.canDelete) && this.canDelete){
-            addPermissions(CAN_DELETE);
-        }
+        this.addPermissions(canDelete,CAN_DELETE);
         this.canDelete = canDelete;
     }
 
@@ -116,30 +107,32 @@ public class Menus extends TreeEntity implements Serializable {
      * 设置默认权限列表
      * @return
      */
-    private List<String> getPermissions(){
+    private HashSet<String> getPermissions(){
         if(StringUtils.isEmpty(this.meta.get(MENU_PERMISSION))){
-            this.meta.put(MENU_PERMISSION,new ArrayList<>());
+            this.meta.put(MENU_PERMISSION,new HashSet<String>());
         }
-        return (List<String>) this.meta.get(MENU_PERMISSION);
+        return (HashSet<String>) this.meta.get(MENU_PERMISSION);
     }
 
     /**
      *  增加权限
      * @param type
      */
-    private void addPermissions(String type) {
-        List<String> permissions = this.getPermissions();
-        if (!permissions.contains(type)) {
-            permissions.add(type);
+    private void addPermissions(Boolean flag , String type) {
+        if(!StringUtils.isEmpty(flag) && flag && !StringUtils.isEmpty(type)){
+            HashSet<String> permissions = this.getPermissions();
+            if (!permissions.contains(type)) {
+                permissions.add(type);
+            }
+            this.setPermissions(permissions);
         }
-        this.setPermissions(permissions);
     }
 
     /**
      * 设置权限
      * @param permissions
      */
-    private void setPermissions(List<String> permissions) {
+    private void setPermissions(HashSet<String> permissions) {
         this.meta.put(MENU_PERMISSION,permissions);
     }
 

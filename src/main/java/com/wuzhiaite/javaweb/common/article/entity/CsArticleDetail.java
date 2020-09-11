@@ -2,6 +2,8 @@ package com.wuzhiaite.javaweb.common.article.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.wuzhiaite.javaweb.common.common.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.experimental.Accessors;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,7 +25,7 @@ import lombok.*;
 @ApiModel(value="CsArticleDetail对象", description="")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CsArticleDetail implements Serializable {
+public class CsArticleDetail extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

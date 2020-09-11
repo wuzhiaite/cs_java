@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
+import com.wuzhiaite.javaweb.base.utils.SpringSecurityUtil;
 import com.wuzhiaite.javaweb.base.utils.oConvertUtils;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.executor.Executor;
@@ -153,8 +154,7 @@ public class MybatisInterceptor implements Interceptor {
 
 	private String getLoginUser() {
 		try {
-			SecurityUserDetails principal = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			return principal.getUsername();
+			return SpringSecurityUtil.getCurrentUserName();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			return "";
