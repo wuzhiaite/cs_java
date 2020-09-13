@@ -37,13 +37,7 @@ public class ActivitiTaskController {
      */
     @PostMapping("/startprocess")
     public ResultObj startProcess(@RequestBody Map<String,Object> params){
-        ProcessInstance instance = null ;
-        try {
-            instance  = taskService.startProcess(params);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
+        ProcessInstance instance  = taskService.startProcess(params);
         return ResultObj.successObj();
     }
 
@@ -54,14 +48,7 @@ public class ActivitiTaskController {
      */
     @PostMapping("/getUserTaskList")
     public ResultObj getUserTaskList(@RequestBody Map<String,Object> params){
-        List<Task> list = null ;
-        try {
-            list = taskService.getUserTaskList(params);
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
+        List<Task> list = taskService.getUserTaskList(params);
         return ResultObj.successObj(list);
     }
 
@@ -72,24 +59,13 @@ public class ActivitiTaskController {
      */
     @PostMapping("/completeTask")
     public ResultObj complateTask(@RequestBody Map<String,Object> params){
-        try {
-            taskService.complateTask(params);
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
+        taskService.complateTask(params);
         return ResultObj.successObj("流转成功");
     }
 
     @PostMapping("/fallbackTask")
     public ResultObj  fallbackTask(@RequestBody Map<String,Object> params){
-        try {
-            taskService.fallbackTask(params);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
+        taskService.fallbackTask(params);
         return ResultObj.successObj("流转成功");
     }
 

@@ -53,33 +53,27 @@ public class DictKeyListController {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        Page<DictKeyList> pageList = null;
-        try {
-            DictKeyList entity = StringUtils.isEmpty(param.get("entity"))
-                                    ? new DictKeyList()
-                                    : JSON.parseObject(JSON.toJSONString(param.get("entity")),DictKeyList.class);
-            Page page = StringUtils.isEmpty(param.get("page"))
-                                    ? new Page().setSize(10).setCurrent(1)
-                                    : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-            QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>(entity);
-            wrapper.orderByDesc("dict_name");
-            String search = entity.getSearch();
-            if(!StringUtils.isEmpty(search)){
-                wrapper.like("dict_name",search).or()
-                        .like("dict_name_text",search);
-            }
-            pageList = service.page(page,wrapper);
+        DictKeyList entity = StringUtils.isEmpty(param.get("entity"))
+                                ? new DictKeyList()
+                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),DictKeyList.class);
+        Page page = StringUtils.isEmpty(param.get("page"))
+                                ? new Page().setSize(10).setCurrent(1)
+                                : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
+        QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>(entity);
+        wrapper.orderByDesc("dict_name");
+        String search = entity.getSearch();
+        if(!StringUtils.isEmpty(search)){
+            wrapper.like("dict_name",search).or()
+                    .like("dict_name_text",search);
+        }
+        Page<DictKeyList> pageList = service.page(page,wrapper);
 
-            List<DictKeyList> records = pageList.getRecords();
-            for(DictKeyList r : records){
-                String id = r.getId();
-                DictKeyValueMapping dict = new DictKeyValueMapping().setDictId(id);
-                List<DictKeyValueMapping> list = mappingService.list(new QueryWrapper<>(dict));
-                r.setDictMapping(list);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
+        List<DictKeyList> records = pageList.getRecords();
+        for(DictKeyList r : records){
+            String id = r.getId();
+            DictKeyValueMapping dict = new DictKeyValueMapping().setDictId(id);
+            List<DictKeyValueMapping> list = mappingService.list(new QueryWrapper<>(dict));
+            r.setDictMapping(list);
         }
         return ResultObj.successObj(pageList);
     }
@@ -91,13 +85,7 @@ public class DictKeyListController {
     */
     @PostMapping("/getList")
     public ResultObj getList(@RequestBody(required = false) DictKeyList entity){
-        List<DictKeyList> list = null;
-        try {
-            list = service.list(new QueryWrapper<DictKeyList>(entity));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<DictKeyList> list = service.list(new QueryWrapper<DictKeyList>(entity));
         return ResultObj.successObj(list);
     }
 
@@ -110,27 +98,15 @@ public class DictKeyListController {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      DictKeyList result = null;
-        try {
-            result = service.getById(id);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
-        return ResultObj.successObj(result);
+      DictKeyList result = service.getById(id);
+      return ResultObj.successObj(result);
     }
     /**
      * 根据字典名称查看字典相关数据
      */
     @PostMapping("/getdict/{dictName}")
     public ResultObj getDictByName(@PathVariable String dictName){
-        List<DictEntity> list = null;
-        try {
-            list = service.getDictByName(dictName);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<DictEntity> list = service.getDictByName(dictName);
         return ResultObj.successObj(list);
     }
 
@@ -141,18 +117,12 @@ public class DictKeyListController {
      */
     @PostMapping("/getPageById/{dict}")
     public ResultObj getPageByDict(@PathVariable String dict){
-        List<DictKeyValueMapping> result = null;
-        try {
-            QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>();
-            wrapper.eq("dict_name",dict);
-            DictKeyList list = service.getOne(wrapper);
-            wrapper.eq("dict_id",list.getId());
-            QueryWrapper<DictKeyValueMapping> mapperDict = new QueryWrapper<>();
-            result = mappingService.list(mapperDict);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        QueryWrapper<DictKeyList> wrapper = new QueryWrapper<>();
+        wrapper.eq("dict_name",dict);
+        DictKeyList list = service.getOne(wrapper);
+        wrapper.eq("dict_id",list.getId());
+        QueryWrapper<DictKeyValueMapping> mapperDict = new QueryWrapper<>();
+        List<DictKeyValueMapping> result = mappingService.list(mapperDict);
         return ResultObj.successObj(result);
     }
     /**
@@ -162,19 +132,12 @@ public class DictKeyListController {
     */
     @PostMapping("/addOrUpdatePage")
     public ResultObj addOrUpdatePage(@RequestBody DictKeyList entity){
-        boolean flag = false;
-        try {
-            flag = service.saveOrUpdate(entity);
-            List<DictKeyValueMapping> dictMapping = entity.getDictMapping();
-            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
-            wrapper.eq("dict_id",entity.getId());
-            flag = removeMapping(flag,wrapper);
-            flag = flag & mappingService.saveOrUpdateBatch(dictMapping);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
-
+        boolean flag = service.saveOrUpdate(entity);
+        List<DictKeyValueMapping> dictMapping = entity.getDictMapping();
+        QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+        wrapper.eq("dict_id",entity.getId());
+        flag = removeMapping(flag,wrapper);
+        flag = flag & mappingService.saveOrUpdateBatch(dictMapping);
         return ResultObj.successObj(flag);
     }
     /**
@@ -184,13 +147,7 @@ public class DictKeyListController {
     */
     @PostMapping("/batchAddOrUpdate")
     public ResultObj batchAddOrUpdate(@RequestBody List<DictKeyList> list){
-        boolean flag = false;
-        try {
-            flag = service.saveOrUpdateBatch(list);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-             return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag = service.saveOrUpdateBatch(list);
         return ResultObj.successObj(flag);
     }
     /**
@@ -200,18 +157,12 @@ public class DictKeyListController {
     */
     @PostMapping("/removeById/{id}")
     public ResultObj removeById(@PathVariable String id){
-        boolean flag = false ;
-        try {
-            flag = service.removeById(id);
-            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
-            wrapper.select("id").eq("dict_id",id);
-            flag = removeMapping(flag,wrapper);
-            if(!flag){
-                throw new RuntimeException("删除失败");
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
+        boolean flag = service.removeById(id);
+        QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+        wrapper.select("id").eq("dict_id",id);
+        flag = removeMapping(flag,wrapper);
+        if(!flag){
+            throw new RuntimeException("删除失败");
         }
         return ResultObj.successObj("");
     }
@@ -223,18 +174,12 @@ public class DictKeyListController {
      */
     @PostMapping("/removeByIds")
     public ResultObj removeByIds(@RequestBody List<String> ids){
-        boolean flag = false ;
-        try {
-            flag = service.removeByIds(ids);
-            QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
-            wrapper.select("id").in("dict_id",ids);
-            flag = removeMapping(flag,wrapper);
-            if(!flag){
-                throw new RuntimeException("删除失败");
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
+        boolean flag = service.removeByIds(ids);
+        QueryWrapper<DictKeyValueMapping> wrapper = new QueryWrapper<>();
+        wrapper.select("id").in("dict_id",ids);
+        flag = removeMapping(flag,wrapper);
+        if(!flag){
+            throw new RuntimeException("删除失败");
         }
         return ResultObj.successObj("");
     }

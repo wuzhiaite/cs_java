@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,14 +30,8 @@ public class CodeGeneratorController {
      * @return
      */
     @PostMapping("/getTableList")
-    public ResultObj getTableList(@RequestBody Map<String,Object> params){
-        PageInfo<Map<String,Object>> resObj = null;
-        try {
-            resObj = generatorService.getTableList(params);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+    public ResultObj getTableList(@RequestBody Map<String,Object> params) throws SQLException {
+        PageInfo<Map<String,Object>> resObj = generatorService.getTableList(params);
         return ResultObj.successObj(resObj);
     }
     /**
@@ -44,14 +39,8 @@ public class CodeGeneratorController {
      * @return
      */
     @PostMapping("/getColumnsInfo")
-    public ResultObj getColumnsInfo(@RequestBody Map<String,Object> params){
-        List<Map<String, Object>> columnInfo = null;
-        try {
-            columnInfo = generatorService.getColumnInfo(params);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+    public ResultObj getColumnsInfo(@RequestBody Map<String,Object> params) throws SQLException {
+        List<Map<String, Object>> columnInfo = generatorService.getColumnInfo(params);
         return ResultObj.successObj(columnInfo);
     }
 
@@ -62,12 +51,7 @@ public class CodeGeneratorController {
      */
     @PostMapping("/generatorCode")
     public ResultObj generatorCode(@RequestBody  Map<String,Object>  params){
-        try {
-            generatorService.generatorCode(params);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        generatorService.generatorCode(params);
         return ResultObj.successObj("生成成功");
     }
 

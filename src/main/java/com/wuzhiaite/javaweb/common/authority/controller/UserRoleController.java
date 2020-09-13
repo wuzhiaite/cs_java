@@ -49,24 +49,19 @@ public class UserRoleController {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        Page<UserRole> pageList = null;
-        try {
-            UserRole entity = StringUtils.isEmpty(param.get("entity"))
-                                ? new UserRole()
-                                : JSON.parseObject(JSON.toJSONString(param.get("entity")), UserRole.class);
-            Page page = StringUtils.isEmpty(param.get("page"))
-                                ? new Page().setSize(10).setCurrent(1)
-                                : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-            QueryWrapper<UserRole> wrapper = new QueryWrapper<>(entity);
-            if(!StringUtils.isEmpty(entity.getSearch())){
-                wrapper.like("role_label",entity.getSearch())
-                        .or().like("role_value",entity.getSearch());
-            }
-            pageList = service.page(page,wrapper);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
+
+        UserRole entity = StringUtils.isEmpty(param.get("entity"))
+                            ? new UserRole()
+                            : JSON.parseObject(JSON.toJSONString(param.get("entity")), UserRole.class);
+        Page page = StringUtils.isEmpty(param.get("page"))
+                            ? new Page().setSize(10).setCurrent(1)
+                            : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
+        QueryWrapper<UserRole> wrapper = new QueryWrapper<>(entity);
+        if(!StringUtils.isEmpty(entity.getSearch())){
+            wrapper.like("role_label",entity.getSearch())
+                    .or().like("role_value",entity.getSearch());
         }
+        Page<UserRole> pageList = service.page(page,wrapper);
         return ResultObj.successObj(pageList);
     }
 
@@ -77,13 +72,7 @@ public class UserRoleController {
     */
     @PostMapping("/getList")
     public ResultObj getList(@RequestBody(required = false) UserRole entity){
-        List<UserRole> list = null;
-        try {
-            list = service.list(new QueryWrapper<UserRole>(entity));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<UserRole> list = service.list(new QueryWrapper<UserRole>(entity));
         return ResultObj.successObj(list);
     }
 
@@ -98,13 +87,7 @@ public class UserRoleController {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      UserRole result = null;
-        try {
-            result = service.getById(id);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        UserRole result = service.getById(id);
         return ResultObj.successObj(result);
     }
 
@@ -115,14 +98,7 @@ public class UserRoleController {
     */
     @PostMapping("/addOrUpdatePage")
     public ResultObj addOrUpdatePage(@RequestBody UserRole entity){
-        boolean flag = false;
-        try {
-
-            flag = service.saveOrUpdate(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag = service.saveOrUpdate(entity);
         return ResultObj.successObj(flag);
     }
     /**
@@ -132,13 +108,7 @@ public class UserRoleController {
     */
     @PostMapping("/batchAddOrUpdate")
     public ResultObj batchAddOrUpdate(@RequestBody List<UserRole> list){
-        boolean flag = false;
-        try {
-            flag = service.saveOrUpdateBatch(list);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-             return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag = service.saveOrUpdateBatch(list);
         return ResultObj.successObj(flag);
     }
     /**
@@ -148,14 +118,10 @@ public class UserRoleController {
     */
     @PostMapping("/removeById/{id}")
     public ResultObj removeById(@PathVariable String id){
-        boolean flag = false ;
-        try {
-            flag = service.removeById(id);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag = service.removeById(id);
         return ResultObj.successObj(flag);
     }
+
+
 
  }

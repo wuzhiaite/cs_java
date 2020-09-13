@@ -46,13 +46,7 @@ public class ActivitiHistoricController {
      */
     @PostMapping("/pagelist")
     public ResultObj historicPageList(@RequestBody Map<String,Object> params){
-        List<HistoricTaskInstance> list = null ;
-         try {
-               list = historicService.getHistoricPageList(params);
-         } catch (Exception e) {
-             log.error(e.getMessage());
-             ResultObj.failObj(e.getMessage());
-         }
+        List<HistoricTaskInstance> list = historicService.getHistoricPageList(params);
          return ResultObj.successObj("流转成功");
      }
     /**
@@ -62,13 +56,7 @@ public class ActivitiHistoricController {
      */
      @PostMapping("/getHistoricDetail")
      public ResultObj getHistoricDetail(@RequestBody Map<String,Object> params){
-         HistoricDetail detail = null ;
-         try {
-             detail = historicService.getHistoricDetail(params);
-         } catch (Exception e) {
-             log.error(e.getMessage());
-             ResultObj.failObj(e.getMessage());
-         }
+         HistoricDetail detail = historicService.getHistoricDetail(params);
          return ResultObj.successObj("流转成功");
      }
 

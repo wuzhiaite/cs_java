@@ -42,13 +42,7 @@ public class MenusController {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(Page page, Menus entity){
-        Page<Menus> pageList = null;
-        try {
-            pageList = service.page(page,new QueryWrapper<Menus>(entity));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        Page<Menus> pageList = service.page(page,new QueryWrapper<Menus>(entity));
         return ResultObj.successObj(pageList);
     }
 
@@ -59,15 +53,9 @@ public class MenusController {
      */
     @PostMapping("/getAllList")
     public ResultObj getAllList(){
-        List<Menus> list = null;
-        try {
-            QueryWrapper<Menus> wrapper = new QueryWrapper<>();
-            wrapper.orderByAsc("orderBy");
-            list = service.list(wrapper);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        QueryWrapper<Menus> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc("orderBy");
+        List<Menus> list = service.list(wrapper);
         return ResultObj.successObj(list);
     }
 
@@ -80,13 +68,7 @@ public class MenusController {
      */
     @PostMapping("/getList")
     public ResultObj getList(@RequestBody(required = false) Menus entity){
-        List<Menus> list = null;
-        try {
-            list = service.menuslist(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<Menus> list = service.menuslist(entity);
         return ResultObj.successObj(list);
     }
 
@@ -96,13 +78,7 @@ public class MenusController {
      */
     @PostMapping("/getUserMenu")
     public ResultObj getUserMenu(){
-        List<Menus> list = null;
-        try {
-            list = service.getUserMenuList();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<Menus> list = service.getUserMenuList();
         return ResultObj.successObj(list);
     }
 
@@ -114,13 +90,7 @@ public class MenusController {
      */
     @PostMapping("/getPermissionList")
     public ResultObj getPermissionList(@RequestBody(required = false) UserMenusPermission entity){
-        List<UserMenusPermission> list = null ;
-        try {
-            list = permissionService.menusPermisison(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<UserMenusPermission> list = permissionService.menusPermisison(entity);
         return ResultObj.successObj(list);
     }
 
@@ -132,13 +102,7 @@ public class MenusController {
         */
         @PostMapping("/getPageById/{id}")
         public ResultObj getPageById(@PathVariable String id){
-            Menus result = null;
-            try {
-                result = service.getById(id);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return ResultObj.failObj(e.getMessage());
-            }
+            Menus result = service.getById(id);
             return ResultObj.successObj(result);
         }
 
@@ -149,13 +113,7 @@ public class MenusController {
         */
         @PostMapping("/addOrUpdatePage")
         public ResultObj addOrUpdatePage(@RequestBody Menus entity){
-            boolean flag = false;
-            try {
-                flag = service.saveOrUpdate(entity);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return ResultObj.failObj(e.getMessage());
-            }
+            boolean flag = service.saveOrUpdate(entity);
             return ResultObj.successObj(flag);
         }
         /**
@@ -165,13 +123,7 @@ public class MenusController {
          */
         @PostMapping("/batchAddOrUpdate")
         public ResultObj batchAddOrUpdate(@RequestBody List<Menus> list){
-            boolean flag = false;
-            try {
-                flag = service.saveOrUpdateBatch(list);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return ResultObj.failObj(e.getMessage());
-            }
+            boolean flag = service.saveOrUpdateBatch(list);
             return ResultObj.successObj(flag);
         }
 
@@ -182,13 +134,7 @@ public class MenusController {
         */
         @PostMapping("/removeById/{id}")
         public ResultObj removeById(@PathVariable String id){
-            boolean flag = false ;
-            try {
-                flag = service.removeById(id);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return ResultObj.failObj(e.getMessage());
-            }
+            boolean flag = service.removeById(id);
             return ResultObj.successObj(flag);
         }
 

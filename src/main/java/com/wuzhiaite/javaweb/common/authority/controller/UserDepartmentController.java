@@ -48,20 +48,14 @@ public class UserDepartmentController {
     */
     @PostMapping("/getPageList")
     public ResultObj getPageList(@RequestBody Map<String,Object> param){
-        Page<UserDepartment> pageList = null;
-        try {
-            UserDepartment entity = StringUtils.isEmpty(param.get("entity"))
-                                ? new UserDepartment()
-                                : JSON.parseObject(JSON.toJSONString(param.get("entity")),UserDepartment.class);
-            Page page = StringUtils.isEmpty(param.get("page"))
-                                ? new Page().setSize(10).setCurrent(1)
-                                : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
-            QueryWrapper<UserDepartment> wrapper = new QueryWrapper<>(entity);
-            pageList = service.page(page,wrapper);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        UserDepartment entity = StringUtils.isEmpty(param.get("entity"))
+                            ? new UserDepartment()
+                            : JSON.parseObject(JSON.toJSONString(param.get("entity")),UserDepartment.class);
+        Page page = StringUtils.isEmpty(param.get("page"))
+                            ? new Page().setSize(10).setCurrent(1)
+                            : JSON.parseObject(JSON.toJSONString(param.get("page")),Page.class);
+        QueryWrapper<UserDepartment> wrapper = new QueryWrapper<>(entity);
+        Page<UserDepartment> pageList = service.page(page,wrapper);
         return ResultObj.successObj(pageList);
     }
 
@@ -72,13 +66,7 @@ public class UserDepartmentController {
     */
     @PostMapping("/getList")
     public ResultObj getList(@RequestBody(required = false) UserDepartment entity){
-        List<UserDepartment> list = null;
-        try {
-            list = service.depList(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        List<UserDepartment> list = service.depList(entity);
         return ResultObj.successObj(list);
     }
 
@@ -89,14 +77,8 @@ public class UserDepartmentController {
     */
     @PostMapping("/getPageById/{id}")
     public ResultObj getPageById(@PathVariable String id){
-      UserDepartment result = null;
-        try {
-            result = service.getById(id);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
-        return ResultObj.successObj(result);
+      UserDepartment result  = service.getById(id);
+      return ResultObj.successObj(result);
     }
 
     /**
@@ -106,13 +88,7 @@ public class UserDepartmentController {
     */
     @PostMapping("/addOrUpdatePage")
     public ResultObj addOrUpdatePage(@RequestBody  UserDepartment entity){
-        boolean flag = false;
-        try {
-            flag = service.saveOrUpdate(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag = service.saveOrUpdate(entity);
         return ResultObj.successObj(flag);
     }
     /**
@@ -122,13 +98,7 @@ public class UserDepartmentController {
     */
     @PostMapping("/batchAddOrUpdate")
     public ResultObj batchAddOrUpdate(@RequestBody List<UserDepartment> list){
-        boolean flag = false;
-        try {
-            flag = service.saveOrUpdateBatch(list);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-             return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag  = service.saveOrUpdateBatch(list);
         return ResultObj.successObj(flag);
     }
     /**
@@ -138,13 +108,7 @@ public class UserDepartmentController {
     */
     @PostMapping("/removeById/{id}")
     public ResultObj removeById(@PathVariable String id){
-        boolean flag = false ;
-        try {
-            flag = service.removeById(id);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResultObj.failObj(e.getMessage());
-        }
+        boolean flag  = service.removeById(id);
         return ResultObj.successObj(flag);
     }
 

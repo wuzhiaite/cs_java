@@ -48,24 +48,19 @@ public class ActivitDeploymentController {
      */
     @PostMapping(value="/deployWorkflow")
     public ResultObj deployWorkflow(@RequestBody Map<String,Object> params) {
-        try {
-            String modelXml = MapUtil.getString(params, "modelXml");
-            String workflowName = MapUtil.getString(params, "workflowName");
-            String modelImage = MapUtil.getString(params, "modelImage");
-            String modelKey = MapUtil.getString(params, "modelKey");
-            workflowName = StringUtil.isEmpty(workflowName)
-                    ? new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+".bpmn"
-                    : workflowName;
-            Deployment deploy = repositoryService.createDeployment()
-                    .addString(workflowName, modelXml)
+        String modelXml = MapUtil.getString(params, "modelXml");
+        String workflowName = MapUtil.getString(params, "workflowName");
+        String modelImage = MapUtil.getString(params, "modelImage");
+        String modelKey = MapUtil.getString(params, "modelKey");
+        workflowName = StringUtil.isEmpty(workflowName)
+                ? new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+".bpmn"
+                : workflowName;
+        Deployment deploy = repositoryService.createDeployment()
+                .addString(workflowName, modelXml)
 //                    .addString(workflowName,modelImage)
-                    .deploy();
-            if(StringUtils.isEmpty(deploy)){
-                throw new RuntimeException("创建失败");
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
+                .deploy();
+        if(StringUtils.isEmpty(deploy)){
+            throw new RuntimeException("创建失败");
         }
         return ResultObj.successObj("创建成功");
     }
@@ -77,14 +72,8 @@ public class ActivitDeploymentController {
      */
     @PostMapping("/getprocesslist")
     public ResultObj getProcessList(@RequestBody Map<String,Object> params){
-        List<ProcessDefinition> list = null;
-        try {
-             list = repositoryService.createProcessDefinitionQuery()
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery()
                      .listPage((Integer) params.get("pageNum"),(Integer) params.get("pageSize"));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
         return ResultObj.successObj(list);
     }
 
@@ -95,12 +84,7 @@ public class ActivitDeploymentController {
      */
     @PostMapping("/removeprocessbyid/{deploymentId}")
     public ResultObj removeProcessById(@PathVariable("deploymentId") String deploymentId){
-        try {
-            repositoryService.deleteDeployment(deploymentId);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            ResultObj.failObj(e.getMessage());
-        }
+        repositoryService.deleteDeployment(deploymentId);
         return ResultObj.successObj("删除成功");
     }
     @Autowired
