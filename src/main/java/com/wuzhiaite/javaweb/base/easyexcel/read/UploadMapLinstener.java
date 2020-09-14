@@ -3,6 +3,8 @@ package com.wuzhiaite.javaweb.base.easyexcel.read;
 
 import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ public class UploadMapLinstener<S extends ComCrudServiceImpl> extends IUploadDat
     public UploadMapLinstener(S service){
         this.service = service ;
     }
-
+    public UploadMapLinstener(){}
     @Override
     protected void saveData(List<Map<String, Object>> list) {
         log.info(list.toString());
