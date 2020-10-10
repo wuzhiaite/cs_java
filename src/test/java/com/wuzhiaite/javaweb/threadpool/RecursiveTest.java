@@ -8,6 +8,11 @@ public class RecursiveTest extends RecursiveTask<Integer> {
     private Integer end;
     private static final Integer INTERVAL_LEVEL = 2;
 
+
+
+
+
+
     public RecursiveTest(Integer start,Integer end){
         this.start = start ;
         this.end = end;

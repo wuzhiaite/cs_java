@@ -122,6 +122,11 @@ public class SysUserController extends BaseController {
         return ResultObj.successObj(map ,"登出成功");
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     @RequestMapping("/setUserPermission")
     public ResultObj setUserPermission(@RequestBody UserInfo user){
         try {
