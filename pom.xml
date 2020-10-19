@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wuzhiaite.javaweb</groupId>
-    <artifactId>spring-boot-javaweb-base</artifactId>
+    <artifactId>cs_java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cs_java</name>
-    <description>Demo project for Spring Boot</description>
+    <description>common system back-end</description>
 
     <properties>
         <java.version>1.8</java.version>

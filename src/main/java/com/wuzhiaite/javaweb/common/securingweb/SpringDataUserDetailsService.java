@@ -1,4 +1,4 @@
-package com.wuzhiaite.javaweb.base.securingweb;
+package com.wuzhiaite.javaweb.common.securingweb;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wuzhiaite.javaweb.base.entity.SecurityUserDetails;

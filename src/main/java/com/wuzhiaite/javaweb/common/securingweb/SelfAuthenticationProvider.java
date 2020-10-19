@@ -1,12 +1,10 @@
-package com.wuzhiaite.javaweb.base.securingweb;
+package com.wuzhiaite.javaweb.common.securingweb;
 
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
-import com.wuzhiaite.javaweb.base.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
