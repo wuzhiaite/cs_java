@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.config.IDbQuery;
 import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
-import com.wuzhiaite.javaweb.base.utils.CodeGeneratorUtil;
+import com.wuzhiaite.javaweb.common.codegenerator.utils.CodeGeneratorUtil;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 import com.wuzhiaite.javaweb.common.authority.service.IMenusService;
 import com.wuzhiaite.javaweb.module.temp.entity.Temp;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

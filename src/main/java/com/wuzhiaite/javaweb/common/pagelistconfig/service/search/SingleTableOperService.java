@@ -1,6 +1,5 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.service.search;
 
-import com.wuzhiaite.javaweb.base.properties.BaseProperties;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.Column;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.SearchMapper;
@@ -15,9 +14,6 @@ public class SingleTableOperService {
     /** 查询mapper*/
     @Autowired
     private SearchMapper mapper;
-
-    @Autowired
-    private BaseProperties baseProperties;
 
     /**
      * 查询表列信息
@@ -35,7 +31,7 @@ public class SingleTableOperService {
      * @return
      */
     public List<Table> getTableList() throws Exception{
-        String databaseName = baseProperties.getDatabaseName();
+        String databaseName = "";
         return mapper.getTableList(databaseName);
     }
 

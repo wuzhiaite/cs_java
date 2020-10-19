@@ -2,8 +2,8 @@ package com.wuzhiaite.javaweb.spring.serveice;
 
 
 
-import com.wuzhiaite.javaweb.base.multidatabase.DynamciDb;
-import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import com.wuzhiaite.javaweb.base.annonations.DynamciDb;
+import com.wuzhiaite.javaweb.base.csm.service.ComCrudServiceImpl;
 import com.wuzhiaite.javaweb.spring.mapper.AopMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service;
 
-import com.wuzhiaite.javaweb.base.service.ITree;
+import com.wuzhiaite.javaweb.base.csm.service.ITree;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 

@@ -1,10 +1,8 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.wuzhiaite.javaweb.base.securingweb.SecurityUserDetails;
-import com.wuzhiaite.javaweb.base.service.impl.TreeService;
-import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
+import com.wuzhiaite.javaweb.base.entity.SecurityUserDetails;
+import com.wuzhiaite.javaweb.base.csm.service.impl.TreeService;
 import com.wuzhiaite.javaweb.common.authority.entity.*;
 import com.wuzhiaite.javaweb.common.authority.mapper.MenusMapper;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserMenusPermissionMapper;
@@ -15,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

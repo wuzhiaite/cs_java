@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.entity;
 
-import com.wuzhiaite.javaweb.common.common.BaseEntity;
+import com.wuzhiaite.javaweb.base.entity.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;

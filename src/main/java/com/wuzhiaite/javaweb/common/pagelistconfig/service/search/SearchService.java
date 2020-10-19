@@ -1,7 +1,6 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.service.search;
 
 import com.github.pagehelper.PageHelper;
-import com.wuzhiaite.javaweb.base.properties.BaseProperties;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.Table;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.SearchMapper;
@@ -30,9 +29,6 @@ public class SearchService {
     /**单表业务查询*/
     @Autowired
     private SingleTableOperService singleTableService;
-    /**基础配置信息*/
-    @Autowired
-    private BaseProperties baseProperties;
     /**通用的SQL拼接*/
     @Autowired
     private SearchProvider provider;
@@ -49,7 +45,7 @@ public class SearchService {
         String tablename = searchFiled.getTablename();
         Table table = new Table();
         table.setName(tablename);
-        table.setSchema(baseProperties.getDatabaseName());
+//        table.setSchema(baseProperties.getDatabaseName());
         singleTableService.getColumnInfo(table);
         //创建param过滤对象,并进行过滤
         CheckParam param = new CheckParam();

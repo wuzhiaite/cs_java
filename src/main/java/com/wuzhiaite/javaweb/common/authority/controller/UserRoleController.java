@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.controller;
 
 
-import com.wuzhiaite.javaweb.base.rabbitmq.RabbitSender;
+import com.wuzhiaite.javaweb.base.config.rabbitmq.RabbitSender;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;

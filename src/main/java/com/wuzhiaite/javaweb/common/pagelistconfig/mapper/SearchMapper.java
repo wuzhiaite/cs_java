@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.mapper;
 
-import com.wuzhiaite.javaweb.base.dao.BaseMapper;
+import com.wuzhiaite.javaweb.base.csm.mybatis.BaseMapper;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.Column;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.SearchFiled;
 import com.wuzhiaite.javaweb.common.pagelistconfig.entity.Table;

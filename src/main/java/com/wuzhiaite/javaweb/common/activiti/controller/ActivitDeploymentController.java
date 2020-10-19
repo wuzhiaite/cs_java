@@ -57,7 +57,6 @@ public class ActivitDeploymentController {
                 : workflowName;
         Deployment deploy = repositoryService.createDeployment()
                 .addString(workflowName, modelXml)
-//                    .addString(workflowName,modelImage)
                 .deploy();
         if(StringUtils.isEmpty(deploy)){
             throw new RuntimeException("创建失败");

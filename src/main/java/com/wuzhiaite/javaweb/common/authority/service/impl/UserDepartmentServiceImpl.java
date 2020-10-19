@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wuzhiaite.javaweb.base.service.impl.TreeService;
+import com.wuzhiaite.javaweb.base.csm.service.impl.TreeService;
 import com.wuzhiaite.javaweb.common.authority.entity.UserDepartment;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserDepartmentMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IUserDepartmentService;

@@ -1,12 +1,12 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.wuzhiaite.javaweb.base.easyexcel.write.DownloadExcel;
+import com.wuzhiaite.javaweb.base.utils.DownloadExcel;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.RedisUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
-import com.wuzhiaite.javaweb.base.easyexcel.write.DownloadEntity;
+import com.wuzhiaite.javaweb.base.entity.DownloadEntity;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigDetailService;
 import com.wuzhiaite.javaweb.common.pagelistconfig.service.config.ConfigOperService;
 import lombok.extern.log4j.Log4j2;

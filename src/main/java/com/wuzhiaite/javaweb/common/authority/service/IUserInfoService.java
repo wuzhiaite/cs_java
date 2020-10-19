@@ -15,4 +15,8 @@ import java.util.Map;
  */
 public interface IUserInfoService extends IService<UserInfo> {
 
+    Map<String, Object> login(Map<String, String> params);
+
+    UserInfo getUserPermission(String id);
+
 }

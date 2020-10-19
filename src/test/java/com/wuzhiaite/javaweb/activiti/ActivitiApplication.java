@@ -1,11 +1,9 @@
 package com.wuzhiaite.javaweb.activiti;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.wuzhiaite.javaweb.base.activiti.cmd.JumpDeleteTaskCmd;
-import com.wuzhiaite.javaweb.base.activiti.cmd.SetFLowNodeAndGoCmd;
-import com.wuzhiaite.javaweb.base.utils.JsonMapperUtil;
+import com.wuzhiaite.javaweb.common.activiti.cmd.JumpDeleteTaskCmd;
+import com.wuzhiaite.javaweb.common.activiti.cmd.SetFLowNodeAndGoCmd;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.*;
 import org.activiti.bpmn.model.Process;

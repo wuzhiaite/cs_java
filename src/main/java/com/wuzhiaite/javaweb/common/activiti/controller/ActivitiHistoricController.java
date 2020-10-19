@@ -47,7 +47,7 @@ public class ActivitiHistoricController {
     @PostMapping("/pagelist")
     public ResultObj historicPageList(@RequestBody Map<String,Object> params){
         List<HistoricTaskInstance> list = historicService.getHistoricPageList(params);
-         return ResultObj.successObj("流转成功");
+        return ResultObj.successObj("流转成功");
      }
     /**
      *

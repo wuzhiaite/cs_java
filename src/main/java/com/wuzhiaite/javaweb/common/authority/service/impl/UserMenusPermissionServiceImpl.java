@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.service.impl;
 
-import com.wuzhiaite.javaweb.base.service.impl.TreeService;
+import com.wuzhiaite.javaweb.base.csm.service.impl.TreeService;
 import com.wuzhiaite.javaweb.common.authority.entity.UserMenusPermission;
 import com.wuzhiaite.javaweb.common.authority.mapper.UserMenusPermissionMapper;
 import com.wuzhiaite.javaweb.common.authority.service.IUserMenusPermissionService;

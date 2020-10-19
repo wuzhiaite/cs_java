@@ -8,7 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuzhiaite.javaweb.base.utils.MapUtil;
 import com.wuzhiaite.javaweb.base.utils.StringUtil;
-import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import com.wuzhiaite.javaweb.base.csm.service.ComCrudServiceImpl;
 import com.wuzhiaite.javaweb.common.pagelistconfig.enums.ParamsEnum;
 import com.wuzhiaite.javaweb.common.pagelistconfig.enums.QueryEnum;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.ConfigDetailMapper;

@@ -11,7 +11,7 @@
     <groupId>com.wuzhiaite.javaweb</groupId>
     <artifactId>spring-boot-javaweb-base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-javaweb-base</name>
+    <name>cs_java</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

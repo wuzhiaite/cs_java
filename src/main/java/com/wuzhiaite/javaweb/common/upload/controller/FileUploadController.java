@@ -4,9 +4,8 @@ import cn.hutool.core.util.RandomUtil;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import com.wuzhiaite.javaweb.base.entity.ResultObj;
-import com.wuzhiaite.javaweb.base.qiniu.QiniuUpload;
-import com.wuzhiaite.javaweb.base.qiniu.VariableName;
-import org.springframework.stereotype.Controller;
+import com.wuzhiaite.javaweb.base.utils.QiniuUpload;
+import com.wuzhiaite.javaweb.base.properties.VariableName;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

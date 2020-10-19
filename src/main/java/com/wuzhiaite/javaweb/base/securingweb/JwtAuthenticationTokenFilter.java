@@ -2,6 +2,7 @@ package com.wuzhiaite.javaweb.base.securingweb;
 
 
 
+import com.wuzhiaite.javaweb.base.utils.JwtTokenUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

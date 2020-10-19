@@ -1,7 +1,7 @@
 package com.wuzhiaite.javaweb.common.pagelistconfig.service.config;
 
 
-import com.wuzhiaite.javaweb.common.common.ComCrudServiceImpl;
+import com.wuzhiaite.javaweb.base.csm.service.ComCrudServiceImpl;
 import com.wuzhiaite.javaweb.common.pagelistconfig.mapper.ConfigOperMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

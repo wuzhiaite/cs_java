@@ -1,6 +1,6 @@
 package com.wuzhiaite.javaweb.common.authority.service;
 
-import com.wuzhiaite.javaweb.base.service.ITree;
+import com.wuzhiaite.javaweb.base.csm.service.ITree;
 import com.wuzhiaite.javaweb.common.authority.entity.Menus;
 
 import java.util.List;

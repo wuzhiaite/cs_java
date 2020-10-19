@@ -1,6 +1,7 @@
 package com.wuzhiaite.javaweb.base.securingweb;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wuzhiaite.javaweb.base.entity.SecurityUserDetails;
 import com.wuzhiaite.javaweb.common.authority.entity.UserInfo;
 import com.wuzhiaite.javaweb.common.authority.entity.UserRole;
 import com.wuzhiaite.javaweb.common.authority.service.IUserInfoService;
@@ -10,10 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户信息处理
