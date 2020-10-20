@@ -10,11 +10,9 @@
 
 ## 详细的使用及说明文档
 
-语雀：https://www.yuque.com/wuzhiaite/ailopg/przaab
+**语雀(ps:刚开始写，边开发边完善)**：https://www.yuque.com/wuzhiaite/ailopg/vfia6q
 
-里面详细描述了封装的组件以及系统的使用。
-
-线上地址：http://www.wuzhiaite.top/ (ps:服务器只有1M带宽，首次访问慢的会让人发指)
+**线上地址(ps:服务器只有1M带宽，首次访问慢的会让人发指)**：http://www.wuzhiaite.top/
 
 ### 使用到的技术点及相关文档
 
