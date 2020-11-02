@@ -17,4 +17,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class DepartmentMenusPermissionServiceImpl extends ServiceImpl<DepartmentMenusPermissionMapper, DepartmentMenusPermission> implements IDepartmentMenusPermissionService {
 
+
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class JsonMapperUtil {
 
-    private static final JsonMapper jm = new JsonMapper();
+//    private static  JsonMapper jm = new JsonMapper();
 
     /**
      *
@@ -22,6 +22,7 @@ public class JsonMapperUtil {
      */
     public static String toString(Object obj) throws JsonProcessingException {
         Assert.notNull(obj);
+        JsonMapper jm = new JsonMapper();
         return jm.writeValueAsString(obj);
     }
 
@@ -35,6 +36,7 @@ public class JsonMapperUtil {
      */
     public static <T> T parseValue(String json,Class<T> t) throws JsonProcessingException {
         Assert.notNull(json);
+        JsonMapper jm = new JsonMapper();
         return jm.readValue(json,t);
     }
 
@@ -48,6 +50,7 @@ public class JsonMapperUtil {
      */
     public static <T> T parseValue(byte[] bytes,Class<T> clazz) throws IOException {
         Assert.notNull(bytes);
+        JsonMapper jm = new JsonMapper();
         return jm.readValue(bytes,clazz);
     }
 

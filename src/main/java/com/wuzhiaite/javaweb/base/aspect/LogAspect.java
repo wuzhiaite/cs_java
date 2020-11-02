@@ -59,7 +59,7 @@ public class LogAspect {
     @AfterReturning(returning = "response", pointcut = "webLog()")
     public void doAfterReturning(Object response) throws Throwable {
         if (response != null) {
-            log.debug("接口响应：response parameter : " + JsonMapperUtil.toString(response));
+            log.debug("接口响应：response parameter : " +  response.toString());
         }
     }
 

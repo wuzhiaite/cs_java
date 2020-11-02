@@ -33,5 +33,13 @@ mybatis:
   configuration:
     cache-enabled: true
 
+dubbo:
+#  应用名称
+  application:
+    name: cs-dubbo-application
+# 注册地址
+  registry:
+    address: nacos://106.52.137.87:8848
+
 
 
